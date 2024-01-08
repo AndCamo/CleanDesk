@@ -40,5 +40,16 @@ def categorizeTarget():
    
 
          
-   
-   
+
+
+def mergeTextColumns():
+   # Read the dataset
+   dataset = pd.read_csv(f"dataset{PATH_SEPARATOR}tmp_dataset.csv")
+
+   # Merge the columns "Question Title", "Question Body" and "Answer" in one new column named "Text"
+   dataset["Text"] = dataset.iloc[:, 1] + " " + dataset.iloc[:, 2] + " " + dataset.iloc[:, 3]
+
+   # Delede the older separate columns
+   dataset.drop(dataset.iloc[:, 1:4], axis=1, inplace=True)
+
+   dataset.to_csv(f"dataset{PATH_SEPARATOR}tmp_dataset.csv", encoding='utf-8', index=False)
