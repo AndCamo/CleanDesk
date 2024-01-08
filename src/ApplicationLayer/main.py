@@ -9,5 +9,7 @@ PATH_SEPARATOR = os.sep
 for item in out:
     print(str(item)+": "+str(out[item]))"""
 
-dataset = pd.read_csv(f"dataset{PATH_SEPARATOR}tmp_dataset.csv")
-print(dataset.info())
+"""dataset = pd.read_csv(f"dataset{PATH_SEPARATOR}tmp_dataset.csv")
+print(dataset.info())"""
+
+dataset_manager.categorizeTarget()

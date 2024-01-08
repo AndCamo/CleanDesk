@@ -29,6 +29,16 @@ def countTargetByClass():
       tmp_target = LABEL_DICTIONARY[row[0]]
       tmp_dict[tmp_target] += 1
    return tmp_dict
+
+
+def categorizeTarget():
+   dataset = pd.read_csv(f"dataset{PATH_SEPARATOR}tmp_dataset.csv")
+   for index, row in dataset.iterrows():
+      tmp_target = LABEL_DICTIONARY[row[0]]
+      dataset.iloc[index,0] = tmp_target
+   dataset.to_csv(f"dataset{PATH_SEPARATOR}tmp_dataset.csv", encoding='utf-8', index=False, columns=['Class', 'Title', 'Body', 'Answer'])
+   
+
          
    
    
