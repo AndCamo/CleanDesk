@@ -80,6 +80,7 @@ function controlDate(data){
         }else return 0;
     }
 }
+export {ReportORG_DAO}
 
 
 

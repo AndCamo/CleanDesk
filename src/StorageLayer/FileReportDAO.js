@@ -70,6 +70,7 @@ class FileReportDAO{
         });
     }
 }
+export {FileReportDAO}
 
 const fileReportDAO = new FileReportDAO();
 const fileReportBean = new FileReportBean(1,"FileReportProva1","C:Cartella1","H:Cartella1\\sottocartella1")
@@ -117,3 +118,4 @@ await fileReportDAO.getAllByReportID(1)
     .catch((error) =>{
         console.error(error);
     })
+
