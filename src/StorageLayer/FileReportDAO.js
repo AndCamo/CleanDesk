@@ -72,7 +72,7 @@ class FileReportDAO{
 }
 
 const fileReportDAO = new FileReportDAO();
-const fileReportBean = new FileReportBean(1,"FileReportProva1","C:Cartella1","C:Cartella1\\sottocartella1")
+const fileReportBean = new FileReportBean(1,"FileReportProva1","C:Cartella1","H:Cartella1\\sottocartella1")
 
 await fileReportDAO.saveFileReport(fileReportBean)
     .then((message) =>{

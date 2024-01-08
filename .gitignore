@@ -1,3 +1,4 @@
 .DS_Store
 node_modules/
-Dataset/
+dataset/test.csv
+dataset/train.csv

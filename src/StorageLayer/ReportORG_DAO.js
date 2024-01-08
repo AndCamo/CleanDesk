@@ -85,14 +85,14 @@ function controlDate(data){
 
 const reportORG_DAO = new ReportORG_DAO();
 const reportBean = new ReportORGBean(undefined,"Prova1","Descrizione di prova","C:prova2\\genny",new Date(),"close");
-    reportORG_DAO.saveReportORG(reportBean).then((obj) =>{
+    await reportORG_DAO.saveReportORG(reportBean).then((obj) =>{
         console.log("Insert Objs: ",obj);
     })
     .catch((error) => {
         console.error(error);
     });
     
-    reportORG_DAO.getAll().then((objs) =>{
+    await reportORG_DAO.getAll().then((objs) =>{
         console.log("GetAll objs: ", objs)
     })
     .catch((error) => {

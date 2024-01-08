@@ -1,8 +1,8 @@
 import sqlite3 from "sqlite3";
 import path from "path";
-var separator = path.sep;
+var pathSeparator = path.sep;
 
-const pathname = '.'+separator+'resource'+separator+'testDB.db';
+const pathname = '.'+pathSeparator+'resource'+pathSeparator+'testDB.db';
 
 function getConnection() {
     return new Promise((resolve, reject) => {
