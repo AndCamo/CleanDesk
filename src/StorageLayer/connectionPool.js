@@ -1,10 +1,10 @@
-import sqlite3 from "sqlite3";
-import path from "path";
+const sqlite3 = require("sqlite3");
+const path = require("path");
 var pathSeparator = path.sep;
 
 const pathname = '.'+pathSeparator+'resource'+pathSeparator+'testDB.db';
 
-function getConnection() {
+async function getConnection() {
     return new Promise((resolve, reject) => {
         const db = new sqlite3.Database(pathname, (err) => {
             if (err) {
@@ -17,4 +17,4 @@ function getConnection() {
     });
 }
 
-export {getConnection};
+module.exports = {getConnection};

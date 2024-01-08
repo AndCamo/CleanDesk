@@ -1,5 +1,5 @@
-import {getConnection} from "./connectionPool.js";
-import { FileReportBean } from "./FileReportBean.js";
+const {getConnection} = require("./connectionPool.js");
+const {FileReportBean} = require("./FileReportBean.js");
 
 class FileReportDAO{
 
@@ -70,52 +70,56 @@ class FileReportDAO{
         });
     }
 }
-export {FileReportDAO}
+module.exports = {FileReportDAO};
 
-const fileReportDAO = new FileReportDAO();
-const fileReportBean = new FileReportBean(1,"FileReportProva1","C:Cartella1","H:Cartella1\\sottocartella1")
+async function testFunction(){
+    const fileReportDAO = new FileReportDAO();
+    const fileReportBean = new FileReportBean(1,"FileReportProva1","C:Cartella1","H:Cartella1\\sottocartella1")
 
-await fileReportDAO.saveFileReport(fileReportBean)
-    .then((message) =>{
-        console.log(message);
-    })
-    .catch((message) => {
-        console.log(message)
-    })
+    await fileReportDAO.saveFileReport(fileReportBean)
+        .then((message) =>{
+            console.log(message);
+        })
+        .catch((message) => {
+            console.log(message)
+        })
 
-await fileReportDAO.getAllByReportID(1)
-    .then((obj) =>{
-        obj.forEach(item => {
-            console.log(item.reportIDORG);
-            console.log(item.nome)
-            console.log(item.pathPartenza);
-            console.log(item.pathFinale);
-        });
-    })
-    .catch((error) =>{
-        console.error(error);
-    })
+    await fileReportDAO.getAllByReportID(1)
+        .then((obj) =>{
+            obj.forEach(item => {
+                console.log(item.reportIDORG);
+                console.log(item.nome)
+                console.log(item.pathPartenza);
+                console.log(item.pathFinale);
+            });
+        })
+        .catch((error) =>{
+            console.error(error);
+        })
 
-console.log("Inizio Cancellazione dei fileReport")
+    console.log("Inizio Cancellazione dei fileReport")
 
-await fileReportDAO.removeAll()
-    .then((obj) =>{
-        console.log(obj);
-    })
-    .catch((obj) =>{
-        console.log(obj);
-    })
+    await fileReportDAO.removeAll()
+        .then((obj) =>{
+            console.log(obj);
+        })
+        .catch((obj) =>{
+            console.log(obj);
+        })
 
-await fileReportDAO.getAllByReportID(1)
-    .then((obj) =>{
-        obj.forEach(item => {
-            console.log(item.reportIDORG);
-            console.log(item.nome)
-            console.log(item.pathPartenza);
-            console.log(item.pathFinale);
-        });
-    })
-    .catch((error) =>{
-        console.error(error);
-    })
+    await fileReportDAO.getAllByReportID(1)
+        .then((obj) =>{
+            obj.forEach(item => {
+                console.log(item.reportIDORG);
+                console.log(item.nome)
+                console.log(item.pathPartenza);
+                console.log(item.pathFinale);
+            });
+        })
+        .catch((error) =>{
+            console.error(error);
+        })
+}
 
+
+testFunction();

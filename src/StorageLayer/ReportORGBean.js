@@ -64,4 +64,4 @@ class ReportORGBean {
     }
 }
 
-export {ReportORGBean};
+module.exports = {ReportORGBean};

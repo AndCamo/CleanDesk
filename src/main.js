@@ -22,7 +22,7 @@ app.whenReady().then(() => {
 
 
 ipcMain.on('test', (event, data) => {
-  console.log("AHHH SONO VENUTO");
+  console.log("Test OK");
   fetch('http://127.0.0.1:5000/test' , {
      method: "GET",
      headers: {

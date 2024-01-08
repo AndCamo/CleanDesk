@@ -1,11 +1,11 @@
-import {getConnection} from "./connectionPool.js";
-import {ReportORGBean} from "./ReportORGBean.js";
+const {getConnection} = require("./connectionPool.js");
+const {ReportORGBean} = require("./ReportORGBean.js");
 
 class ReportORG_DAO{
 
     constructor(){};
 
-    getAll(){
+    async getAll(){
         return new Promise(async(resolve, reject) =>{
             try {
                 const connection = await getConnection();
@@ -26,7 +26,7 @@ class ReportORG_DAO{
         });
     }
 
-    getFromDateTo(dateFrom, dateTo){
+    async getFromDateTo(dateFrom, dateTo){
         if(controlDate(dateTo) == 1){
             (dateTo instanceof Date);
                 console.log("Impossibile utilizzare questa data:\n");
@@ -53,7 +53,7 @@ class ReportORG_DAO{
             });
         }
     }
-    saveReportORG(ReportORG){
+    async saveReportORG(ReportORG){
         return new Promise(async (resolve, reject) => {
 
             const connection = await getConnection(); 
@@ -80,23 +80,25 @@ function controlDate(data){
         }else return 0;
     }
 }
-export {ReportORG_DAO}
+module.exports = {ReportORG_DAO}
 
 
+async function testFunction(){
+    const reportORG_DAO = new ReportORG_DAO();
+    const reportBean = new ReportORGBean(undefined,"Prova1","Descrizione di prova","C:prova2\\genny",new Date(),"close");
+        await reportORG_DAO.saveReportORG(reportBean).then((obj) =>{
+            console.log("Insert Objs: ",obj);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+        
+        await reportORG_DAO.getAll().then((objs) =>{
+            console.log("GetAll objs: ", objs)
+        })
+        .catch((error) => {
+            console.error(error.message);
+        });
+}
 
-const reportORG_DAO = new ReportORG_DAO();
-const reportBean = new ReportORGBean(undefined,"Prova1","Descrizione di prova","C:prova2\\genny",new Date(),"close");
-    await reportORG_DAO.saveReportORG(reportBean).then((obj) =>{
-        console.log("Insert Objs: ",obj);
-    })
-    .catch((error) => {
-        console.error(error);
-    });
-    
-    await reportORG_DAO.getAll().then((objs) =>{
-        console.log("GetAll objs: ", objs)
-    })
-    .catch((error) => {
-        console.error(error.message);
-    });
-
+testFunction()

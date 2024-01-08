@@ -44,5 +44,5 @@ class FileReportBean {
     }
   }
   
-  export {FileReportBean};
+  module.exports = {FileReportBean};
   
