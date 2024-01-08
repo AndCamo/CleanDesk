@@ -32,10 +32,15 @@ def countTargetByClass():
 
 
 def categorizeTarget():
+   # Read the dataset
    dataset = pd.read_csv(f"dataset{PATH_SEPARATOR}tmp_dataset.csv")
+
+   # Seach the int class and replace it with the String
    for index, row in dataset.iterrows():
       tmp_target = LABEL_DICTIONARY[row[0]]
       dataset.iloc[index,0] = tmp_target
+   
+   #Update e save the new dataset
    dataset.to_csv(f"dataset{PATH_SEPARATOR}tmp_dataset.csv", encoding='utf-8', index=False, columns=['Class', 'Title', 'Body', 'Answer'])
 
 
@@ -51,5 +56,6 @@ def mergeTextColumns():
 
    # Delede the older separate columns
    dataset.drop(dataset.iloc[:, 1:4], axis=1, inplace=True)
-
+   
+   #Update e save the new dataset
    dataset.to_csv(f"dataset{PATH_SEPARATOR}tmp_dataset.csv", encoding='utf-8', index=False)
