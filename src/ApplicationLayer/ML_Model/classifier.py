@@ -5,8 +5,7 @@ import random
 sys.path.insert(1, f'src{os.sep}ApplicationLayer')
 import dataset_manager
 
-def classify():
-   folderPath = "/Users/andrea/Desktop/TestFolder"
+def classify(folderPath):
    log = []
    for root, dirs, files in os.walk(folderPath):
       for name in files:
@@ -16,9 +15,5 @@ def classify():
             fileInfo  = {"fileName" : name, "filePath" : path, "category" : label}
             log.append(fileInfo)
    return json.dumps(log, indent = 4)
-
-
-var = classify()
-
 
 
