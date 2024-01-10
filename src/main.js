@@ -21,6 +21,24 @@ app.whenReady().then(() => {
 })
 
 
+async function leggiCartella(path){
+  let result;
+   await fetch('http://127.0.0.1:5000/classify', {
+      method: "POST",
+      headers: {
+          'Content-Type':"application/json"
+      },
+      body: JSON.stringify({"path": path})
+   })
+   .then(response => response.json())
+   .then((data) => {
+      result = data;
+   })
+   .catch(error => console.log(error))
+   
+   return result;
+} 
+
 ipcMain.on('test', (event, data) => {
   console.log("Test OK");
   fetch('http://127.0.0.1:5000/test' , {
@@ -39,5 +57,7 @@ ipcMain.on('test', (event, data) => {
 
 ipcMain.handle('startOrganization', async (event, data) => {
   let result;
-  
+  result = await leggiCartella(data.folderPath)
+  console.log("Ricevo=" + JSON.stringify(result))
+  return result
 })
