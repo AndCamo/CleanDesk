@@ -1,8 +1,8 @@
-import fs from 'fs';
-import path from 'path'
-import { FileReportBean } from '../../StorageLayer/FileReportBean';
-import { FileReportDAO } from '../../StorageLayer/FileReportDAO';
-import fs from 'fs'
+const fs = require( 'fs');
+const path = require( 'path');
+const { FileReportBean } = require( '../../StorageLayer/FileReportBean');
+const { FileReportDAO } = require( '../../StorageLayer/FileReportDAO');
+const fs = require('fs');
 
 class FileManager{
 

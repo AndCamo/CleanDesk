@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
+const { testFunction } = require("./StorageLayer/storageTest.js");
 
 
 let mainWindow
@@ -48,9 +49,11 @@ ipcMain.on('test', (event, data) => {
     }
   })
   .then(response => response.json())
-  .then(data => {
+  .then(async (data) => {
      console.log(data);
      event.reply('risultato', data);
+     await testFunction();
+
   })
   .catch(error => console.log(error))
 })

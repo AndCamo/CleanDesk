@@ -100,5 +100,3 @@ async function testFunction(){
             console.error(error.message);
         });
 }
-
-testFunction()

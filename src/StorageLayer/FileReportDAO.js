@@ -120,6 +120,3 @@ async function testFunction(){
             console.error(error);
         })
 }
-
-
-testFunction();

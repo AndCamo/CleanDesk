@@ -1,9 +1,9 @@
-import { ReportORGBean } from "../../StorageLayer/ReportORGBean";
-import { ReportORG_DAO } from "../../StorageLayer/ReportORG_DAO";
-import { FileReportBean } from "../../StorageLayer/FileReportBean";
-import { FileReportDAO } from "../../StorageLayer/FileReportDAO";
-import { FileManager, FileManager } from "../FileSystemManager/FileManager";
-import path from "path";
+const  { ReportORGBean } = require("../../StorageLayer/ReportORGBean");
+const { ReportORG_DAO } = require("../../StorageLayer/ReportORG_DAO");
+const { FileReportBean } = require("../../StorageLayer/FileReportBean");
+const { FileReportDAO } = require("../../StorageLayer/FileReportDAO");
+const { FileManager } = require("../FileSystemManager/FileManager");
+const path = require("path");
 
 class OrganizzazioneControl{
 
