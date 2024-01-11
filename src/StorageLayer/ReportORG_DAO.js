@@ -39,7 +39,7 @@ class ReportORG_DAO{
 
                     connection.all(query,[dateTo, dateFrom], (err, rows) =>{
                         if(err){
-                            reject(new Error("Error retriving objects from DB"));
+                            reject("Error retriving objects from DB");
                         }
                         else{
                             resolve(rows);
@@ -55,19 +55,43 @@ class ReportORG_DAO{
     }
     async saveReportORG(ReportORG){
         return new Promise(async (resolve, reject) => {
+            try{
+                const connection = await getConnection(); 
+                var query = "INSERT INTO ReportORG (Nome, Descrizione, NomeCartella, DataReport, StatusReport) VALUES (?,?,?,?,?)";
+    
+    
+                connection.run(query,[ReportORG.nome, ReportORG.descrizione, ReportORG.nomeCartella ,ReportORG.data, ReportORG.status], (err) =>{
+                    if(err){
+                        reject(err);
+                    }
+                    else{
+                        resolve("Inserimento avvenuto con successo");
+                    }
+                });
+            }catch(err){
+                throw err;
+            }
+        });
+    }
 
-            const connection = await getConnection(); 
-            var query = "INSERT INTO ReportORG (Nome, Descrizione, NomeCartella, DataReport, StatusReport) VALUES (?,?,?,?,?)";
+    async removeAll(){
+        return new Promise(async(resolve, reject) =>{
+            try{
 
+                const connection = await getConnection();
+                let query = "DELETE FROM ReportORG";
 
-            connection.run(query,[ReportORG.nome, ReportORG.descrizione, ReportORG.nomeCartella ,ReportORG.data, ReportORG.status], (err) =>{
-                if(err){
-                    reject(err.message);
-                }
-                else{
-                    resolve("Inserimento avvenuto con successo");
-                }
-            });
+                connection.run(query,[],(err) =>{
+                    if(err){
+                        reject(err);
+                    }else{
+                        resolve("Cancellazione effettuata con successo");
+                    }
+                });
+            }
+            catch(err){
+                throw err;
+            }
         });
     }
 }
@@ -86,17 +110,28 @@ module.exports = {ReportORG_DAO}
 async function testFunction(){
     const reportORG_DAO = new ReportORG_DAO();
     const reportBean = new ReportORGBean(undefined,"Prova1","Descrizione di prova","C:prova2\\genny",new Date(),"close");
-        await reportORG_DAO.saveReportORG(reportBean).then((obj) =>{
-            console.log("Insert Objs: ",obj);
+        //Calling method saveReport 
+        /*await reportORG_DAO.saveReportORG(reportBean).then((obj) =>{
+            console.log(obj);
         })
         .catch((error) => {
             console.error(error);
-        });
+        });*/
         
+        //Calling method getAll
         await reportORG_DAO.getAll().then((objs) =>{
             console.log("GetAll objs: ", objs)
         })
         .catch((error) => {
             console.error(error.message);
         });
-}
+
+        //Calling method removeAll
+        /*await reportORG_DAO.removeAll()
+        .then((obj) =>{
+            console.log(obj);
+        })
+        .catch((err) =>{
+            console.log(err)
+        });*/
+    }

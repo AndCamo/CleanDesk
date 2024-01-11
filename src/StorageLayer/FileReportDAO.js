@@ -5,6 +5,27 @@ class FileReportDAO{
 
     constructor(){}
 
+    getAll(){
+        return new Promise(async(reject, resolve) =>{
+            try{
+                const connection = await getConnection();
+                var query = "SELECT * FROM FileReport";
+                
+                connection.all(query, (err, rows) =>{
+                    if(err){
+                        reject(err);
+                    }
+                    else{
+                        resolve(rows);
+                    }
+                    connection.close();
+                });
+            } catch(err){
+                throw (err)
+            }
+        });
+    }
+
     getAllByReportID(reportID){
         return new Promise(async(reject, resolve) =>{
             try{
@@ -76,38 +97,7 @@ async function testFunction(){
     const fileReportDAO = new FileReportDAO();
     const fileReportBean = new FileReportBean(1,"FileReportProva1","C:Cartella1","H:Cartella1\\sottocartella1")
 
-    await fileReportDAO.saveFileReport(fileReportBean)
-        .then((message) =>{
-            console.log(message);
-        })
-        .catch((message) => {
-            console.log(message)
-        })
-
-    await fileReportDAO.getAllByReportID(1)
-        .then((obj) =>{
-            obj.forEach(item => {
-                console.log(item.reportIDORG);
-                console.log(item.nome)
-                console.log(item.pathPartenza);
-                console.log(item.pathFinale);
-            });
-        })
-        .catch((error) =>{
-            console.error(error);
-        })
-
-    console.log("Inizio Cancellazione dei fileReport")
-
-    await fileReportDAO.removeAll()
-        .then((obj) =>{
-            console.log(obj);
-        })
-        .catch((obj) =>{
-            console.log(obj);
-        })
-
-    await fileReportDAO.getAllByReportID(1)
+    await fileReportDAO.getAll()
         .then((obj) =>{
             obj.forEach(item => {
                 console.log(item.reportIDORG);
@@ -120,3 +110,4 @@ async function testFunction(){
             console.error(error);
         })
 }
+
