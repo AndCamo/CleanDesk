@@ -6,110 +6,101 @@ class FileReportDAO{
     constructor(){}
 
     async getAll(){
-        return new Promise(async(reject, resolve) =>{
-            try{
-                const connection = await getConnection();
-                var query = "SELECT * FROM FileReport";
-                
-                connection.all(query, (err, rows) =>{
-                    if(err){
-                        reject(err);
-                    }
-                    else{
-                        resolve(rows);
-                    }
-                    connection.close();
-                });
-            } catch(err){
-                throw (err)
-            }
+        const connection = await getConnection()
+        .catch((error) => {
+            throw (error);
+        });
+    
+        return new Promise((resolve, reject) => {
+            let query = "SELECT * FROM FileReport";
+            
+            connection.all(query, (err, rows) => {
+                if (err) {
+                    console.log("Errore nella GetAll!");
+                    reject(err);
+                } else {
+                    connection.close()
+                    resolve(rows);
+                }
+            });
         });
     }
 
-    async getAllByReportID(reportID){
-        return new Promise(async(reject, resolve) =>{
-            try{
-                const connection = await getConnection();
-                var query = "SELECT * FROM FileReport WHERE Report = ?";
-                
-                connection.all(query,[reportID], (err, rows) =>{
-                    if(err){
-                        console.log("Errore nela GetALLBY");
-                        reject(err);
-                    }
-                    else{
-                        console.log("Get All Eseguito con successo------- Report_ID:"+reportID+"\n");
-                        resolve(rows);
-                    }
-                    connection.close();
-                });
-            } catch(err){
-                throw (err)
-            }
+    async getAllByReportID(reportID) {
+        const connection = await getConnection()
+        .catch((error) => {
+            throw (error);
+        });
+    
+        return new Promise((resolve, reject) => {
+            let query = "SELECT * FROM FileReport WHERE Report = ?";
+            
+            connection.all(query, [reportID], (err, rows) => {
+                if (err) {
+                    console.log("Errore nella GetAllByReportID!");
+                    reject(err);
+                } else {
+                    resolve(rows);
+                }
+            });
         });
     }
 
     async saveFileReport(fileReport){
-        return new Promise(async(reject, resolve) =>{
-            try{
-                const connection = await getConnection();
-                var query = "INSERT INTO FileReport (Report, Nome, PathPartenza, PathFinale) VALUES (?,?,?,?)"
+        const connection = await getConnection()
+        .catch((error) => {
+            throw (error);
+        });
 
-                connection.run(query,[fileReport.idReportORG, fileReport.nome, fileReport.pathPartenza, fileReport.pathFinale], (err) =>{
-                    if(err){
-                        reject(err);
-                    }
-                    else{
-                        resolve("Inserimento effettuato correttamente");
-                    }
-                    connection.close();
-                });
-            }
-            catch(err){
-                throw err;
-            }
+        return new Promise((resolve, reject) => {
+            let query = "INSERT INTO FileReport (Report, Nome, PathPartenza, PathFinale) VALUES (?,?,?,?)"
+            
+            connection.run(query, [fileReport.idReportORG, fileReport.nome, fileReport.pathPartenza, fileReport.pathFinale], function(err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    console.log(`Rows inserted ${this.changes}`);
+                    resolve({
+                        "message": "Rows inserted" + this.changes,
+                        "lastID": this.lastID
+                    });
+                }
+            });
         });
     }
 
     async removeAll(){
-        return new Promise(async(reject,resolve) =>{
-            try{
-                const connection = await getConnection();
+        const connection = await getConnection()
+        .catch((error) => {
+            throw (error);
+        });
 
-                var query = "DELETE FROM FileReport";
-                connection.run(query,[],(err) =>{
-                    if(err){
-                        reject(err);
-                    }
-                    else{
-                        resolve("Cancellazione eseguita con successo");
-                    }
-                    connection.close();
-                });
-            }
-            catch(err){
-                throw (new Error(err));
-            }
+        return new Promise((resolve, reject) => {
+            let query = "DELETE FROM FileReport";
+            
+            connection.run(query, function(err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    console.log(`Rows deleted ${this.changes}`);
+                    resolve();
+                }
+            });
         });
     }
 }
 module.exports = {FileReportDAO};
 
-async function testFunction(){
+async function testFunction() {
     const fileReportDAO = new FileReportDAO();
-    const fileReportBean = new FileReportBean(1,"FileReportProva1","C:Cartella1","H:Cartella1\\sottocartella1")
+    const fileReportBean = new FileReportBean(1, "Pippo", "C:Folder", "H:Folder\\subfolder");
 
-    await fileReportDAO.getAll()
-        .then((obj) =>{
-            obj.forEach(item => {
-                console.log(item.reportIDORG);
-                console.log(item.nome)
-                console.log(item.pathPartenza);
-                console.log(item.pathFinale);
-            });
-        })
-        .catch((error) =>{
-            console.error(error);
-        })
+    try {
+        await fileReportDAO.removeAll();
+        await fileReportDAO.saveFileReport(fileReportBean);
+        let list = await fileReportDAO.getAll();
+        console.log(list);
+    } catch (error) {
+        console.error("Errore:", error);
+    }
 }
-

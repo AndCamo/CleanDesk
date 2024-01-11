@@ -6,23 +6,23 @@ class ReportORG_DAO{
     constructor(){};
 
     async getAll(){
-        return new Promise(async(resolve, reject) =>{
-            try {
-                const connection = await getConnection();
-                
-                connection.all("SELECT * FROM ReportORG ORDER BY DataReport DESC", (err,rows) =>{
-                    if(err){
-                        reject(new Error("Error retriving objects from DB"));
-                    }
-                    else{
-                        resolve(rows);
-                    }
-                    connection.close();
-                });
-            }
-            catch(error){
-                reject(error);
-            }
+        const connection = await getConnection()
+        .catch((error) => {
+            throw (error);
+        });
+    
+        return new Promise((resolve, reject) => {
+            let query = "SELECT * FROM ReportORG ORDER BY DataReport DESC";
+            
+            connection.all(query, (err, rows) => {
+                if (err) {
+                    console.log("Errore nella GetAllReportORG!");
+                    reject(err);
+                } else {
+                    connection.close()
+                    resolve(rows);
+                }
+            });
         });
     }
 
@@ -32,69 +32,67 @@ class ReportORG_DAO{
                 console.log("Impossibile utilizzare questa data:\n");
         } 
         else {
-            return new Promise(async(resolve, reject) => {
-                try{
-                    const connection = await getConnection();
-                    var query = "SELECT * FROM ReportORG WHERE DataReport <= ? AND DataReport >= ?"
-
-                    connection.all(query,[dateTo, dateFrom], (err, rows) =>{
-                        if(err){
-                            reject("Error retriving objects from DB");
-                        }
-                        else{
-                            resolve(rows);
-                        }
-                        connection.close();
-                    });
-                }
-                catch(error){
-                    reject(error);
-                }
+            const connection = await getConnection()
+            .catch((error) => {
+                throw (error);
+            });
+            return new Promise((resolve, reject) => {
+                let query = "SELECT * FROM ReportORG WHERE DataReport <= ? AND DataReport >= ?"
+                dateFrom = new Date(dateFrom);
+                dateTo = new Date(dateTo);
+                connection.all(query, [dateTo, dateFrom], (err, rows) => {
+                    if (err) {
+                        console.log("Errore nella getFromDateTo!");
+                        reject(err);
+                    } else {
+                        connection.close()
+                        resolve(rows);
+                    }
+                });
             });
         }
     }
-    async saveReportORG(ReportORG){
-        return new Promise(async (resolve, reject) => {
-            try{
-                const connection = await getConnection(); 
-                var query = "INSERT INTO ReportORG (Nome, Descrizione, NomeCartella, DataReport, StatusReport) VALUES (?,?,?,?,?)";
-    
-    
-                connection.run(query,[ReportORG.nome, ReportORG.descrizione, ReportORG.nomeCartella ,ReportORG.data, ReportORG.status], function(err) {
-                    if(err){
-                        reject(err);
-                    }
-                    else{
-                        resolve({
-                            "message": "Inserimento avvenuto con successo",
-                            "lastID": this.lastID
-                        });
-                    }
-                });
-            }catch(err){
-                throw err;
-            }
+
+    async saveReportORG(reportORG){
+        const connection = await getConnection()
+        .catch((error) => {
+            throw (error);
+        });
+
+        return new Promise((resolve, reject) => {
+            let query = "INSERT INTO ReportORG (Nome, Descrizione, NomeCartella, DataReport, StatusReport) VALUES (?,?,?,?,?)";
+            
+            connection.run(query, [reportORG.nome, reportORG.descrizione, reportORG.nomeCartella ,reportORG.data, reportORG.status], function(err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    console.log(`Rows inserted ${this.changes}`);
+                    resolve({
+                        "message": "Rows inserted" + this.changes,
+                        "lastID": this.lastID
+                    });
+                }
+            });
         });
     }
 
     async removeAll(){
-        return new Promise(async(resolve, reject) =>{
-            try{
+        const connection = await getConnection()
+        .catch((error) => {
+            throw (error);
+        });
 
-                const connection = await getConnection();
-                let query = "DELETE FROM ReportORG";
-
-                connection.run(query,[],(err) =>{
-                    if(err){
-                        reject(err);
-                    }else{
-                        resolve("Cancellazione effettuata con successo");
-                    }
-                });
-            }
-            catch(err){
-                throw err;
-            }
+        return new Promise((resolve, reject) => {
+            let query = "DELETE FROM ReportORG";
+            
+            connection.run(query, function(err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    console.log(`Rows deleted ${this.changes}`);
+                    resolve();
+                }
+            });
         });
     }
 }
@@ -112,29 +110,16 @@ module.exports = {ReportORG_DAO}
 
 async function testFunction(){
     const reportORG_DAO = new ReportORG_DAO();
-    const reportBean = new ReportORGBean(undefined,"Prova1","Descrizione di prova","C:prova2\\genny",new Date(),"close");
-        //Calling method saveReport 
-        /*await reportORG_DAO.saveReportORG(reportBean).then((obj) =>{
-            console.log(obj);
-        })
-        .catch((error) => {
-            console.error(error);
-        });*/
-        
-        //Calling method getAll
-        await reportORG_DAO.getAll().then((objs) =>{
-            console.log("GetAll objs: ", objs)
-        })
-        .catch((error) => {
-            console.error(error.message);
-        });
+    const reportBean = new ReportORGBean(undefined,"NewReport","Descrizione di prova","C:prova2\\genny",new Date("2024-01-15").toDateString(),"close");
 
-        //Calling method removeAll
-        /*await reportORG_DAO.removeAll()
-        .then((obj) =>{
-            console.log(obj);
-        })
-        .catch((err) =>{
-            console.log(err)
-        });*/
+
+    try {
+        //await reportORG_DAO.removeAll();
+        await reportORG_DAO.saveReportORG(reportBean);
+        //let list = await reportORG_DAO.getFromDateTo("2024-01-10","2024-01-12");
+        let list = await reportORG_DAO.getAll();
+        console.log(list);
+    } catch (error) {
+        console.error("Errore:", error);
     }
+}
