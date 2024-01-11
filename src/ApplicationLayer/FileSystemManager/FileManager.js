@@ -3,6 +3,8 @@ const path = require( 'path');
 const { FileReportBean } = require( '../../StorageLayer/FileReportBean');
 const { FileReportDAO } = require( '../../StorageLayer/FileReportDAO');
 
+const separator = path.sep;
+
 class FileManager{
 
     constructor(){}
@@ -11,13 +13,19 @@ class FileManager{
     async createDir(listFileReport){
 
         //For each fileReport in the list
-        listFileReport.forEach(element => {
-
-            //Make destination directory if not exists
-           if(!fs.existsSync(element.pathFinale)){
-            fs.mkdirSync(element.pathFinale, { recursive: true });
-           }
-        });
+        for(const element of listFileReport){
+            try {
+                // check if directory already exists
+                if (!fs.existsSync(element.pathFinale)) {
+                    fs.mkdirSync(element.pathFinale);
+                    console.log("Directory is created.");
+                } else {
+                    console.log("Directory already exists.");
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        }
     }
 
     async moveFile(reportORG_ID){
@@ -31,11 +39,18 @@ class FileManager{
                 await createDir(listFileReport);
 
                 //For each fileReport
-                listFileReport.forEach(item => {
+                for(const item of listFileReport){
 
-                    //move from oldDirectory to new Directory
-                    fs.rename(item.pathPartenza, item.pathFinale);
-                });
+                     //move from oldDirectory to new Directory
+                    fs.rename(item.pathPartenza, item.pathFinale, (err)=>{
+                        if(err){
+                            console.log(err.message);
+                        }
+                        else{
+                            console.log("File spostato correttamente")
+                        }
+                    });
+                }
             })
             .catch((error) =>{
                 console.error(error);
@@ -48,3 +63,23 @@ class FileManager{
     
 }
 module.exports = {FileManager}
+
+function testFunction(){
+    try{
+        let path = "C:\\Users\\genny\\Desktop\\Cartella_Prova1";
+        let path2 = "C:\\Users\\genny\\Desktop\\Cartella_Prova1\\Prova2";
+        let finalPath = path2 + separator+ "File1.txt"; 
+        let initialPath = path + separator + "File1.txt"; 
+        fs.rename(initialPath, finalPath, function (err) {
+            if (err) throw err
+            console.log('Successfully renamed - AKA moved!')
+          })
+        console.log("Path cambiato correttamente")
+    }
+    catch(err){
+        console.log("Errore nella rename");
+        console.error(err);
+    }
+   
+}
+
