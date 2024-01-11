@@ -22,37 +22,45 @@ class OrganizzazioneControl{
 
         //Creating a new temporary ReportBean
         const reportBean = new ReportORGBean(undefined,"","",initPath, tsDate,"Created");
-
+        
         //Saving in DB
         await reportDAO.saveReportORG(reportBean)
-        .then((message) =>{
-            console.log(message);
+        .then((obj) =>{
+            console.log(obj.message);
+            console.log("HO RICEVUTO: " + obj.lastID);
+            reportBean.id = obj.lastID;
         })
         .catch((message) => {
             console.log(message)
         }); 
 
         const fileReportDAO = new FileReportDAO();
+        await fileReportDAO.removeAll().then((obj) =>
+            console.log(obj)
+        ).catch((err) => {
+            console.error(err)
+        })
 
-        //For each log in Json file
-        logEntries.forEach(async (item) => {
 
+        for (const item of logEntries){
             //Instantiate a variable representing the final path
             let finalPath = initPath + pathSeparator + item.category;
 
             //Creating an object FileReport from log
             const fileReportBean = new FileReportBean(reportBean.id, item.fileName, item.filePath ,finalPath);
+            console.do
 
             //Saving it in DB
             await fileReportDAO.saveFileReport(fileReportBean)
-            .then((message) =>{
+            .then(async (message) =>{
                 console.log(message);
             })
             .catch((message) => {
                 console.log(message)
             })
+        }
 
-        });
+
         const fileManager = new FileManager();
         fileManager.moveFile(reportBean.id);
     }

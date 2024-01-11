@@ -5,7 +5,7 @@ class FileReportDAO{
 
     constructor(){}
 
-    getAll(){
+    async getAll(){
         return new Promise(async(reject, resolve) =>{
             try{
                 const connection = await getConnection();
@@ -26,7 +26,7 @@ class FileReportDAO{
         });
     }
 
-    getAllByReportID(reportID){
+    async getAllByReportID(reportID){
         return new Promise(async(reject, resolve) =>{
             try{
                 const connection = await getConnection();
@@ -47,7 +47,7 @@ class FileReportDAO{
         });
     }
 
-    saveFileReport(fileReport){
+    async saveFileReport(fileReport){
         return new Promise(async(reject, resolve) =>{
             try{
                 const connection = await getConnection();
@@ -69,7 +69,7 @@ class FileReportDAO{
         });
     }
 
-    removeAll(){
+    async removeAll(){
         return new Promise(async(reject,resolve) =>{
             try{
                 const connection = await getConnection();

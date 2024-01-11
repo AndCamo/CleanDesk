@@ -1,8 +1,34 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const { testFunction } = require("./StorageLayer/storageTest.js");
 const { OrganizzazioneControl } = require("./ApplicationLayer/OrganizzazioneFile/OrganizzazioneControl.js");
+const { spawn } = require('child_process');
+
 
 let mainWindow
+
+// Run a Python script and return output
+function runPythonScript(scriptPath, args) {
+   // Use child_process.spawn method from 
+   // child_process module and assign it to variable
+   const pyProg = spawn('python', [scriptPath].concat(args));
+ 
+   // Collect data from script and print to console
+   let data = '';
+   pyProg.stdout.on('data', (stdout) => {
+     data += stdout.toString();
+   });
+ 
+   // Print errors to console, if any
+   pyProg.stderr.on('data', (stderr) => {
+     console.log(`stderr: ${stderr}`);
+   });
+ 
+   // When script is finished, print collected data
+   pyProg.on('close', (code) => {
+     console.log(`child process exited with code ${code}`);
+     console.log(data);
+   });
+ }
 
 const createWindow = () => {
    mainWindow = new BrowserWindow({
@@ -18,6 +44,7 @@ const createWindow = () => {
  }
 
 app.whenReady().then(() => {
+   runPythonScript("./src/ApplicationLayer/server.py", []);
    createWindow()
 })
 
@@ -66,6 +93,5 @@ ipcMain.on('test', (event, data) => {
 ipcMain.handle('startOrganization', async (event, data) => {
   let result;
   result = await leggiCartella(data.folderPath)
-  console.log("Ricevo=" + JSON.stringify(result, null, 3))
   await creaOrganizzazione(result, data.folderPath)
 })

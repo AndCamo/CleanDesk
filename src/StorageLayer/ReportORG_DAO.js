@@ -60,12 +60,15 @@ class ReportORG_DAO{
                 var query = "INSERT INTO ReportORG (Nome, Descrizione, NomeCartella, DataReport, StatusReport) VALUES (?,?,?,?,?)";
     
     
-                connection.run(query,[ReportORG.nome, ReportORG.descrizione, ReportORG.nomeCartella ,ReportORG.data, ReportORG.status], (err) =>{
+                connection.run(query,[ReportORG.nome, ReportORG.descrizione, ReportORG.nomeCartella ,ReportORG.data, ReportORG.status], function(err) {
                     if(err){
                         reject(err);
                     }
                     else{
-                        resolve("Inserimento avvenuto con successo");
+                        resolve({
+                            "message": "Inserimento avvenuto con successo",
+                            "lastID": this.lastID
+                        });
                     }
                 });
             }catch(err){
