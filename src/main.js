@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const { testFunction } = require("./StorageLayer/storageTest.js");
-
+const { OrganizzazioneControl } = require("./ApplicationLayer/OrganizzazioneFile/OrganizzazioneControl.js");
 
 let mainWindow
 
@@ -40,6 +40,11 @@ async function leggiCartella(path){
    return result;
 } 
 
+async function creaOrganizzazione(log, initPath){
+   const organizzazioneControl = new OrganizzazioneControl();
+   await organizzazioneControl.creaReportORG(log, initPath);
+}
+
 ipcMain.on('test', (event, data) => {
   console.log("Test OK");
   fetch('http://127.0.0.1:5000/test' , {
@@ -61,6 +66,6 @@ ipcMain.on('test', (event, data) => {
 ipcMain.handle('startOrganization', async (event, data) => {
   let result;
   result = await leggiCartella(data.folderPath)
-  console.log("Ricevo=" + JSON.stringify(result))
-  return result
+  console.log("Ricevo=" + JSON.stringify(result, null, 3))
+  await creaOrganizzazione(result, data.folderPath)
 })

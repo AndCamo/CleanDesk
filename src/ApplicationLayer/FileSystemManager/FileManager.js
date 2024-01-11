@@ -2,7 +2,6 @@ const fs = require( 'fs');
 const path = require( 'path');
 const { FileReportBean } = require( '../../StorageLayer/FileReportBean');
 const { FileReportDAO } = require( '../../StorageLayer/FileReportDAO');
-const fs = require('fs');
 
 class FileManager{
 
@@ -48,4 +47,4 @@ class FileManager{
     }
     
 }
-export {FileManager}
+module.exports = {FileManager}
