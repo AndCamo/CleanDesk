@@ -34,9 +34,11 @@ class FileReportDAO{
                 
                 connection.all(query,[reportID], (err, rows) =>{
                     if(err){
+                        console.log("Errore nela GetALLBY");
                         reject(err);
                     }
                     else{
+                        console.log("Get All Eseguito con successo------- Report_ID:"+reportID+"\n");
                         resolve(rows);
                     }
                     connection.close();

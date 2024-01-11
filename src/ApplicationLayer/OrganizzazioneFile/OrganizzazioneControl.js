@@ -12,6 +12,7 @@ class OrganizzazioneControl{
     constructor(){}
 
     async creaReportORG(logEntries,initPath){
+        console.log(logEntries);
         // check if the logEntries is not empty
         if (!logEntries || !Array.isArray(logEntries) || logEntries.length === 0) {
             console.error("Invalid JSON File");
@@ -34,21 +35,24 @@ class OrganizzazioneControl{
             console.log(message)
         }); 
 
-        const fileReportDAO = new FileReportDAO();
+        /*const fileReportDAO = new FileReportDAO();
         await fileReportDAO.removeAll().then((obj) =>
             console.log(obj)
         ).catch((err) => {
             console.error(err)
         })
+*/
 
 
         for (const item of logEntries){
+
             //Instantiate a variable representing the final path
             let finalPath = initPath + pathSeparator + item.category;
+            const fileReportDAO = new FileReportDAO();
 
             //Creating an object FileReport from log
             const fileReportBean = new FileReportBean(reportBean.id, item.fileName, item.filePath ,finalPath);
-            console.do
+            
 
             //Saving it in DB
             await fileReportDAO.saveFileReport(fileReportBean)

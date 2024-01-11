@@ -11,6 +11,7 @@ class FileManager{
 
     //Method for create all directory
     async createDir(listFileReport){
+        console.log("Dentro createDir");
 
         //For each fileReport in the list
         for(const element of listFileReport){
@@ -31,17 +32,31 @@ class FileManager{
     async moveFile(reportORG_ID){
         const fileReportDAO = new FileReportDAO(); 
         try{
+            console.log("APPENA ENTRATO IN MOVE");
+            let arrayFileReport;
+
             //Calling method to take every bean of a Report Organization by ID
             await fileReportDAO.getAllByReportID(reportORG_ID)
-            .then(async (listFileReport) =>{
+            .then(async (rows) =>{
+                console.log("Entrato nel then");
+                arrayFileReport = rows
+            })
+            .catch((error) =>{
+                console.error(error);
+            });
+
+            console.log("Lunghezza: "+arrayFileReport.length);
 
                 //Creating all directory
-                await createDir(listFileReport);
+                await this.createDir(arrayFileReport).catch((err)=>{
+                    console.error(err);
+                });
 
                 //For each fileReport
-                for(const item of listFileReport){
+                for(const item of arrayFileReport){
                     //creazione del pathFinale
                     let newPath = item.pathFinale + separator + item.nome;
+                    console.log("File: "+item.nome+"\t Path nuovo: " +newPath);
 
                      //move from oldDirectory to new Directory
                     fs.rename(item.pathPartenza, newPath, (err)=>{
@@ -53,10 +68,6 @@ class FileManager{
                         }
                     });
                 }
-            })
-            .catch((error) =>{
-                console.error(error);
-            });
         }
         catch(err){
             throw err;
@@ -70,8 +81,9 @@ function testFunction(){
     try{
         let path = "C:\\Users\\genny\\Desktop\\Cartella_Prova1";
         let path2 = "C:\\Users\\genny\\Desktop\\Cartella_Prova1\\Prova2";
-        let finalPath = path2 + separator+ "File1.txt"; 
-        let initialPath = path + separator + "File1.txt"; 
+        let finalPath = path2 + "\\"+ "File1.txt"; 
+        let initialPath = path + "\\" + "File1.txt";
+        console.log(initialPath); 
         fs.rename(initialPath, finalPath, function (err) {
             if (err) throw err
             console.log('Successfully renamed - AKA moved!')
@@ -82,6 +94,7 @@ function testFunction(){
         console.log("Errore nella rename");
         console.error(err);
     }
-   
 }
+//testFunction();
+
 

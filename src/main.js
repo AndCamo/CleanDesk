@@ -44,7 +44,6 @@ const createWindow = () => {
  }
 
 app.whenReady().then(() => {
-   runPythonScript("./src/ApplicationLayer/server.py", []);
    createWindow()
 })
 
@@ -93,5 +92,6 @@ ipcMain.on('test', (event, data) => {
 ipcMain.handle('startOrganization', async (event, data) => {
   let result;
   result = await leggiCartella(data.folderPath)
+  console.log(JSON.stringify(result,null,3))
   await creaOrganizzazione(result, data.folderPath)
 })
