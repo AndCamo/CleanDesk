@@ -40,9 +40,11 @@ class FileManager{
 
                 //For each fileReport
                 for(const item of listFileReport){
+                    //creazione del pathFinale
+                    let newPath = item.pathFinale + separator + item.nome;
 
                      //move from oldDirectory to new Directory
-                    fs.rename(item.pathPartenza, item.pathFinale, (err)=>{
+                    fs.rename(item.pathPartenza, newPath, (err)=>{
                         if(err){
                             console.log(err.message);
                         }
