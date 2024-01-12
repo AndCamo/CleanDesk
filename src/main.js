@@ -2,7 +2,9 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 const { testFunction } = require("./StorageLayer/storageTest.js");
 const { OrganizzazioneControl } = require("./ApplicationLayer/OrganizzazioneFile/OrganizzazioneControl.js");
 const { spawn } = require('child_process');
-let {PythonShell} = require('python-shell')
+const {PythonShell} = require('python-shell');
+
+require('electron-reload')(__dirname);
 
 
 let mainWindow
@@ -68,8 +70,6 @@ ipcMain.on('test', (event, data) => {
   .then(async (data) => {
      console.log(data);
      event.reply('risultato', data);
-     await testFunction();
-
   })
   .catch(error => console.log(error))
 })

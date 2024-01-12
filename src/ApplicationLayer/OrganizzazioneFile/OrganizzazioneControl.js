@@ -27,8 +27,7 @@ class OrganizzazioneControl{
         //Saving in DB
         await reportDAO.saveReportORG(reportBean)
         .then((obj) =>{
-            console.log(obj.message);
-            console.log("HO RICEVUTO: " + obj.lastID);
+            console.log("ReportORGId: " + obj.lastID);
             reportBean.id = obj.lastID;
         })
         .catch((message) => {
@@ -66,7 +65,7 @@ class OrganizzazioneControl{
 
 
         const fileManager = new FileManager();
-        fileManager.moveFile(reportBean.id);
+        await fileManager.moveFile(reportBean.id);
     }
 }
 

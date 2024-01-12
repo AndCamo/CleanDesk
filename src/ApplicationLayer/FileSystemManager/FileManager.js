@@ -11,14 +11,15 @@ class FileManager{
 
     //Method for create all directory
     async createDir(listFileReport){
-        console.log("Dentro createDir");
 
         //For each fileReport in the list
         for(const element of listFileReport){
             try {
+                let pathString = element.PathFinale;
+                console.log(pathString);
                 // check if directory already exists
-                if (!fs.existsSync(element.pathFinale)) {
-                    fs.mkdirSync(element.pathFinale);
+                if (!fs.existsSync(pathString)) {
+                    fs.mkdirSync(pathString);
                     console.log("Directory is created.");
                 } else {
                     console.log("Directory already exists.");
@@ -55,11 +56,11 @@ class FileManager{
                 //For each fileReport
                 for(const item of arrayFileReport){
                     //creazione del pathFinale
-                    let newPath = item.pathFinale + separator + item.nome;
-                    console.log("File: "+item.nome+"\t Path nuovo: " +newPath);
+                    let newPath = item.PathFinale + separator + item.Nome;
+                    console.log("File: "+item.Nome+"\t Path nuovo: " +newPath);
 
                      //move from oldDirectory to new Directory
-                    fs.rename(item.pathPartenza, newPath, (err)=>{
+                    fs.rename(item.PathPartenza, newPath, (err)=>{
                         if(err){
                             console.log(err.message);
                         }
