@@ -3,7 +3,9 @@ import sys
 import json
 import random
 sys.path.insert(1, f'src{os.sep}ApplicationLayer')
-import dataset_manager
+import ApplicationLayer.ML_Model.dataset_manager as dataset_manager
+
+
 
 def classify(folderPath):
    log = []

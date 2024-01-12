@@ -2,3 +2,5 @@
 node_modules/
 dataset/test.csv
 dataset/train.csv
+dataset/dataset.csv
+dataset/shortDataset.csv
