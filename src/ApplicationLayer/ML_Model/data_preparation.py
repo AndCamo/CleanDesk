@@ -64,3 +64,15 @@ def printFrequencyDist(docs):
       fd = nltk.FreqDist(categoryTokens)
       print(fd.most_common(20))
       print(" ")
+
+
+def setUpDocsNoClean(dataset):
+   docs = [] #(label, text)
+   for index, row in dataset.iterrows():
+      text = row[1]
+      label = row[0]
+      doc = (label, text.strip())
+
+      docs.append(doc)
+
+   return docs

@@ -70,3 +70,24 @@ def mergeTextColumns(dataset):
    
    # Update e save the new dataset
    dataset.to_csv(f"dataset{PATH_SEPARATOR}dataset.csv", encoding='utf-8', index=False)
+
+def splitDataset(dataset):
+   tmp_train = []
+   tmp_test = []
+
+   pivot = int(.80 * len(dataset))
+
+   for i in range (0, pivot):
+      tmp_row = [dataset.iloc[i,0], dataset.iloc[i,1]]
+      tmp_train.append(tmp_row)
+   
+   for i in range(pivot,len(dataset)):
+      tmp_row = [dataset.iloc[i,0], dataset.iloc[i,1]]
+      tmp_test.append(tmp_row)
+   
+   train_dataframe = pd.DataFrame(tmp_train, columns=['Class', "Text"])
+   test_dataframe = pd.DataFrame(tmp_test, columns=['Class', "Text"])
+
+   train_dataframe.to_csv(f"dataset{PATH_SEPARATOR}train_dataset.csv", encoding='utf-8', index=False)
+   test_dataframe.to_csv(f"dataset{PATH_SEPARATOR}test_dataset.csv", encoding='utf-8', index=False)
+

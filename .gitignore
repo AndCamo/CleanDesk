@@ -1,6 +1,5 @@
 .DS_Store
 node_modules/
-dataset/test.csv
-dataset/train.csv
-dataset/dataset.csv
-dataset/shortDataset.csv
+dataset/
+count_vectorizer.pkl
+naive_bayes_classiefier.pkl

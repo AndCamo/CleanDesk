@@ -2,14 +2,19 @@ import os
 import sys
 import json
 import random
-sys.path.insert(1, f'src{os.sep}ApplicationLayer')
-import ApplicationLayer.ML_Model.dataset_manager as dataset_manager
+import pprint
+"""sys.path.insert(1, f'src{os.sep}ApplicationLayer')
+import ApplicationLayer.ML_Model.dataset_manager as dataset_manager"""
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn import metrics
 import pickle
 
+LABEL_DICTIONARY = {1 : "Society & Culture", 2 : "Science & Mathematics", 3 : "Health", 4 : "Education & Reference", 5 : "Computers & Internet", 
+            6 : "Sports", 7 : "Business & Finance", 8 : "Entertainment & Music", 9 : "Family & Relationships", 10 : "Politics & Government"}
+LABEL_LIST = list(LABEL_DICTIONARY.values())
 
+"""
 def fakeClassify(folderPath):
    log = []
    for root, dirs, files in os.walk(folderPath):
@@ -20,7 +25,7 @@ def fakeClassify(folderPath):
             fileInfo  = {"fileName" : name, "filePath" : path, "category" : label}
             log.append(fileInfo)
    return json.dumps(log, indent = 4)
-
+"""
 
 def getSplits(docs):
    random.shuffle(docs)
@@ -39,12 +44,30 @@ def evaluateClassifier(title, classifier, vectorizer, x_list, y_list):
     x_test_tfidf = vectorizer.transform(x_list)
     y_pred = classifier.predict(x_test_tfidf)
 
-    precision = metrics.precision_score(y_list, y_pred, average="micro")
-    recall = metrics.recall_score(y_list, y_pred, average="micro")
-    f1 = metrics.f1_score(y_list, y_pred, average="micro")
+    precision = metrics.precision_score(y_list, y_pred,labels=LABEL_LIST, average=None)
+    recall = metrics.recall_score(y_list, y_pred,labels=LABEL_LIST,  average=None)
+    f1 = metrics.f1_score(y_list, y_pred, labels=LABEL_LIST,  average=None)
 
+    precision_dic = createDic(precision.tolist())
+    recall_dic = createDic(recall.tolist())
+    f1_dic = createDic(f1.tolist())
 
-    print("%s\t%f\t%f\t%f\n" % (title, precision, recall, f1))
+    print("--------------PRECISION--------------\n")
+    pprint.pprint(precision_dic,indent=2)
+    print("\n--------------RECALL--------------\n")
+    pprint.pprint(recall_dic,indent=2)
+    print("\n--------------F1_SCORE--------------\n")
+    pprint.pprint(f1_dic,indent=2)
+
+def createDic(lista):
+   dictionary = {}
+   i = 0
+   for label in LABEL_LIST:
+      dictionary.update({label: lista[i]})
+      i = i+1
+   
+   return dictionary
+   
 
 def trainClassifier(train_docs, test_docs):
    x_train, y_train = getSplits(train_docs)
@@ -58,7 +81,10 @@ def trainClassifier(train_docs, test_docs):
    # Train the Naive Bayes Classifier
    naiveBayesClassifier = MultinomialNB().fit(dtm, y_train)
 
+   print("Naive Bayes\tTRAIN\t\n")
    evaluateClassifier("Naive Bayes\tTRAIN\t", naiveBayesClassifier, vectorizer, x_train, y_train)
+
+   print("Naive Bayes\tTEST\t\n")
    evaluateClassifier("Naive Bayes\tTEST\t", naiveBayesClassifier, vectorizer, x_test, y_test)
 
    # store the classifier
