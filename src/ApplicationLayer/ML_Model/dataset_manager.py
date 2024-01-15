@@ -75,6 +75,7 @@ def splitDataset(dataset):
    tmp_train = []
    tmp_test = []
 
+   dataset = dataset.sample(frac = 1)
    pivot = int(.80 * len(dataset))
 
    for i in range (0, pivot):

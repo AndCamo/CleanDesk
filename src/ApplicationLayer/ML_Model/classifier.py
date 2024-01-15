@@ -12,7 +12,8 @@ import pickle
 
 LABEL_DICTIONARY = {1 : "Society & Culture", 2 : "Science & Mathematics", 3 : "Health", 4 : "Education & Reference", 5 : "Computers & Internet", 
             6 : "Sports", 7 : "Business & Finance", 8 : "Entertainment & Music", 9 : "Family & Relationships", 10 : "Politics & Government"}
-LABEL_LIST = list(LABEL_DICTIONARY.values())
+#LABEL_LIST = list(LABEL_DICTIONARY.values())
+LABEL_LIST = ['BUSINESS', 'ENTERTAINMENT', 'FOOD & DRINK', 'HEALTHY LIVING', 'PARENTING', 'POLITICS', 'QUEER VOICES', 'STYLE & BEAUTY', 'TRAVEL', 'WELLNESS']
 
 """
 def fakeClassify(folderPath):
@@ -94,3 +95,19 @@ def trainClassifier(train_docs, test_docs):
    # also sotre the vectorizer so we can transform new data
    vec_filename = 'count_vectorizer.pkl'
    pickle.dump(vectorizer, open(vec_filename, 'wb'))
+
+
+def get_model():
+    # load classifier
+    clf_filename = 'naive_bayes_classiefier.pkl'
+    classifier = pickle.load(open(clf_filename, 'rb'))
+
+    # vectorize the new text
+    vec_filename = 'count_vectorizer.pkl'
+    vectorizer = pickle.load(open(vec_filename, 'rb'))
+
+    return classifier, vectorizer
+
+def get_prediction(text, classifier, vectorizer):
+    prediction = classifier.predict(vectorizer.transform([text]))
+    return prediction[0]

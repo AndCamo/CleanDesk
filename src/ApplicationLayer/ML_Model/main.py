@@ -34,6 +34,11 @@ data_prep.printAllFrequencyDist(docs)
 
 dataset_manager.splitDataset(dataset)"""
 
+
+
+
+"""
+----TRAIN MODEL----
 train_dataset = pd.read_csv("dataset"+PATH_SEPARATOR+"train_dataset.csv")
 test_dataset = pd.read_csv("dataset"+PATH_SEPARATOR+"test_dataset.csv")
 
@@ -41,9 +46,14 @@ train_docs = data_prep.setupDocs(train_dataset)
 test_docs = data_prep.setupDocs(test_dataset)
 
 classifier.trainClassifier(train_docs, test_docs)
+"""
 
 
+text = "The first new version of cult video game Prince of Persia in 14 years has been released, called The Lost Crown, and it is the first edition in the series to be fully voiced in Farsi."
 
+nbClassiefier, vectorizer = classifier.get_model()
+prediction = classifier.get_prediction(text, nbClassiefier, vectorizer)
+print(prediction)
 
 
 
