@@ -51,3 +51,19 @@ def printFrequencyDist(docs):
       fd = nltk.FreqDist(categoryTokens)
       print(fd.most_common(20))
       print(" ")
+   
+   
+def printAllFrequencyDist(docs):
+   tokens = defaultdict(list)
+
+   for doc in docs:
+      docText = doc[1]
+
+      docTokens = tokenize(docText)
+      tokens["Word"].extend(docTokens)
+
+   for categoryLabel, categoryTokens  in tokens.items():
+      print(categoryLabel)
+      fd = nltk.FreqDist(categoryTokens)
+      print(fd.most_common(40))
+      print("\n")

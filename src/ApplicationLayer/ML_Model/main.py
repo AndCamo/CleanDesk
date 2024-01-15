@@ -5,7 +5,7 @@ import data_preparation as data_prep
 import pprint
 # GLOBAL VARIABLES
 PATH_SEPARATOR = os.sep
-DATASET_PATH = (f"dataset{PATH_SEPARATOR}shortDataset.csv")
+DATASET_PATH = (f"dataset{PATH_SEPARATOR}dataset.csv")
 
 
 
@@ -22,10 +22,11 @@ for item in out:
 
 dataset = pd.read_csv(DATASET_PATH)
 
-dataset_manager.categorizeTarget(dataset)
-dataset_manager.mergeTextColumns(dataset)
+#dataset_manager.categorizeTarget(dataset)
+#dataset_manager.mergeTextColumns(dataset)
 
-# docs = data_prep.setupDocs(dataset)
+docs = data_prep.setupDocs(dataset)
 # data_prep.printFrequencyDist(docs)
+#data_prep.printAllFrequencyDist(docs)
 
 
