@@ -7,7 +7,7 @@ app = Flask(__name__)
 @app.route('/classify', methods=["POST"])
 def getFileClassification():
    pathToClassify = request.json.get("path")
-   result = classifier.classify(pathToClassify)
+   result = classifier.fakeClassify(pathToClassify)
    return result
 
 @app.route('/test')

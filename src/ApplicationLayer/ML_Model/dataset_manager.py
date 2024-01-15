@@ -62,7 +62,6 @@ def categorizeTarget(dataset):
 
 
 def mergeTextColumns(dataset):
-   
    # Merge the columns "Question Title", "Question Body" and "Answer" in one new column named "Text"
    dataset["Text"] = dataset['Title'].astype(str) + " " + dataset['Body'].astype(str) + " " + dataset['Answer'].astype(str)
    

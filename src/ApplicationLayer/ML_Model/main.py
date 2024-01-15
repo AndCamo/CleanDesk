@@ -19,14 +19,14 @@ for item in out:
     print(str(item)+": "+str(out[item]))
 """
 
-
 dataset = pd.read_csv(DATASET_PATH)
 
 #dataset_manager.categorizeTarget(dataset)
 #dataset_manager.mergeTextColumns(dataset)
 
 docs = data_prep.setupDocs(dataset)
-# data_prep.printFrequencyDist(docs)
-#data_prep.printAllFrequencyDist(docs)
+
+data_prep.printAllFrequencyDist(docs)
+
 
 

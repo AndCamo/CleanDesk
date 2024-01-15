@@ -2,10 +2,11 @@ import pandas as pd
 import nltk
 from collections import defaultdict
 from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer, SnowballStemmer
 import string
 
 STOP_WORDS = set(stopwords.words('english'))
-STOP_WORDS.update(['said', 'mr', 'get', 'like', 'would', "nan", "know'", "know", "one", "dont", "n't", "'s", "br"])
+STOP_WORDS.update(['said', 'mr', 'get', 'like', 'would', "nan", "know'", "know", "one", "dont", "br", "n't", "s"])
 
 def tokenize(text):
    tokens = nltk.word_tokenize(text)
@@ -15,10 +16,22 @@ def tokenize(text):
 
 
 def cleanText(text):
+   mapping_table = str.maketrans({'\n': '', '\t': ''})
+
    text = text.lower()
    text = text.translate(str.maketrans('', '', string.punctuation))
+   text = text.translate(mapping_table)
+
+   text = stemmer(text)
 
    return text
+
+def stemmer(text):
+   word_tokenize = tokenize(text)
+   snowStemmer = SnowballStemmer("english")
+   textStemmed = " ".join([snowStemmer.stem(words) for words in word_tokenize])
+
+   return textStemmed
 
 def setupDocs(dataset):
    docs = [] #(label, text)
@@ -51,19 +64,3 @@ def printFrequencyDist(docs):
       fd = nltk.FreqDist(categoryTokens)
       print(fd.most_common(20))
       print(" ")
-   
-   
-def printAllFrequencyDist(docs):
-   tokens = defaultdict(list)
-
-   for doc in docs:
-      docText = doc[1]
-
-      docTokens = tokenize(docText)
-      tokens["Word"].extend(docTokens)
-
-   for categoryLabel, categoryTokens  in tokens.items():
-      print(categoryLabel)
-      fd = nltk.FreqDist(categoryTokens)
-      print(fd.most_common(40))
-      print("\n")
