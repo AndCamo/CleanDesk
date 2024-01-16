@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 import sys
 import json
 import random
@@ -9,6 +10,8 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn import metrics
 import pickle
+
+PATH_SEPARATOR = os.sep
 
 LABEL_DICTIONARY = {1 : "Society & Culture", 2 : "Science & Mathematics", 3 : "Health", 4 : "Education & Reference", 5 : "Computers & Internet", 
             6 : "Sports", 7 : "Business & Finance", 8 : "Entertainment & Music", 9 : "Family & Relationships", 10 : "Politics & Government"}
@@ -53,6 +56,8 @@ def evaluateClassifier(title, classifier, vectorizer, x_list, y_list):
     recall_dic = createDic(recall.tolist())
     f1_dic = createDic(f1.tolist())
 
+
+    print(title)
     print("--------------PRECISION--------------\n")
     pprint.pprint(precision_dic,indent=2)
     print("\n--------------RECALL--------------\n")
@@ -82,11 +87,9 @@ def trainClassifier(train_docs, test_docs):
    # Train the Naive Bayes Classifier
    naiveBayesClassifier = MultinomialNB().fit(dtm, y_train)
 
-   print("Naive Bayes\tTRAIN\t\n")
-   evaluateClassifier("Naive Bayes\tTRAIN\t", naiveBayesClassifier, vectorizer, x_train, y_train)
+   evaluateClassifier("Naive Bayes\tTRAIN\t\n", naiveBayesClassifier, vectorizer, x_train, y_train)
 
-   print("Naive Bayes\tTEST\t\n")
-   evaluateClassifier("Naive Bayes\tTEST\t", naiveBayesClassifier, vectorizer, x_test, y_test)
+   evaluateClassifier("Naive Bayes\tTEST\t\n", naiveBayesClassifier, vectorizer, x_test, y_test)
 
    # store the classifier
    clf_filename = 'naive_bayes_classiefier.pkl'
@@ -111,3 +114,16 @@ def get_model():
 def get_prediction(text, classifier, vectorizer):
     prediction = classifier.predict(vectorizer.transform([text]))
     return prediction[0]
+
+def attachClasses(dataset, array, label):
+   attachedClass = []
+   for index, row in dataset.iterrows():
+      if row[0] in array:
+         tmp_row = [label, row[1]]
+         attachedClass.append(tmp_row)
+      else:
+         tmp_row = [row[0], row[1]]
+         attachedClass.append(tmp_row)
+   
+   dataframe = pd.DataFrame(attachedClass, columns=['Class', 'Text'])
+   dataframe.to_csv(f"dataset{PATH_SEPARATOR}finalDataset.csv", encoding='utf-8', index=False,columns=['Class', 'Text'])

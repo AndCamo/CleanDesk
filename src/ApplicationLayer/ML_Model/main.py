@@ -8,7 +8,7 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 # GLOBAL VARIABLES
 PATH_SEPARATOR = os.sep
-DATASET_PATH = (f"dataset{PATH_SEPARATOR}dataset.csv")
+DATASET_PATH = (f"dataset{PATH_SEPARATOR}finalDataset.csv")
 
 
 
@@ -49,11 +49,17 @@ classifier.trainClassifier(train_docs, test_docs)
 """
 
 
-text = "The first new version of cult video game Prince of Persia in 14 years has been released, called The Lost Crown, and it is the first edition in the series to be fully voiced in Farsi."
+"""text = "The first new version of cult video game Prince of Persia in 14 years has been released, called The Lost Crown, and it is the first edition in the series to be fully voiced in Farsi."
 
 nbClassiefier, vectorizer = classifier.get_model()
 prediction = classifier.get_prediction(text, nbClassiefier, vectorizer)
-print(prediction)
+print(prediction)"""
+
+dataset = pd.read_csv(DATASET_PATH)
+
+#classifier.attachClasses(dataset,["PARENTING", "PARENTS"],"PARENTING")
+
+dataset_manager.removeUselessCategory(dataset,["HEALTHY LIVING", "QUEER VOICES", "COMEDY", "BLACK VOICES", "PARENTS", "THE WORLDPOST", "WEDDINGS", "WOMEN", "CRIME", "IMPACT", "DIVORCE", "WORLD NEWS", "MEDIA", "WEIRD NEWS", "GREEN", "WORLDPOST", "RELIGION", "STYLE", "TASTE", "MONEY", "ARTS", "ENVIRONMENT", "FIFTY", "GOOD NEWS", "U.S. NEWS", "COLLEGE", "LATINO VOICES", "CULTURE & ARTS"])
 
 
 

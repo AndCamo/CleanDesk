@@ -92,3 +92,22 @@ def splitDataset(dataset):
    train_dataframe.to_csv(f"dataset{PATH_SEPARATOR}train_dataset.csv", encoding='utf-8', index=False)
    test_dataframe.to_csv(f"dataset{PATH_SEPARATOR}test_dataset.csv", encoding='utf-8', index=False)
 
+
+   #Convert the News Dataset from JSON to CSV format
+def convertDataset():
+   #read the original JSON Dataset
+   dataset = pd.read_json(f"dataset{PATH_SEPARATOR}News_Category_Dataset_v3.json", lines = True)
+
+   # create the column text
+   dataset["text"] = dataset['headline'].astype(str) + " " + dataset['short_description'].astype(str)
+
+   # drop the older columns
+   dataset.drop(columns=["link", "headline", "short_description", "date", "authors"], axis=1, inplace=True)
+
+   # save the new dataset in csv format
+   dataset.to_csv(f"dataset{PATH_SEPARATOR}News_Category_Dataset.csv", index=False)
+
+def removeUselessCategory(dataset,array):
+   for label in array:
+      dataset.drop(dataset[dataset["Class"] == label].index, inplace = True)
+   dataset.to_csv(f"dataset{PATH_SEPARATOR}finalDataset.csv", encoding='utf-8', index=False)
