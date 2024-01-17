@@ -16,7 +16,7 @@ PATH_SEPARATOR = os.sep
 LABEL_DICTIONARY = {1 : "Society & Culture", 2 : "Science & Mathematics", 3 : "Health", 4 : "Education & Reference", 5 : "Computers & Internet", 
             6 : "Sports", 7 : "Business & Finance", 8 : "Entertainment & Music", 9 : "Family & Relationships", 10 : "Politics & Government"}
 #LABEL_LIST = list(LABEL_DICTIONARY.values())
-LABEL_LIST = ['BUSINESS', 'ENTERTAINMENT', 'FOOD & DRINK', 'HEALTHY LIVING', 'PARENTING', 'POLITICS', 'QUEER VOICES', 'STYLE & BEAUTY', 'TRAVEL', 'WELLNESS']
+LABEL_LIST = ['PARENTING', 'TECH', 'SPORTS', 'ENTERTAINMENT', 'POLITICS', 'WELLNESS', 'BUSINESS', 'STYLE & BEAUTY', 'FOOD & DRINK', 'TRAVEL']
 
 """
 def fakeClassify(folderPath):
@@ -44,13 +44,29 @@ def getSplits(docs):
    return x_list, y_list
 
 
+def evaluateClassifierWeighted(title, classifier, vectorizer, x_list, y_list):
+    x_test_tfidf = vectorizer.transform(x_list)
+    y_pred = classifier.predict(x_test_tfidf)
+
+    precision = metrics.precision_score(y_list, y_pred, average="weighted")
+    recall = metrics.recall_score(y_list, y_pred, average="weighted")
+    f1 = metrics.f1_score(y_list, y_pred,  average="weighted")
+
+    print(title)
+    print("--------------PRECISION--------------\n")
+    print(precision)
+    print("\n--------------RECALL--------------\n")
+    print(recall)
+    print("\n--------------F1_SCORE--------------\n")
+    print(f1)
+
 def evaluateClassifier(title, classifier, vectorizer, x_list, y_list):
     x_test_tfidf = vectorizer.transform(x_list)
     y_pred = classifier.predict(x_test_tfidf)
 
-    precision = metrics.precision_score(y_list, y_pred,labels=LABEL_LIST, average=None)
-    recall = metrics.recall_score(y_list, y_pred,labels=LABEL_LIST,  average=None)
-    f1 = metrics.f1_score(y_list, y_pred, labels=LABEL_LIST,  average=None)
+    precision = metrics.precision_score(y_list, y_pred,labels=LABEL_LIST, average="weighted")
+    recall = metrics.recall_score(y_list, y_pred,labels=LABEL_LIST,  average="weighted")
+    f1 = metrics.f1_score(y_list, y_pred, labels=LABEL_LIST,  average="weighted")
 
     precision_dic = createDic(precision.tolist())
     recall_dic = createDic(recall.tolist())
@@ -87,9 +103,9 @@ def trainClassifier(train_docs, test_docs):
    # Train the Naive Bayes Classifier
    naiveBayesClassifier = MultinomialNB().fit(dtm, y_train)
 
-   evaluateClassifier("Naive Bayes\tTRAIN\t\n", naiveBayesClassifier, vectorizer, x_train, y_train)
+   evaluateClassifierWeighted("Naive Bayes\tTRAIN\t\n", naiveBayesClassifier, vectorizer, x_train, y_train)
 
-   evaluateClassifier("Naive Bayes\tTEST\t\n", naiveBayesClassifier, vectorizer, x_test, y_test)
+   evaluateClassifierWeighted("Naive Bayes\tTEST\t\n", naiveBayesClassifier, vectorizer, x_test, y_test)
 
    # store the classifier
    clf_filename = 'naive_bayes_classiefier.pkl'
@@ -114,16 +130,3 @@ def get_model():
 def get_prediction(text, classifier, vectorizer):
     prediction = classifier.predict(vectorizer.transform([text]))
     return prediction[0]
-
-def attachClasses(dataset, array, label):
-   attachedClass = []
-   for index, row in dataset.iterrows():
-      if row[0] in array:
-         tmp_row = [label, row[1]]
-         attachedClass.append(tmp_row)
-      else:
-         tmp_row = [row[0], row[1]]
-         attachedClass.append(tmp_row)
-   
-   dataframe = pd.DataFrame(attachedClass, columns=['Class', 'Text'])
-   dataframe.to_csv(f"dataset{PATH_SEPARATOR}finalDataset.csv", encoding='utf-8', index=False,columns=['Class', 'Text'])

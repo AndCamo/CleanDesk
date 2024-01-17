@@ -6,7 +6,7 @@ from nltk.stem import PorterStemmer, SnowballStemmer
 import string
 
 STOP_WORDS = set(stopwords.words('english'))
-STOP_WORDS.update(['said', 'mr', 'get', 'like', 'would', "nan", "know'", "know", "one", "dont", "br", "n't", "s"])
+STOP_WORDS.update(['said', 'mr', 'get', 'like', 'would', "nan", "know'", "know", "one", "dont", "br", "n't", "s", "’", "”", "“", ])
 
 def tokenize(text):
    tokens = nltk.word_tokenize(text)

@@ -1,16 +1,17 @@
 import pandas as pd
 import os
 import random
-
+import re
+import nltk
 
 PATH_SEPARATOR = os.sep
 LABEL_DICTIONARY = {1 : "Society & Culture", 2 : "Science & Mathematics", 3 : "Health", 4 : "Education & Reference", 5 : "Computers & Internet", 
             6 : "Sports", 7 : "Business & Finance", 8 : "Entertainment & Music", 9 : "Family & Relationships", 10 : "Politics & Government"}
 LABEL_LIST = list(LABEL_DICTIONARY.values())
 
-def createShortDataset(rowsNumber):
+def createShortYahooDataset(rowsNumber):
    # read the original dataset 
-   dataset = pd.read_csv(f"dataset{PATH_SEPARATOR}train.csv")
+   dataset = pd.read_csv(f"dataset{PATH_SEPARATOR}yahoo_ataset/train.csv")
    shortDataset = []
 
    # to create a balanced dataset, define the number of rows for each category
@@ -36,18 +37,48 @@ def createShortDataset(rowsNumber):
       dataframe.to_csv(f"dataset{PATH_SEPARATOR}shortDataset.csv", encoding='utf-8', index=False, columns=['Class', 'Title', 'Body', 'Answer'])
 
 
-def countTargetByNumbClass(dataset):
+def createShortDataset(rowsNumber):
+   # read the original dataset 
+   dataset = pd.read_csv(f"dataset{PATH_SEPARATOR}finalDataset.csv")
+   shortDataset = []
+
+   # to create a balanced dataset, define the number of rows for each category
+   rowsForLabel = rowsNumber // dataset.iloc[:, 0].nunique() # integer division
+   # Select unique values from the label column
+   uniqueLabel = dataset.iloc[:, 0].unique()
+
+   # inserts the same number of rows of the original dataset for each label in a new list.
+   for label in uniqueLabel:
+      counter = 1
+      for index, row in dataset.iterrows():
+         tmpRow = [row[0], row[1]]
+         if tmpRow[0] == label:
+            shortDataset.append(tmpRow)
+            if counter >= rowsForLabel:
+               break
+            else:
+               counter += 1
+      
+      random.shuffle(shortDataset)
+      # creates the dataframe and saves the dataset in csv format
+      dataframe = pd.DataFrame(shortDataset, columns=['Class', 'Text'])
+      dataframe.to_csv(f"dataset{PATH_SEPARATOR}shortDatasetNEW.csv", encoding='utf-8', index=False, columns=['Class', 'Text'])
+
+
+def countClassValues(dataset):
    # creates the data structure to contain the counter
    tmp_dict = {}
 
+   labels = list(dataset.iloc[:, 0].unique())
+
    # initializes the counters for each label
-   for item in LABEL_LIST:
+   for item in labels:
       tmp_dict.update({item : 0})
 
    # counts the label in the dataset and update the dictionary
    for index, row in dataset.iterrows():
-      tmp_target = LABEL_DICTIONARY[row[0]]
-      tmp_dict[tmp_target] += 1
+      tmp_dict[row[0]] += 1
+
    return tmp_dict
 
 
@@ -111,3 +142,54 @@ def removeUselessCategory(dataset,array):
    for label in array:
       dataset.drop(dataset[dataset["Class"] == label].index, inplace = True)
    dataset.to_csv(f"dataset{PATH_SEPARATOR}finalDataset.csv", encoding='utf-8', index=False)
+
+def attachClasses(dataset, array, label):
+   attachedClass = []
+   for index, row in dataset.iterrows():
+      if row[0] in array:
+         tmp_row = [label, row[1]]
+         attachedClass.append(tmp_row)
+      else:
+         tmp_row = [row[0], row[1]]
+         attachedClass.append(tmp_row)
+   
+   dataframe = pd.DataFrame(attachedClass, columns=['Class', 'Text'])
+   dataframe.to_csv(f"dataset{PATH_SEPARATOR}finalDataset.csv", encoding='utf-8', index=False,columns=['Class', 'Text'])
+
+def integrateDataFromText(dataset, folderName, label):
+   dir = f"/Users/andrea/Desktop/AndCamo/Coding/Python/TextClassification [TEST]/dataset/big_dataset/{folderName}"
+   for filename in os.listdir(dir):
+      if not filename.startswith("."):
+         full_file_path = '%s/%s' % (dir, filename)  
+         with open(full_file_path, 'rb') as file:
+            text = file.read().decode(errors='replace')
+            textTokens = text.split(" ")
+         counter = 1
+         tmpTokens = []
+         for token in textTokens:
+            tmpTokens.append(token)
+            if counter % 40 == 0:
+               text = " ".join(tmpTokens)
+               newRow = {"Class": label, "Text": text}
+               dataset = dataset.append(newRow, ignore_index = True)
+               tmpTokens = []
+            counter += 1
+               
+   
+   dataset.to_csv(f"dataset{PATH_SEPARATOR}finalDataset.csv", encoding='utf-8', index=False,columns=['Class', 'Text'])
+
+
+def integrateDataFromCSV(datasetToIntegrate, datasetIntegrator, labelToIntegrate, labelIntegrator, number):
+   counter = 0
+   for index, row in datasetIntegrator.iterrows():
+      if row[0] == labelIntegrator:
+         text = row[1]
+         newRow = {"Class": labelToIntegrate, "Text": text}
+         datasetToIntegrate = datasetToIntegrate.append(newRow, ignore_index = True)
+         counter += 1
+      
+      if(counter >= number):
+         break
+
+   
+   datasetToIntegrate.to_csv(f"dataset{PATH_SEPARATOR}finalDataset.csv", encoding='utf-8', index=False,columns=['Class', 'Text'])
