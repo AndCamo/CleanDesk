@@ -193,3 +193,21 @@ def integrateDataFromCSV(datasetToIntegrate, datasetIntegrator, labelToIntegrate
 
    
    datasetToIntegrate.to_csv(f"dataset{PATH_SEPARATOR}finalDataset.csv", encoding='utf-8', index=False,columns=['Class', 'Text'])
+
+def createRandomDataset(dataset, rowsNumber):
+   rowsForLabel = rowsNumber // dataset.iloc[:, 0].nunique()
+   uniqueLabel = dataset.iloc[:, 0].unique()
+   newDataset = []
+
+   for label in uniqueLabel:
+      tmp_data = dataset[dataset["Class"] == label]
+      tmp_data = tmp_data.sample(n=rowsForLabel, ignore_index=False)
+      for index, row in tmp_data.iterrows():
+         tmp_row = [row[0], row[1]]
+         newDataset.append(tmp_row)
+
+   random.shuffle(newDataset)
+   dataframe = pd.DataFrame(newDataset, columns=['Class', 'Text'])
+   dataframe.to_csv(f"dataset{PATH_SEPARATOR}shortDataset_v2.csv", encoding='utf-8', index=False)
+
+
