@@ -4,9 +4,22 @@ from collections import defaultdict
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer, SnowballStemmer
 import string
+import time
 
 STOP_WORDS = set(stopwords.words('english'))
-STOP_WORDS.update(['said', 'mr', 'get', 'like', 'would', "nan", "know'", "know", "one", "dont", "br", "n't", "s", "’", "”", "“", ])
+
+def setupStopwords():
+   STOP_WORDS.update(['said', 'mr', 'get', 'like', 'would', "nan", "know'", "know", "one", "dont", "br", "n't", "s", "’", "”", "“", "make", "year"])
+   moreStopwords = []
+   with open("src/ApplicationLayer/ML_Model/stopwords.txt", 'rb') as file:
+      text = file.read().decode(errors='replace')
+      moreStopwords = text.split("\n")
+   
+   STOP_WORDS.update(moreStopwords)
+
+setupStopwords()
+
+
 
 def tokenize(text):
    tokens = nltk.word_tokenize(text)
@@ -20,6 +33,7 @@ def cleanText(text):
 
    text = text.lower()
    text = text.translate(str.maketrans('', '', string.punctuation))
+   text = text.translate(str.maketrans('', '', string.digits))
    text = text.translate(mapping_table)
 
    text = stemmer(text)

@@ -16,7 +16,7 @@ PATH_SEPARATOR = os.sep
 LABEL_DICTIONARY = {1 : "Society & Culture", 2 : "Science & Mathematics", 3 : "Health", 4 : "Education & Reference", 5 : "Computers & Internet", 
             6 : "Sports", 7 : "Business & Finance", 8 : "Entertainment & Music", 9 : "Family & Relationships", 10 : "Politics & Government"}
 #LABEL_LIST = list(LABEL_DICTIONARY.values())
-LABEL_LIST = ['PARENTING', 'TECH', 'SPORTS', 'ENTERTAINMENT', 'POLITICS', 'WELLNESS', 'BUSINESS', 'STYLE & BEAUTY', 'FOOD & DRINK', 'TRAVEL']
+LABEL_LIST = ['PARENTING', 'SPORTS', 'FOOD & DRINK', 'ARTS & CULTURE', 'STYLE & BEAUTY', 'HOME & LIVING', 'BUSINESS', 'TECH', 'ENTERTAINMENT', 'WELLNESS', 'SCIENCE & MATHEMATICS', 'POLITICS', 'TRAVEL']
 
 """
 def fakeClassify(folderPath):
@@ -48,9 +48,9 @@ def evaluateClassifierWeighted(title, classifier, vectorizer, x_list, y_list):
     x_test_tfidf = vectorizer.transform(x_list)
     y_pred = classifier.predict(x_test_tfidf)
 
-    precision = metrics.precision_score(y_list, y_pred, average="weighted")
-    recall = metrics.recall_score(y_list, y_pred, average="weighted")
-    f1 = metrics.f1_score(y_list, y_pred,  average="weighted")
+    precision = metrics.precision_score(y_list, y_pred, average="micro")
+    recall = metrics.recall_score(y_list, y_pred, average="micro")
+    f1 = metrics.f1_score(y_list, y_pred,  average="micro")
 
     print(title)
     print("--------------PRECISION--------------\n")
@@ -64,9 +64,9 @@ def evaluateClassifier(title, classifier, vectorizer, x_list, y_list):
     x_test_tfidf = vectorizer.transform(x_list)
     y_pred = classifier.predict(x_test_tfidf)
 
-    precision = metrics.precision_score(y_list, y_pred,labels=LABEL_LIST, average="weighted")
-    recall = metrics.recall_score(y_list, y_pred,labels=LABEL_LIST,  average="weighted")
-    f1 = metrics.f1_score(y_list, y_pred, labels=LABEL_LIST,  average="weighted")
+    precision = metrics.precision_score(y_list, y_pred,labels=LABEL_LIST, average=None)
+    recall = metrics.recall_score(y_list, y_pred,labels=LABEL_LIST,  average=None)
+    f1 = metrics.f1_score(y_list, y_pred, labels=LABEL_LIST,  average=None)
 
     precision_dic = createDic(precision.tolist())
     recall_dic = createDic(recall.tolist())

@@ -1,0 +1,78 @@
+## TRAINING 1:
+### Dataset:
+finalDataset.csv campionato con 9000 istanze per label (13).
+
+### Risultati:
+**TRAIN** \
+PRECISION: 0.8500041948068291 \
+RECALL: 0.8500041948068291 \
+F1_SCORE: 0.8500041948068291
+
+**TEST** \
+PRECISION: 0.7629614093959731\
+RECALL: 0.7629614093959731\
+F1_SCORE: 0.762961409395973\
+
+
+## TRAINING 2:
+### Dataset:
+finalDatasetNoMerge.csv (cioè il dataset orginale con NESSUNA MODIFICA, solo le label accorpate) campionato con 5000 istanze per label (14).
+
+### Risultati:
+**TRAIN** \
+PRECISION: 0.8539608105844917 \
+RECALL: 0.8539608105844917 \
+F1_SCORE: 0.8539608105844917
+
+**TEST** \
+PRECISION: 0.7487020599564562\
+RECALL: 0.7487020599564562\
+F1_SCORE: 0.7487020599564562\
+
+
+## TRAINING 3:
+### Dataset:
+finalDatasetNoMerge.csv (cioè il dataset orginale con NESSUNA MODIFICA, solo le label accorpate) NON campionato
+
+### Risultati:
+**TRAIN** \
+PRECISION: 0.8520414919443832 \
+RECALL: 0.8520414919443832 \
+F1_SCORE: 0.8520414919443832
+
+**TEST** \
+PRECISION: 0.7783113810515908\
+RECALL: 0.7783113810515908\
+F1_SCORE: 0.7783113810515908\
+
+
+## TRAINING 4:
+### Dataset:
+finalDatasetNoMerge.csv (cioè il dataset orginale con NESSUNA MODIFICA, solo le label accorpate) campionato con 15000
+
+### Risultati:
+**TRAIN** \
+PRECISION: 0.8466417426632666 \
+RECALL: 0.8466417426632666 \
+F1_SCORE: 0.8466417426632666
+
+**TEST** \
+PRECISION: 0.7568396939966288\
+RECALL: 0.7568396939966288\
+F1_SCORE: 0.7568396939966288\
+
+
+## TRAINING 4:
+### Dataset:
+finalDatasetOriginalIntegrated.csv (cioè il dataset orginale con l'integrazione del testo) NON campionato.
+
+### Risultati:
+**TRAIN** \
+PRECISION: 0.8578446871123866 \
+RECALL: 0.8578446871123866 \
+F1_SCORE: 0.8578446871123866
+
+**TEST** \
+PRECISION: 0.7918801478695117\
+RECALL: 0.7918801478695117\
+F1_SCORE: 0.7918801478695117\

@@ -10,10 +10,13 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 PATH_SEPARATOR = os.sep
 DATASET_PATH = (f"dataset{PATH_SEPARATOR}shortDatasetNEW.csv")
 
-dataset = pd.read_csv(DATASET_PATH)
-# dataset_manager.removeUselessCategory(dataset, ["EDUCATION"])
+dataset = pd.read_csv(f"/Users/andrea/Desktop/UNIVERSITÀ/CleanDesk/dataset/finalDatasetOriginalIntegrated.csv")
+print(dataset["Class"].nunique())
+
+dataset_manager.splitDataset(dataset)
+
 #dataset_manager.createShortDataset(50000)
-#pprint.pprint(dataset_manager.countClassValues(dataset), indent=2)
+
 
 """# ------INTEGRATE VALUES------
 
@@ -34,19 +37,18 @@ print("DOPO: " + str(len(datasetToIntegrate[datasetToIntegrate["Class"] == label
 """
 
 
-dataset = pd.read_csv(DATASET_PATH)
-dataset_manager.splitDataset(dataset)
-"""
 # ----TRAIN MODEL----
 train_dataset = pd.read_csv("dataset"+PATH_SEPARATOR+"train_dataset.csv")
 test_dataset = pd.read_csv("dataset"+PATH_SEPARATOR+"test_dataset.csv")
 
+print(list(train_dataset["Class"].unique()))
+
 train_docs = data_prep.setupDocs(train_dataset)
 test_docs = data_prep.setupDocs(test_dataset)
 
-classifier.trainClassifier(train_docs, test_docs)"""
-"""
+classifier.trainClassifier(train_docs, test_docs)
 
+"""
 texts = [] 
 
 with open("./ProvaClassification.txt", 'rb') as file:
@@ -62,6 +64,4 @@ for text in texts:
 
 dataframe = pd.DataFrame(predictionsTest, columns=['Class', "Text"])
 dataframe.to_csv(f"./predictionTest.csv", encoding='utf-8', index=False)
-
-
 """
