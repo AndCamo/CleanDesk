@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,700&display=swap');
+
+* {
+   font-family: Montserrat;
+}
+
+.leftPanel{
+   height: 80vh;
+   background-color: #00509D;
+   border-radius: 40px;
+   box-sizing: content-box;
+   overflow: auto;
+   padding: 25px;
+}
+.menuButton{
+   height: 15%;
+   background-color: whitesmoke;
+   border-radius: 40px;
+   margin: 5% 0;
+   display: flex;
+   padding: 0 20px;
+   justify-content: center; /* Centra orizzontalmente il contenuto */
+   align-items: center; /* Centra verticalmente il contenuto */
+   justify-content: space-between;
+   transition: all 250ms;
+}
+
+.menuButton:hover{
+   outline: #FE4600 5px solid;
+   overflow: hidden;
+   transition: all 250ms;
+   transform: translateY(-2%);
+}
+
+.buttonImage{
+   margin: 0;
+   height: 60%;
+}
+.buttonText{
+   margin: 0;
+   color: #FE4600;
+   font-weight: 700;
+}
+
+
+.menuText{
+   font-weight: 700;
+   color: white;
+}
+.rightPanel{
+   height: 100%;
+   display: flex; /* Imposta il display a flex per utilizzare il modello di box flessibile */
+   justify-content: center; /* Centra orizzontalmente il contenuto */
+   align-items: center; /* Centra verticalmente il contenuto */
+}
+
+#homepageLogo{
+   vertical-align: middle;
+   width: 65%;
+}
+

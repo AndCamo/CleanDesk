@@ -11,7 +11,9 @@ PATH_SEPARATOR = os.sep
 DATASET_PATH = (f"dataset{PATH_SEPARATOR}finalDataset_v5.csv")
 
 
-#dataset = pd.read_csv(DATASET_PATH)
+dataset = pd.read_csv(DATASET_PATH)
+
+print(dataset["Class"].nunique)
 
 #dataset_manager.removeUselessCategory(dataset, ["WELLNESS"])
 
@@ -59,7 +61,7 @@ test_docs = data_prep.setupDocs(test_dataset)
 classifier.trainClassifier(train_docs, test_docs)"""
 
 
-
+"""
 texts = [] 
 
 with open("./ProvaClassification.txt", 'rb') as file:
@@ -75,4 +77,4 @@ for text in texts:
     predictionsTest.append(row)
 
 dataframe = pd.DataFrame(predictionsTest, columns=['Class', "Text"])
-dataframe.to_csv(f"./predictionTest.csv", encoding='utf-8', index=False)
+dataframe.to_csv(f"./predictionTest.csv", encoding='utf-8', index=False)"""
