@@ -18,18 +18,6 @@ LABEL_DICTIONARY = {1 : "Society & Culture", 2 : "Science & Mathematics", 3 : "H
 #LABEL_LIST = list(LABEL_DICTIONARY.values())
 LABEL_LIST = ['HOME & LIVING', 'STYLE & BEAUTY', 'POLITICS', 'FOOD & DRINK', 'PARENTING', 'ARTS & CULTURE', 'SPORTS', 'SCIENCE & MATHEMATICS', 'EDUCATION', 'ENTERTAINMENT', 'TECH', 'BUSINESS', 'TRAVEL']
 
-"""
-def fakeClassify(folderPath):
-   log = []
-   for root, dirs, files in os.walk(folderPath):
-      for name in files:
-         if(name[0] != "."):
-            path = os.path.join(root, name)
-            label = random.choice(dataset_manager.LABEL_LIST) 
-            fileInfo  = {"fileName" : name, "filePath" : path, "category" : label}
-            log.append(fileInfo)
-   return json.dumps(log, indent = 4)
-"""
 
 def getSplits(docs):
    random.shuffle(docs)
