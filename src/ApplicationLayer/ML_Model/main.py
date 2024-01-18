@@ -61,13 +61,11 @@ test_docs = data_prep.setupDocs(test_dataset)
 classifier.trainClassifier(train_docs, test_docs)"""
 
 
-<<<<<<< HEAD
-
 """texts = [] 
 =======
 """
 texts = [] 
->>>>>>> 251521b793fd0a3abd4d6912835fb7dd2f1eab3d
+
 
 with open("./ProvaClassification.txt", 'rb') as file:
             text = file.read().decode(errors='replace')
