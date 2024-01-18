@@ -17,20 +17,19 @@ def readFile(path, name):
     splitted = []
     splitted = name.split(".")
     fileExtension = splitted[len(splitted) - 1]
-    print(f"ESTENSIONE FILE: {fileExtension}")
     if fileExtension == "docx":
-        fullText = " "
+        fullText = splitted[0]+" "
         doc = docx.Document(path)
         for para in doc.paragraphs:
             fullText += para.text
 
     elif fileExtension == "txt":
-        fullText = " "
+        fullText = splitted[0]+" "
         with open(path,"rb") as file:
             fullText = file.read()
 
     elif fileExtension == "pdf":
-        fullText = " "
+        fullText = splitted[0]+" "
         reader = PdfReader(path)
         page = reader.pages[0] 
         fullText = page.extract_text()
@@ -45,15 +44,20 @@ def classifyFiles(folderPath):
       for name in files:
          if(name[0] != "."):
             path = os.path.join(root, name)
-            text = readFile(path,name)
-            print("\n"+path+"\n")
-            print(text)
+            tmp_name = name.split(".")
+            fileExtension = tmp_name[len(tmp_name) - 1]
+            if fileExtension in ACCEPTED_EXTENSION:
+                print("\nAccepted Extension: "+fileExtension+"\tNome file: "+name)
+                text = readFile(path,name)
+            else:
+                print("NOT Accepted Extension"+fileExtension+"\tNome file:"+name)
+                text = name
             label, probability = classifier.get_prediction(text, nbClassiefier, vectorizer)
-            print(f"{name} probability: {probability}")
+            print(label+" "+str(probability))
             fileInfo  = {"fileName" : name, "filePath" : path, "category" : label}
             log.append(fileInfo)
    return json.dumps(log, indent = 4)
 
-
-folder = "/Users/andrea/Desktop/Cartella_Prova1"
+folder2 = "/Users/andrea/Desktop/Cartella_Prova1"
+folder = "C:\\Users\\genny\\Desktop\\Cartella_Prova1"
 print(classifyFiles(folder))

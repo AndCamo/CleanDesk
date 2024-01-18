@@ -4,6 +4,7 @@ import sys
 import json
 import random
 import pprint
+import numpy as np
 """sys.path.insert(1, f'src{os.sep}ApplicationLayer')
 import ApplicationLayer.ML_Model.dataset_manager as dataset_manager"""
 from sklearn.feature_extraction.text import CountVectorizer
@@ -119,5 +120,13 @@ def get_model():
 
 def get_prediction(text, classifier, vectorizer):
    prediction = classifier.predict(vectorizer.transform([text]))
-   probability = classifier.predict_proba(vectorizer.transform([text]))
-   return prediction[0], probability
+   probabilityList = classifier.predict_proba(vectorizer.transform([text]))
+   tmpList = probabilityList.astype(float).round(3)
+   print(tmpList[0])
+   sorted_array = np.sort(tmpList[0])[::-1]
+   print(sorted_array[0])
+
+   return prediction[0], sorted_array[0]
+
+
+   
