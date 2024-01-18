@@ -16,7 +16,7 @@ PATH_SEPARATOR = os.sep
 LABEL_DICTIONARY = {1 : "Society & Culture", 2 : "Science & Mathematics", 3 : "Health", 4 : "Education & Reference", 5 : "Computers & Internet", 
             6 : "Sports", 7 : "Business & Finance", 8 : "Entertainment & Music", 9 : "Family & Relationships", 10 : "Politics & Government"}
 #LABEL_LIST = list(LABEL_DICTIONARY.values())
-LABEL_LIST = ['PARENTING', 'SPORTS', 'FOOD & DRINK', 'ARTS & CULTURE', 'STYLE & BEAUTY', 'HOME & LIVING', 'BUSINESS', 'TECH', 'ENTERTAINMENT', 'WELLNESS', 'SCIENCE & MATHEMATICS', 'POLITICS', 'TRAVEL']
+LABEL_LIST = ['HOME & LIVING', 'STYLE & BEAUTY', 'POLITICS', 'FOOD & DRINK', 'PARENTING', 'ARTS & CULTURE', 'SPORTS', 'SCIENCE & MATHEMATICS', 'EDUCATION', 'ENTERTAINMENT', 'TECH', 'BUSINESS', 'TRAVEL']
 
 """
 def fakeClassify(folderPath):
@@ -53,11 +53,11 @@ def evaluateClassifierWeighted(title, classifier, vectorizer, x_list, y_list):
     f1 = metrics.f1_score(y_list, y_pred,  average="micro")
 
     print(title)
-    print("--------------PRECISION--------------\n")
+    print("--------------PRECISION--------------")
     print(precision)
-    print("\n--------------RECALL--------------\n")
+    print("\n--------------RECALL--------------")
     print(recall)
-    print("\n--------------F1_SCORE--------------\n")
+    print("\n--------------F1_SCORE--------------")
     print(f1)
 
 def evaluateClassifier(title, classifier, vectorizer, x_list, y_list):
@@ -104,8 +104,10 @@ def trainClassifier(train_docs, test_docs):
    naiveBayesClassifier = MultinomialNB().fit(dtm, y_train)
 
    evaluateClassifierWeighted("Naive Bayes\tTRAIN\t\n", naiveBayesClassifier, vectorizer, x_train, y_train)
-
    evaluateClassifierWeighted("Naive Bayes\tTEST\t\n", naiveBayesClassifier, vectorizer, x_test, y_test)
+
+   evaluateClassifier("Naive Bayes\tTRAIN\t\n", naiveBayesClassifier, vectorizer, x_train, y_train)
+   evaluateClassifier("Naive Bayes\tTEST\t\n", naiveBayesClassifier, vectorizer, x_test, y_test)
 
    # store the classifier
    clf_filename = 'naive_bayes_classiefier.pkl'

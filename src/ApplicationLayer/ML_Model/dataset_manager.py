@@ -141,7 +141,7 @@ def convertDataset():
 def removeUselessCategory(dataset,array):
    for label in array:
       dataset.drop(dataset[dataset["Class"] == label].index, inplace = True)
-   dataset.to_csv(f"dataset{PATH_SEPARATOR}finalDataset.csv", encoding='utf-8', index=False)
+   dataset.to_csv(f"dataset{PATH_SEPARATOR}finalDataset_v5.csv", encoding='utf-8', index=False)
 
 def attachClasses(dataset, array, label):
    attachedClass = []
@@ -155,6 +155,17 @@ def attachClasses(dataset, array, label):
    
    dataframe = pd.DataFrame(attachedClass, columns=['Class', 'Text'])
    dataframe.to_csv(f"dataset{PATH_SEPARATOR}finalDataset.csv", encoding='utf-8', index=False,columns=['Class', 'Text'])
+
+def oversampleData(dataset, labels, amount):
+   for label in labels:
+      tmp_data = dataset[dataset["Class"] == label]
+      duplicateRows = tmp_data.sample(n=amount, ignore_index=False, replace=True)
+
+      for index, row in duplicateRows.iterrows():
+         newRow = {"Class": row[0], "Text": row[1]}
+         dataset = dataset.append(newRow, ignore_index = True)
+   
+   dataset.to_csv(f"dataset{PATH_SEPARATOR}oversapledDataset.csv", encoding='utf-8', index=False,columns=['Class', 'Text'])
 
 def integrateDataFromText(dataset, folderName, label):
    dir = f"/Users/andrea/Desktop/AndCamo/Coding/Python/TextClassification [TEST]/dataset/big_dataset/{folderName}"
@@ -191,7 +202,6 @@ def integrateDataFromCSV(datasetToIntegrate, datasetIntegrator, labelToIntegrate
       if(counter >= number):
          break
 
-   
    datasetToIntegrate.to_csv(f"dataset{PATH_SEPARATOR}finalDataset.csv", encoding='utf-8', index=False,columns=['Class', 'Text'])
 
 def createRandomDataset(dataset, rowsNumber):
@@ -201,13 +211,17 @@ def createRandomDataset(dataset, rowsNumber):
 
    for label in uniqueLabel:
       tmp_data = dataset[dataset["Class"] == label]
-      tmp_data = tmp_data.sample(n=rowsForLabel, ignore_index=False)
+      if len(tmp_data) < rowsForLabel:
+         rows = len(tmp_data)
+      else:
+         rows = rowsForLabel
+      tmp_data = tmp_data.sample(n=rows, ignore_index=False)
       for index, row in tmp_data.iterrows():
          tmp_row = [row[0], row[1]]
          newDataset.append(tmp_row)
 
    random.shuffle(newDataset)
    dataframe = pd.DataFrame(newDataset, columns=['Class', 'Text'])
-   dataframe.to_csv(f"dataset{PATH_SEPARATOR}shortDataset_v2.csv", encoding='utf-8', index=False)
+   dataframe.to_csv(f"dataset{PATH_SEPARATOR}shortRandomDataset.csv", encoding='utf-8', index=False)
 
 

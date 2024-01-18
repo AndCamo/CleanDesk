@@ -8,12 +8,22 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 # GLOBAL VARIABLES
 PATH_SEPARATOR = os.sep
-DATASET_PATH = (f"dataset{PATH_SEPARATOR}shortDatasetNEW.csv")
+DATASET_PATH = (f"dataset{PATH_SEPARATOR}finalDataset_v5.csv")
 
-dataset = pd.read_csv(f"/Users/andrea/Desktop/UNIVERSITÀ/CleanDesk/dataset/finalDatasetOriginalIntegrated.csv")
-print(dataset["Class"].nunique())
 
-dataset_manager.splitDataset(dataset)
+#dataset = pd.read_csv(DATASET_PATH)
+
+#dataset_manager.removeUselessCategory(dataset, ["WELLNESS"])
+
+
+#dataset_manager.splitDataset(dataset)
+
+
+# dataset = pd.read_csv(DATASET_PATH)
+"""count = dataset_manager.countClassValues(dataset)
+print(list(dataset["Class"].unique()))
+for item in count:
+   print(f"{item}\t{count[item]}")"""
 
 #dataset_manager.createShortDataset(50000)
 
@@ -36,7 +46,7 @@ print("DOPO: " + str(len(datasetToIntegrate[datasetToIntegrate["Class"] == label
 
 """
 
-
+"""
 # ----TRAIN MODEL----
 train_dataset = pd.read_csv("dataset"+PATH_SEPARATOR+"train_dataset.csv")
 test_dataset = pd.read_csv("dataset"+PATH_SEPARATOR+"test_dataset.csv")
@@ -46,15 +56,17 @@ print(list(train_dataset["Class"].unique()))
 train_docs = data_prep.setupDocs(train_dataset)
 test_docs = data_prep.setupDocs(test_dataset)
 
-classifier.trainClassifier(train_docs, test_docs)
+classifier.trainClassifier(train_docs, test_docs)"""
 
-"""
+
+
 texts = [] 
 
 with open("./ProvaClassification.txt", 'rb') as file:
             text = file.read().decode(errors='replace')
             texts = text.split("\n")
 
+texts.append("Vito is a boy, a bit of a jerk, studying economics.")
 nbClassiefier, vectorizer = classifier.get_model()
 predictionsTest = []
 for text in texts:
@@ -64,4 +76,3 @@ for text in texts:
 
 dataframe = pd.DataFrame(predictionsTest, columns=['Class', "Text"])
 dataframe.to_csv(f"./predictionTest.csv", encoding='utf-8', index=False)
-"""
