@@ -50,7 +50,7 @@ def classifyFiles(folderPath):
                 print("\nAccepted Extension: "+fileExtension+"\tNome file: "+name)
                 text = readFile(path,name)
             else:
-                print("NOT Accepted Extension"+fileExtension+"\tNome file:"+name)
+                print("NOT Accepted Extension "+fileExtension+"\tNome file:"+name)
                 text = name
             label, probability = classifier.get_prediction(text, nbClassiefier, vectorizer)
             print(label+" "+str(probability))
@@ -58,6 +58,5 @@ def classifyFiles(folderPath):
             log.append(fileInfo)
    return json.dumps(log, indent = 4)
 
-folder2 = "/Users/andrea/Desktop/Cartella_Prova1"
 folder = "C:\\Users\\genny\\Desktop\\Cartella_Prova1"
 print(classifyFiles(folder))

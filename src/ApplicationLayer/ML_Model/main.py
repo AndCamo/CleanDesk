@@ -11,15 +11,13 @@ PATH_SEPARATOR = os.sep
 DATASET_PATH = (f"dataset{PATH_SEPARATOR}finalDataset_v5.csv")
 
 
-#dataset = pd.read_csv(DATASET_PATH)
-
 #dataset_manager.removeUselessCategory(dataset, ["WELLNESS"])
 
 
-#dataset_manager.splitDataset(dataset)
+"""dataset = pd.read_csv(DATASET_PATH)
+dataset_manager.splitDataset(dataset)"""
 
 
-# dataset = pd.read_csv(DATASET_PATH)
 """count = dataset_manager.countClassValues(dataset)
 print(list(dataset["Class"].unique()))
 for item in count:
@@ -47,7 +45,7 @@ print("DOPO: " + str(len(datasetToIntegrate[datasetToIntegrate["Class"] == label
 """
 
 """
-# ----TRAIN MODEL----
+ ----TRAIN MODEL----
 train_dataset = pd.read_csv("dataset"+PATH_SEPARATOR+"train_dataset.csv")
 test_dataset = pd.read_csv("dataset"+PATH_SEPARATOR+"test_dataset.csv")
 
@@ -60,7 +58,7 @@ classifier.trainClassifier(train_docs, test_docs)"""
 
 
 
-texts = [] 
+"""texts = [] 
 
 with open("./ProvaClassification.txt", 'rb') as file:
             text = file.read().decode(errors='replace')
@@ -75,4 +73,4 @@ for text in texts:
     predictionsTest.append(row)
 
 dataframe = pd.DataFrame(predictionsTest, columns=['Class', "Text"])
-dataframe.to_csv(f"./predictionTest.csv", encoding='utf-8', index=False)
+dataframe.to_csv(f"./predictionTest.csv", encoding='utf-8', index=False)"""

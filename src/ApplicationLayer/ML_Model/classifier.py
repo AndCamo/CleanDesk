@@ -122,9 +122,7 @@ def get_prediction(text, classifier, vectorizer):
    prediction = classifier.predict(vectorizer.transform([text]))
    probabilityList = classifier.predict_proba(vectorizer.transform([text]))
    tmpList = probabilityList.astype(float).round(3)
-   print(tmpList[0])
    sorted_array = np.sort(tmpList[0])[::-1]
-   print(sorted_array[0])
 
    return prediction[0], sorted_array[0]
 
