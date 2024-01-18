@@ -12,15 +12,17 @@ let pythonShell
 
 const createWindow = () => {
    mainWindow = new BrowserWindow({
-     width: 800,
-     height: 600,
+      width: 1200,
+      height: 700,
+      'minHeight': 700,
+      'minWidth': 1200,
      webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
      }
    })
  
-   mainWindow.loadFile("./src/InterfaceLayer/app/index.html")
+   mainWindow.loadFile("./src/InterfaceLayer/app/homepage.html")
  }
 
 app.whenReady().then(() => {

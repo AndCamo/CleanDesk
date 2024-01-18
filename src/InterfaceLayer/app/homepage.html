@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../script/fileOrganization_Script.js"></script>
+    <link href="../style/homepageStyle.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>CleanDesk Homepage</title>
+</head>
+<body style="font-size: large;">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+   <div class="container-flex" style="height: 100vh; background-color: whitesmoke; overflow: auto;">
+      <div class="row p-5" style="height: 100%;">
+         <div class="col-4">
+            <div class="leftPanel">
+                  <h3 class="menuText">Organizzazione File</h3>
+                  <hr style="height: 10px; background-color: #FE4600; opacity: 100%;">
+                  <div class="menuButton" onclick="openIndexPage()">
+                     <img class="buttonImage"  src="../assets/newOrg_Icon.png">
+                     <a><h4 class="buttonText">Nuova Organizzazione</h4></a>
+                  </div>
+                  <div class="menuButton">
+                     <img class="buttonImage"  src="../assets/search.png">
+                     <h4 class="buttonText">Visualizza Organizzazione</h4>
+                  </div>
+                  <h3 class="menuText">Gestione Memoria</h3>
+                  <hr style="height: 10px; background-color: #FE4600; opacity: 100%;">
+                  <div class="menuButton">
+                     <img class="buttonImage"  src="../assets/duplicate.png">
+                     <h4 class="buttonText">Ricerca Duplicati</h4>
+                  </div>
+                  <div class="menuButton">
+                     <img class="buttonImage"  src="../assets/statistics.png">
+                     <h4 class="buttonText">Analisi Utilizzo Memoria</h4>
+                  </div>
+            </div>
+         </div>
+         <div class="col-8" style="display: block;">
+            <div class="rightPanel">
+               <img id="homepageLogo" src="../assets/App_Icon_Doc.png">
+            </div>
+         </div>
+      </div>
+   </div>
+   <script>
+      // Funzione lambda per aprire la pagina "index.html"
+      const openIndexPage = () => {
+        window.location.href = 'index.html';
+      };
+    </script>
+</body>
+</html>
