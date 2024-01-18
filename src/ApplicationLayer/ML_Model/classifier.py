@@ -118,5 +118,6 @@ def get_model():
     return classifier, vectorizer
 
 def get_prediction(text, classifier, vectorizer):
-    prediction = classifier.predict(vectorizer.transform([text]))
-    return prediction[0]
+   prediction = classifier.predict(vectorizer.transform([text]))
+   probability = classifier.predict_proba(vectorizer.transform([text]))
+   return prediction[0], probability

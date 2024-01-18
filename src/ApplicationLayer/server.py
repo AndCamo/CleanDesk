@@ -1,13 +1,12 @@
 from flask import Flask, jsonify, request
 import time
-from ML_Model import classifier
-
+from OrganizzazioneFile import ClassificazioneControl
 
 app = Flask(__name__)
 @app.route('/classify', methods=["POST"])
 def getFileClassification():
    pathToClassify = request.json.get("path")
-   result = classifier.fakeClassify(pathToClassify)
+   result = ClassificazioneControl.classifyFiles(pathToClassify)
    return result
 
 @app.route('/test')
