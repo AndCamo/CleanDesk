@@ -12,17 +12,16 @@ class OrganizzazioneControl{
     constructor(){}
 
     async creaReportORG(logEntries,initPath){
-        console.log(logEntries);
         // check if the logEntries is not empty
         if (!logEntries || !Array.isArray(logEntries) || logEntries.length === 0) {
             console.error("Invalid JSON File");
             return;
         }
         const reportDAO = new ReportORG_DAO();
-        let tsDate = new Date();
+        let tdsDate = new Date().toISOString();
 
         //Creating a new temporary ReportBean
-        const reportBean = new ReportORGBean(undefined,"","",initPath, tsDate,"Created");
+        const reportBean = new ReportORGBean(undefined,"","",initPath, tdsDate,"Created");
         
         //Saving in DB
         await reportDAO.saveReportORG(reportBean)
@@ -66,6 +65,18 @@ class OrganizzazioneControl{
 
         const fileManager = new FileManager();
         await fileManager.moveFile(reportBean.id);
+
+        //Updating the Report with a name and a Descriprion 
+        await reportDAO.updateLastReport(reportBean.id,"Nome di prova","Descrizione di prova")
+        .then((obj) =>{
+            console.log(obj);
+        })
+        .catch((err) =>{
+            console.error(err);
+        })
+
+        console.log("Classificazione e spostamento completati")
+
     }
 }
 
