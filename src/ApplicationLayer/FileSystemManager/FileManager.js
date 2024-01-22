@@ -33,21 +33,16 @@ class FileManager{
     async moveFile(reportORG_ID){
         const fileReportDAO = new FileReportDAO(); 
         try{
-            console.log("APPENA ENTRATO IN MOVE");
             let arrayFileReport;
 
             //Calling method to take every bean of a Report Organization by ID
             await fileReportDAO.getAllByReportID(reportORG_ID)
             .then(async (rows) =>{
-                console.log("Entrato nel then");
                 arrayFileReport = rows
             })
             .catch((error) =>{
                 console.error(error);
             });
-
-            console.log("Lunghezza: "+arrayFileReport.length);
-
                 //Creating all directory
                 await this.createDir(arrayFileReport).catch((err)=>{
                     console.error(err);

@@ -37,14 +37,21 @@ app.on('window-all-closed', () => {
  })
 
 
-async function leggiCartella(path){
+async function leggiCartella(path, filters){
   let result;
+   const data = {
+      path: path,
+      filters: filters
+   };
+
+   let requestData = JSON.stringify(data);
+   console.log(requestData);
    await fetch('http://127.0.0.1:5000/classify', {
       method: "POST",
       headers: {
           'Content-Type':"application/json"
       },
-      body: JSON.stringify({"path": path})
+      body: requestData
    })
    .then(response => response.json())
    .then((data) => {
@@ -78,6 +85,16 @@ ipcMain.on('test', (event, data) => {
 
 ipcMain.handle('startOrganization', async (event, data) => {
   let result;
-  result = await leggiCartella(data.folderPath)
+  filters = {
+      content : true,
+      mediaSubFolder: true,
+      othersFolder: true,
+      preserveFolder: false,
+      blacklist: [
+         "/Users/andrea/Desktop/NC23_CleanDesk/RAD/NC23_RAD_V0.9.pdf",
+         "/Users/andrea/Desktop/NC23_CleanDesk/RAD/NC23_SDD_V0.6.pdf"
+   ]
+ }
+  result = await leggiCartella(data.folderPath, filters)
   await creaOrganizzazione(result, data.folderPath)
 })
