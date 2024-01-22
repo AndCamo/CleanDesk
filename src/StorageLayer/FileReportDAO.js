@@ -97,10 +97,20 @@ async function testFunction() {
 
     try {
         await fileReportDAO.removeAll();
-        await fileReportDAO.saveFileReport(fileReportBean);
+        /*await fileReportDAO.saveFileReport(fileReportBean);
         let list = await fileReportDAO.getAll();
         console.log(list);
     } catch (error) {
         console.error("Errore:", error);
-    }
+    }*/
+        /*await fileReportDAO.getAllByReportID(75).then((obj) =>{
+            console.log(obj);
+        })
+        .catch((err) =>{
+            console.error(err)
+        }) */
+    } catch (error) {
+        console.error("Errore:", error);
+    } 
 }
+//testFunction()

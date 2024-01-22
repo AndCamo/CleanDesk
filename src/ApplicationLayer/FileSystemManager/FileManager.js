@@ -16,7 +16,6 @@ class FileManager{
         for(const element of listFileReport){
             try {
                 let pathString = element.PathFinale;
-                console.log(pathString);
                 // check if directory already exists
                 if (!fs.existsSync(pathString)) {
                     fs.mkdirSync(pathString);
@@ -43,6 +42,8 @@ class FileManager{
             .catch((error) =>{
                 console.error(error);
             });
+
+
                 //Creating all directory
                 await this.createDir(arrayFileReport).catch((err)=>{
                     console.error(err);
@@ -52,7 +53,6 @@ class FileManager{
                 for(const item of arrayFileReport){
                     //creazione del pathFinale
                     let newPath = item.PathFinale + separator + item.Nome;
-                    console.log("File: "+item.Nome+"\t Path nuovo: " +newPath);
 
                      //move from oldDirectory to new Directory
                     fs.rename(item.PathPartenza, newPath, (err)=>{
