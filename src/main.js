@@ -125,3 +125,12 @@ ipcMain.handle('viewFromToReportList', async(event,data)=>{
    })
    return list;
 })
+
+ipcMain.handle('viewDetailsReport', async(event, data)=>{
+   let visualizzaControl = new VisualizzaReportControl();
+   let list = await  visualizzaControl.viewDetailsByReportID(data.reportID)
+      .catch((err) =>{
+         console.log(err)
+      });
+   return list;
+})

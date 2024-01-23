@@ -31,6 +31,15 @@ async function viewFromToReports(){
    }
 }
 
+async function viewDetailsByReportID(){
+   let reportID = document.getElementById("reportID").value;
+   let list = await ipcRenderer.invoke('viewDetailsReport',{reportID : reportID});
+
+   for(let i in list){
+      document.getElementById("reportUL").innerHTML += "<li>" + list[i].Nome + list[i].PathPartenza, list[i].PathFinale + "</li>";
+   }
+}
+
 
 
 

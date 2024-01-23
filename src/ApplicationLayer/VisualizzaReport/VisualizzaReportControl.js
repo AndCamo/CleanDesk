@@ -1,4 +1,5 @@
 const { ReportORG_DAO } = require("../../StorageLayer/ReportORG_DAO");
+const { FileReportDAO } = require("../../StorageLayer/FileReportDAO");
 
 
 class VisualizzaReportControl{
@@ -58,17 +59,37 @@ class VisualizzaReportControl{
 
       return reportORGBeanList;
    }
+
+   async viewDetailsByReportID(reportID){
+      let fileReportDAO = new FileReportDAO();
+      let fileReportList = []
+
+      await fileReportDAO.getAllByReportID(reportID)
+         .then((obj) =>{
+            fileReportList = obj;
+         })
+         .catch((err) =>{
+            console.log(err);
+         });
+      return fileReportList;
+   }
+
 }
 
 module.exports = {VisualizzaReportControl};
 
 async function test() {
    const viewControl = new VisualizzaReportControl();
-   let dateFrom = "2024-01-20";
+   /*let dateFrom = "2024-01-20";
    let dateTo = "2024-01-23";
    let list = await viewControl.getUntilReport(dateTo).catch((err)=>{
       console.log(err)
    });
+   console.log(list);*/
+   let list = await viewControl.viewDetailsByReportID("87").catch((err) =>{
+      console.log(err);
+   })
+
    console.log(list);
 }
 //test()
