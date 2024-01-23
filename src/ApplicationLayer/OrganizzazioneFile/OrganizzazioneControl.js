@@ -17,6 +17,7 @@ class OrganizzazioneControl{
             console.error("Invalid JSON File");
             return;
         }
+        
         const reportDAO = new ReportORG_DAO();
         let tdsDate = new Date().toISOString();
 
@@ -33,24 +34,13 @@ class OrganizzazioneControl{
             console.log(message)
         }); 
 
-        /*const fileReportDAO = new FileReportDAO();
-        await fileReportDAO.removeAll().then((obj) =>
-            console.log(obj)
-        ).catch((err) => {
-            console.error(err)
-        })
-*/
-
-
+        
+        // For each file in the folder creates the File Report
         for (const item of logEntries){
 
-            //Instantiate a variable representing the final path
-            let finalPath = initPath + pathSeparator + item.category;
             const fileReportDAO = new FileReportDAO();
-
             //Creating an object FileReport from log
-            const fileReportBean = new FileReportBean(reportBean.id, item.fileName, item.filePath ,finalPath);
-            
+            const fileReportBean = new FileReportBean(reportBean.id, item.fileName, item.filePath ,item.finalPath);
 
             //Saving it in DB
             await fileReportDAO.saveFileReport(fileReportBean)
@@ -80,4 +70,4 @@ class OrganizzazioneControl{
     }
 }
 
-module.exports = { OrganizzazioneControl }
+module.exports = {OrganizzazioneControl}

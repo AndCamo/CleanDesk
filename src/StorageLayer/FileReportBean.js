@@ -1,3 +1,5 @@
+const path = require("path");
+
 class FileReportBean {
     #_idReportORG;
     #_nome;;
@@ -41,6 +43,15 @@ class FileReportBean {
     }
     set pathFinale(newPathFinale) {
       this.#_pathFinale = newPathFinale;
+    }
+
+    get fileDirectory() {
+      let pathFinale = this.#_pathFinale;
+      let pathSplit = pathFinale.split(path.sep)
+      pathSplit.pop();
+      let folderPath = pathSplit.join(path.sep)
+
+      return folderPath
     }
   }
   

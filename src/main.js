@@ -92,8 +92,7 @@ ipcMain.handle('startOrganization', async (event, data) => {
       othersFolder: true,
       preserveFolder: false,
       blacklist: [
-         "/Users/andrea/Desktop/NC23_CleanDesk/RAD/NC23_RAD_V0.9.pdf",
-         "/Users/andrea/Desktop/NC23_CleanDesk/RAD/NC23_SDD_V0.6.pdf"
+         "/Users/andrea/Desktop/Tst/Esercizio_Cart.pdf"
    ]
  }
   result = await leggiCartella(data.folderPath, filters)

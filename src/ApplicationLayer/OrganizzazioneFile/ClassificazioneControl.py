@@ -19,23 +19,19 @@ MEDIA_EXTENSION = {
     }
 
 
-def readFile(path, name):
-    splitted = []
-    splitted = name.split(".")
-    fileExtension = splitted[len(splitted) - 1]
+def readFile(path, fileExtension):
+    fullText = ""
+
     if fileExtension == "docx":
-        fullText = splitted[0]+" "
         doc = docx.Document(path)
         for para in doc.paragraphs:
             fullText += para.text
 
     elif fileExtension == "txt":
-        fullText = splitted[0]+" "
-        with open(path,"rb") as file:
+        with open(path,"r") as file:
             fullText = file.read()
 
     elif fileExtension == "pdf":
-        fullText = splitted[0] + " "
         reader = PdfReader(path)
         page = reader.pages[0] 
         fullText = page.extract_text()
@@ -48,25 +44,26 @@ def classifyFiles(folderPath, filters):
 
    nbClassiefier, vectorizer = classifier.get_model()
    log = []
-   # Initializes the final path with that of the source folder (will be updated with more info)
-   finalPath = folderPath
    # walk all the files in the direcotory
    for root, dirs, files in os.walk(folderPath):
       for name in files:
+         # Initializes the final path with that of the source folder (will be updated with more info)
+         finalPath = folderPath
          # Excludes hidden files
          if(name[0] != "."):
+            filePath = os.path.join(root, name)
             # Excludes the files in the blacklist
-            if path in filters["blacklist"]:
+            if filePath in filters["blacklist"]:
                 continue
             else: # Files that are not blacklisted
                 tmp_name = name.split(".")
-                fileExtension = tmp_name[len(tmp_name) - 1].str.lower()
+                fileExtension = tmp_name[len(tmp_name) - 1].lower()
 
                 if fileExtension in ACCEPTED_CONTENT_EXTENSION and filters["content"] == True:
                     print(f"Content considered for {name}.{fileExtension}")
                     # read the content of the file
-                    fileContent = readFile(path,name)
-                    text = name + " " + fileContent
+                    fileContent = readFile(filePath, fileExtension)
+                    text = name + " " + str(fileContent)
                 else:
                     print(f"Content NOT considered for {name}.{fileExtension}")
                     text = name
@@ -76,9 +73,27 @@ def classifyFiles(folderPath, filters):
                 if probability < 0.4:
                     label = "Others"
 
-                fileInfo  = {"fileName" : name, "filePath" : path, "category" : label}
+                # If requested, preserve the original folder of the file
+                if filters["preserveFolder"]:
+                    finalPath = root
+
+                mediaType = ""
+                mediaFlag = False
+                
+                for media in MEDIA_EXTENSION:
+                        # The File is a media
+                        if fileExtension in MEDIA_EXTENSION[media]:
+                            mediaFlag = True
+                            mediaType = media
+                        # The File is not a media
+                # If requested, create separate folders for media files
+                if mediaFlag and filters["mediaSubFolder"]:
+                    finalPath  = os.path.join(finalPath, label, mediaType)
+                else:
+                    finalPath = os.path.join(finalPath, label)
+                    
+                finalPath = os.path.join(finalPath, name)
+
+                fileInfo  = {"fileName" : name, "filePath" : filePath, "finalPath" :  finalPath, "category" : label}
                 log.append(fileInfo)
    return json.dumps(log, indent = 4)
-
-folder = "C:\\Users\\genny\\Desktop\\Cartella_Prova1"
-print(classifyFiles(folder))

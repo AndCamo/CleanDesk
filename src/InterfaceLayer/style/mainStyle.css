@@ -1,0 +1,57 @@
+.header{
+   background-color: white;
+   outline: #00509D 7px solid;
+   border-radius: 40px;
+   box-sizing: content-box;
+   overflow: auto;
+   padding: 25px;
+   height: 15vh;
+}
+
+.headerButtonContainer{
+   height: 100%;
+}
+
+.headerButton{
+   height: 100%;
+   display: flex; /* Imposta il display a flex per utilizzare il modello di box flessibile */
+   justify-content: left; /* Centra orizzontalmente il contenuto */
+   align-items: center; /* Centra verticalmente il contenuto */
+   font-weight: 600;
+}
+
+.headerButton img{
+   padding: 4px;
+   background-color: white;
+   border-radius: 5px;
+   max-width:100%;
+   max-height:100%;
+}
+
+.headerButton img:hover{
+   outline: #FE4600 5px solid;
+   overflow: hidden;
+   transition: all 250ms;
+   transform: translateY(-2%);
+}
+
+.headerImageContainer{
+   height: 100%;
+   display: flex; /* Imposta il display a flex per utilizzare il modello di box flessibile */
+   justify-content: center; /* Centra orizzontalmente il contenuto */
+   align-items: center; /* Centra verticalmente il contenuto */
+}
+
+.headerImage{
+   max-width:70%;
+   max-height:70%;
+}
+
+.headerTitle{
+   color: #00509D;
+   display: flex; /* Imposta il display a flex per utilizzare il modello di box flessibile */
+   justify-content: left; /* Centra orizzontalmente il contenuto */
+   align-items: center; /* Centra verticalmente il contenuto */
+   font-size: 4.5vw;
+   font-weight: 700;
+}
