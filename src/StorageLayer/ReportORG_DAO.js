@@ -51,8 +51,9 @@ class ReportORG_DAO{
         const connection = await getConnection().catch((error) => {
             throw (error);
         });
-        let query = "SELECT * FROM ReportORG WHERE DataReport <= ?";
 
+        let query = "SELECT * FROM ReportORG WHERE DataReport <= ?";
+        console.log("Dentro il DAO")
         return await new Promise((resolve, reject) => {
             connection.all(query, [dateTo], (err, rows) => {
                 if (err) {

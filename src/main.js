@@ -3,6 +3,7 @@ const { testFunction } = require("./StorageLayer/storageTest.js");
 const { OrganizzazioneControl } = require("./ApplicationLayer/OrganizzazioneFile/OrganizzazioneControl.js");
 const { spawn } = require('child_process');
 const {PythonShell} = require('python-shell');
+const { VisualizzaReportControl } = require ("./ApplicationLayer/VisualizzaReport/VisualizzaReportControl.js")
 
 require('electron-reload')(__dirname);
 
@@ -80,4 +81,30 @@ ipcMain.handle('startOrganization', async (event, data) => {
   let result;
   result = await leggiCartella(data.folderPath)
   await creaOrganizzazione(result, data.folderPath)
+})
+
+ipcMain.handle('viewAllReportList', async (event, data) =>{
+   let visualizzaControl = new VisualizzaReportControl();
+   let list = await visualizzaControl.getAllReports().catch((err) =>{
+      console.log(err);
+   });
+   return list;
+})
+
+ipcMain.handle('viewUntilReportsList', async (event , data) =>{
+   let visualizzaControl = new VisualizzaReportControl();
+   let list = await visualizzaControl.getUntilReport(data.dataTo)
+   .catch((err) =>{
+      console.log(err);
+   });
+   return list;
+})
+
+ipcMain.handle('viewFromToReportList', async(event,data)=>{
+   let visualizzaControl = new VisualizzaReportControl();
+   let list = await visualizzaControl.getFromToReport(data.dateFrom, data.dateTo)
+   .catch((err) =>{
+      console.log(err);
+   })
+   return list;
 })

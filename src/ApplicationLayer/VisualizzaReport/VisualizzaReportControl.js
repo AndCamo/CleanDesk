@@ -1,59 +1,74 @@
 const { ReportORG_DAO } = require("../../StorageLayer/ReportORG_DAO");
 
 
-class VisualizzazioneReportControl{
+class VisualizzaReportControl{
    constructor(){}
 
-   async viewReports(dateFrom, dateTo){
+   async getAllReports(){ //taking all the reports
       let reportORG_DAO = new ReportORG_DAO();
       let reportORGBeanList = [];
 
-      if(dateTo == ""  && dateFrom == ""){ // Taking all the reports
-         console.log("NOT Date FROM and NOT TO\n");
-         await reportORG_DAO.getAll().then((objs) =>{
-            console.log("All Obj:", objs);
-            reportORGBeanList = objs;
-         })
-         .catch((err) =>{
-            console.error(err.message);
-         });
-      }
-      else if(dateTo == "" && dateFrom != ""){ //Taking all from a specified date to now
-         console.log("Date FROM but NOT Date TO \n");
-         let date = new Date().toISOString().slice(0,10);
-         await reportORG_DAO.getFromDateTo(dateFrom,date).then((objs) =>{
-         console.log("All Obj:", objs);
+      await reportORG_DAO.getAll().then((objs) =>{
          reportORGBeanList = objs;
-         });
-      }
-      else if(dateTo != "" && dateFrom == ""){ //taking all from first to a specified date
-         console.log("NOT Date FROM but Date TO \n");
-         await reportORG_DAO.getReportUntil(dateTo).then((objs) =>{
-         console.log("All Obj:", objs);
+      })
+      .catch((err) =>{
+         console.error(err.message);
+      });
+
+      return reportORGBeanList;
+   }
+
+   async getAllFromReports(dateFrom){ //Taking all from a specified date to now
+      let reportORG_DAO = new ReportORG_DAO();
+      let reportORGBeanList = [];
+      let date = new Date().toISOString().slice(0,10);
+
+      await reportORG_DAO.getFromDateTo(dateFrom,date).then((objs) =>{
          reportORGBeanList = objs;
-         });
-      }
-      else if(dateTo != "" && dateFrom != ""){ //taking from a specified date to a specified date
-         console.log("Date FROM and Date TO insered\n");
-         await reportORG_DAO.getFromDateTo(dateFrom,dateTo)
+      }).catch((err) =>{
+         console.error(err);
+      });
+      return reportORGBeanList;
+   }
+
+   async getUntilReport(dateTo){ //taking all from first to a specified date
+      let reportORG_DAO = new ReportORG_DAO();
+      let reportORGBeanList = [];
+      console.log("Visualizza Report Control" + dateTo)
+      await reportORG_DAO.getReportUntil(dateTo).then((objs) =>{
+         reportORGBeanList = objs;
+      })
+      .catch((err) =>{
+         console.error(err);
+      })
+      return reportORGBeanList;
+   }
+
+   async getFromToReport(dateFrom,dateTo){ //Taking the report from a specified date, to a specified date
+      let reportORG_DAO = new ReportORG_DAO();
+      let reportORGBeanList = [];
+
+      await reportORG_DAO.getFromDateTo(dateFrom,dateTo)
          .then((obj) =>{
             reportORGBeanList = obj;
-            console.log("All Obj: ", obj);
          })
          .catch((err) =>{
             console.error(err);
-         })
-         
-      }
-   return reportORGBeanList;
+         });
+
+      return reportORGBeanList;
    }
 }
 
-async function test() {
-   const viewControl = new VisualizzazioneReportControl();
-   let dateFrom = "2024-01-20";
-   let dateTo = "2024-01-22";
-   let list = viewControl.viewReports(dateFrom, dateTo);
-}
+module.exports = {VisualizzaReportControl};
 
+async function test() {
+   const viewControl = new VisualizzaReportControl();
+   let dateFrom = "2024-01-20";
+   let dateTo = "2024-01-23";
+   let list = await viewControl.getUntilReport(dateTo).catch((err)=>{
+      console.log(err)
+   });
+   console.log(list);
+}
 //test()

@@ -20,7 +20,7 @@
                      <img class="buttonImage"  src="../assets/newOrg_Icon.png">
                      <a><h4 class="buttonText">Nuova Organizzazione</h4></a>
                   </div>
-                  <div class="menuButton">
+                  <div class="menuButton" onclick="openViewPage()">
                      <img class="buttonImage"  src="../assets/search.png">
                      <h4 class="buttonText">Visualizza Organizzazione</h4>
                   </div>
@@ -48,6 +48,10 @@
       const openIndexPage = () => {
         window.location.href = 'index.html';
       };
+
+      const openViewPage = () =>{
+         window.location.href = 'visualizzaOrganizzazione.html'
+      } 
     </script>
 </body>
 </html>
