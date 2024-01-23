@@ -39,7 +39,7 @@ class ReportORG_DAO{
                         console.log("Errore nella getFromDateTo!");
                         reject(err);
                     } else {
-                        console.log(dateFrom+"\n"+dateTo)
+                        console.log("DATA1: "+dateFrom+"\n"+"DATA2: "+dateTo)
                         resolve(rows);
                     }
                     connection.close();
@@ -53,7 +53,6 @@ class ReportORG_DAO{
         });
 
         let query = "SELECT * FROM ReportORG WHERE DataReport <= ?";
-        console.log("Dentro il DAO")
         return await new Promise((resolve, reject) => {
             connection.all(query, [dateTo], (err, rows) => {
                 if (err) {
