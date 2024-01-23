@@ -1,0 +1,35 @@
+.reportORGrow{
+   border: #00509D 5px solid ;
+   border-radius: 5vh;
+   color: black; 
+   font-weight: 500;
+   vertical-align: middle;
+   line-height: normal;
+   display: inline-block;
+   font-size: 20px;
+}
+
+.headRow{
+   background-color: #00509D;
+   border-radius: 20vh;
+   color: whitesmoke;
+   font-weight: bold;
+}
+
+.detailsButton{
+   align-items: right !important;
+   text-align: center;
+   color: #FE4600;
+   font-weight: bold;
+   border-radius: 5px;
+   box-shadow: 5px 5px 2px #bbb;
+   height: min-content;
+   width: 150px !important;
+}
+
+.detailsButton:hover{
+   color: whitesmoke;
+   background-color: #FE4600;
+   animation-duration: 3s;
+   cursor: pointer;
+}
