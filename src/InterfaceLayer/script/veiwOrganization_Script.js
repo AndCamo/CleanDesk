@@ -12,7 +12,7 @@ async function viewAllReports(){
       '<div class = "col-2">' + list[i].Nome + '</div>'+
       '<div class="col-3">'+ list[i].Descrizione + '</div>'+
       '<div class = "col-1">'+ list[i].DataReport + '</div>'+
-      '<div class = "col-4">'+ list[i].NomeCartella + '</div>'+
+      '<div class = "col-4 descriptionCell" >'+ list[i].NomeCartella + '</div>'+
       '<div class = "col-2 detailsButton" onclick="viewDetailsByReportID()">'+
       '<input type="hidden" id='+list[i].ID+'">'+
       'Visualizza </div>';

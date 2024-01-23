@@ -1,11 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,700&display=swap');
+
+body {
+   font-family: Montserrat;
+   background-color: whitesmoke;
+}
+
 .header{
-   background-color: white;
+   background-color: white !important;
    outline: #00509D 7px solid;
    border-radius: 40px;
-   box-sizing: content-box;
    overflow: auto;
    padding: 25px;
    height: 15vh;
+   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 .headerButtonContainer{
@@ -13,6 +20,7 @@
 }
 
 .headerButton{
+   background-color: white;
    height: 100%;
    display: flex; /* Imposta il display a flex per utilizzare il modello di box flessibile */
    justify-content: left; /* Centra orizzontalmente il contenuto */
@@ -25,7 +33,7 @@
    background-color: white;
    border-radius: 5px;
    max-width:100%;
-   max-height:100%;
+   margin-right: 0;
 }
 
 .headerButton img:hover{
@@ -37,6 +45,7 @@
 
 .headerImageContainer{
    height: 100%;
+   background-color: white;
    display: flex; /* Imposta il display a flex per utilizzare il modello di box flessibile */
    justify-content: center; /* Centra orizzontalmente il contenuto */
    align-items: center; /* Centra verticalmente il contenuto */
@@ -44,6 +53,7 @@
 
 .headerImage{
    max-width:70%;
+   background-color: white;
    max-height:70%;
 }
 
@@ -52,6 +62,6 @@
    display: flex; /* Imposta il display a flex per utilizzare il modello di box flessibile */
    justify-content: left; /* Centra orizzontalmente il contenuto */
    align-items: center; /* Centra verticalmente il contenuto */
-   font-size: 4.5vw;
-   font-weight: 700;
+   font-size: 3em;
+   font-weight: 800;
 }
