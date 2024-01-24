@@ -5,6 +5,7 @@ async function viewAllReports(){
    let container = document.getElementById('main-container');
    
    for(let i in list){
+      let idReport = list[i].ID;
       let newDiv = document.createElement('div');
       newDiv.classList.add("row", "m-5","p-3", "reportORGrow", "align-items-center");
       
@@ -14,7 +15,7 @@ async function viewAllReports(){
       '<div class = "col-2" style="text-align: center">'+ list[i].DataReport + '</div>'+
       '<div class = "col-4 descriptionCell" >'+ list[i].NomeCartella + '</div>'+
       '<div class = "col-2 detailsButton" onclick="viewDetailsByReportID()">'+
-      '<input type="hidden" id='+list[i].ID+'">'+
+      '<input type="hidden" id="reportID" value="'+idReport+'">'+
       'Visualizza </div>';
 
       container.appendChild(newDiv);
@@ -45,10 +46,24 @@ async function viewFromToReports(){
 
 async function viewDetailsByReportID(){
    let reportID = document.getElementById("reportID").value;
+   //window.location.href='viewDetailsReport.html';
+   console.log("ReportID nello Script: "+ reportID);
    let list = await ipcRenderer.invoke('viewDetailsReport',{reportID : reportID});
+   let container = document.getElementById('main-container');
 
    for(let i in list){
+      let finalPath = "";
+      finalPath = list[i].PathFinale;
+      console.log("Nel for dello script: "+finalPath);
+      let newDiv = document.createElement('div');
+      newDiv.classList.add("row", "m-5","p-3", "reportORGrow", "align-items-center");
 
+      newDiv.innerHTML = 
+      '<div class = "col-4">' + list[i].Nome + '</div>'+
+      '<div class = "col-4">' + list[i].PathPartenza + '</div>'+
+      '<div class = "col-4">' + list[i].PathFinale + '</div>';
+
+      container.appendChild(newDiv);
    }
 }
 
