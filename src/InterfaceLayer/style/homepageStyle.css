@@ -60,3 +60,7 @@
    width: 65%;
 }
 
+
+::-webkit-scrollbar {
+   display: none;
+ }

@@ -39,7 +39,6 @@ class ReportORG_DAO{
                         console.log("Errore nella getFromDateTo!");
                         reject(err);
                     } else {
-                        console.log("DATA1: "+dateFrom+"\n"+"DATA2: "+dateTo)
                         resolve(rows);
                     }
                     connection.close();
