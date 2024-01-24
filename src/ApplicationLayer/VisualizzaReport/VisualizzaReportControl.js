@@ -61,6 +61,7 @@ class VisualizzaReportControl{
    }
 
    async viewDetailsByReportID(reportID){
+      console.log("Report nella servlet: "+reportID)
       let fileReportDAO = new FileReportDAO();
       let fileReportList = []
 

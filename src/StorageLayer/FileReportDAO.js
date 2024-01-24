@@ -27,6 +27,7 @@ class FileReportDAO{
     }
 
     async getAllByReportID(reportID) {
+        console.log("ReportID nel DAO: "+reportID)
         const connection = await getConnection()
         .catch((error) => {
             throw (error);

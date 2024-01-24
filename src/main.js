@@ -127,6 +127,7 @@ ipcMain.handle('viewFromToReportList', async(event,data)=>{
 })
 
 ipcMain.handle('viewDetailsReport', async(event, data)=>{
+   console.log("Qui sono nel Main: "+data.reportID);
    let visualizzaControl = new VisualizzaReportControl();
    let list = await  visualizzaControl.viewDetailsByReportID(data.reportID)
       .catch((err) =>{
