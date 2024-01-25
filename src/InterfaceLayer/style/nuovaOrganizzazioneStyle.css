@@ -20,6 +20,7 @@
 #blacklist{
   border: #FE4600 4px solid;
   padding: 20px 40px;
+  color: gray;
   border-radius: 10px;
 }
 
@@ -28,7 +29,7 @@
    display: inline-block;
    width: 60px;
    height: 34px;
- }
+}
  
  .switch input { 
    opacity: 0;
@@ -82,3 +83,72 @@
  .slider.round:before {
    border-radius: 50%;
  }
+
+ button#select-folder-button {
+  font-size: 17px;
+  font-weight: 600;
+  padding: 0.5em 2em;
+  border: transparent;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  color: #FE4600;
+  background-color: white;
+  border-radius: 4px;
+  border: #FE4600 4px solid;
+  transition: all 250ms;
+ }
+ 
+ button#select-folder-button:hover {
+  background: #FE4600;
+  color: white;
+ }
+ 
+ button#select-folder-button:active {
+  transform: translate(0em, 0.2em);
+ }
+
+ #folder-path{
+  border: #FE4600 4px solid;
+  color: black;
+  padding: 0 15px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  height: 100%;
+ }
+
+ 
+.startButton {
+  background-color: white;
+  border: #FE4600 5px solid !important;
+  height: 5em;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 450ms ease-in-out;
+}
+
+.sparkle {
+  fill: #FE4600;
+  transition: all 800ms ease;
+}
+
+.text {
+  font-weight: 900;
+  color: #FE4600;
+  font-size: larger;
+}
+
+.startButton:hover {
+  background: linear-gradient(to right top, #fe4600, #fe5300, #fe5f00, #fe6900, #fe7300);
+  box-shadow: rgba(255, 89, 0, 0.366) 0px 19px 38px, rgba(255, 115, 0, 0.126) 0px 15px 12px;
+  transform: translateY(-2px);
+  transition: all 250ms;
+}
+
+.startButton:hover .text {
+  color: white;
+}
+
+.startButton:hover .sparkle {
+  fill: white;
+  transform: scale(1.2);
+  transition: all 250ms;
+} 

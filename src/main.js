@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, dialog } = require('electron')
 const { testFunction } = require("./StorageLayer/storageTest.js");
 const { OrganizzazioneControl } = require("./ApplicationLayer/OrganizzazioneFile/OrganizzazioneControl.js");
 const { spawn } = require('child_process');
@@ -99,6 +99,18 @@ ipcMain.handle('startOrganization', async (event, data) => {
   result = await leggiCartella(data.folderPath, filters)
   await creaOrganizzazione(result, data.folderPath)
 })
+
+
+// Add this part to your code
+ipcMain.on('open-folder-dialog', function (event) {
+   dialog.showOpenDialog(mainWindow, {
+     properties: ['openDirectory'],
+   }).then(result => {
+     if (!result.canceled) {
+       event.sender.send('selected-folder', result.filePaths[0]);
+     }
+   });
+ });
 
 ipcMain.handle('viewAllReportList', async (event, data) =>{
    let visualizzaControl = new VisualizzaReportControl();
