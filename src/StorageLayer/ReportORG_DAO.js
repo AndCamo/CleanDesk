@@ -133,9 +133,28 @@ class ReportORG_DAO{
             connection.close()
         });
     }
+
+    async getReportByID(reportID){
+        const connection = await getConnection()
+        .catch((err) =>{
+            throw(err)
+        });
+        return new Promise((resolve,reject) =>{
+            let query ="SELECT * FROM ReportORG WHERE ID = ?";
+        connection.run(query,[reportID], (err) =>{
+            if(err){
+                reject(err)
+            }
+            else{
+                resolve(row);
+            }
+        });
+        connection.close();
+    });
+    }
 }
 
-function compareDate(data){
+/*function compareDate(data){
     //Casting the string to date
     let dataIn = new Date(data).getTime(); 
 
@@ -156,7 +175,7 @@ function compareDate(data){
         throw err;
     }
         
-}
+}*/
 module.exports = {ReportORG_DAO}
 
 async function sleep(ms) {

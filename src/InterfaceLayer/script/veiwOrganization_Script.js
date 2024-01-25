@@ -14,7 +14,7 @@ async function viewAllReports(){
       '<div class="col-2">'+ list[i].Descrizione + '</div>'+
       '<div class = "col-2" style="text-align: center">'+ list[i].DataReport + '</div>'+
       '<div class = "col-4 descriptionCell" >'+ list[i].NomeCartella + '</div>'+
-      '<div class = "col-2 detailsButton" onclick="viewDetailsByReportID()">'+
+      '<div class = "col-2 detailsButton" onclick="openDetails('+idReport+')">'+
       '<input type="hidden" id="reportID" value="'+idReport+'">'+
       'Visualizza </div>';
 
@@ -45,11 +45,14 @@ async function viewFromToReports(){
 }
 
 async function viewDetailsByReportID(){
-   let reportID = document.getElementById("reportID").value;
-   //window.location.href='viewDetailsReport.html';
-   console.log("ReportID nello Script: "+ reportID);
-   let list = await ipcRenderer.invoke('viewDetailsReport',{reportID : reportID});
-   let container = document.getElementById('main-container');
+   let tmp = new URLSearchParams(window.location.search);
+   let IDReport = tmp.get('idReport');
+
+   console.log("ReportID nello Script: "+ IDReport);
+
+
+   let list = await ipcRenderer.invoke('viewDetailsReport',{reportID : IDReport});
+   let container = document.getElementById('middle-container');
 
    for(let i in list){
       let finalPath = "";
@@ -65,6 +68,10 @@ async function viewDetailsByReportID(){
 
       container.appendChild(newDiv);
    }
+}
+
+async function getReportByID(){
+   let reportORG = await 
 }
 
 

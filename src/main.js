@@ -126,8 +126,7 @@ ipcMain.handle('viewFromToReportList', async(event,data)=>{
    return list;
 })
 
-ipcMain.handle('viewDetailsReport', async(event, data)=>{
-   console.log("Qui sono nel Main: "+data.reportID);
+ipcMain.handle('viewDetailsReport', async(event, data) => {
    let visualizzaControl = new VisualizzaReportControl();
    let list = await  visualizzaControl.viewDetailsByReportID(data.reportID)
       .catch((err) =>{
@@ -135,3 +134,12 @@ ipcMain.handle('viewDetailsReport', async(event, data)=>{
       });
    return list;
 })
+
+ipcMain.handle('getReportByID'), async(event, data) => {
+   let visualizzaControl = new VisualizzaReportControl();
+   let reportORG = await visualizzaControl.getReportByID(data.reportID)
+   .catch((err) => {
+      console.log(err);
+   });
+   return reportORG;
+}

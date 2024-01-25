@@ -75,6 +75,19 @@ class VisualizzaReportControl{
       return fileReportList;
    }
 
+   async getReportByID(reportID){
+      let reportORG_DAO = new ReportORG_DAO();
+      let reportORGBean;
+      await reportORG_DAO.getReportByID(reportID)
+         .then((obj) =>{
+            reportORGBean = obj; 
+      })
+         .catch((err) =>{
+            console.log(err);
+      });
+      return reportORGBean;
+   }
+
 }
 
 module.exports = {VisualizzaReportControl};
