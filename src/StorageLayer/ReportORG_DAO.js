@@ -140,17 +140,17 @@ class ReportORG_DAO{
             throw(err)
         });
         return new Promise((resolve,reject) =>{
-            let query ="SELECT * FROM ReportORG WHERE ID = ?";
-        connection.run(query,[reportID], (err) =>{
-            if(err){
-                reject(err)
-            }
-            else{
-                resolve(row);
-            }
+            let query = "SELECT * FROM ReportORG WHERE ID = ?";
+            let data = [reportID];
+            connection.run(query, data, (err, row) =>{
+                if(err){
+                    reject(err);
+                }
+                else{
+                    resolve(row);
+                }
+            });
         });
-        connection.close();
-    });
     }
 }
 
