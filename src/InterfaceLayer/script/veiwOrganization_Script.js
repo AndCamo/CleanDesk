@@ -1,5 +1,7 @@
 const { ipcRenderer } = require('electron');
 const {path} = require("path")
+const pathRegexMac = /^(?:\/(?:[^\/:]+\/)*)?(?:[^\/\s]+)?$/;
+const pathRegexWindows = /^(?:[a-zA-Z\s]:\\|\\\\)(?:[^\\\s:]+\\)(?:[^\/:<>"?|]+)?$/;
 
 
 async function determinateOS(){
@@ -109,11 +111,9 @@ async function viewDetailsByReportID(){
    for(let i in list){
       let initialFolder;
       let finalFolder;
-
-      if(determinateOS() == "Windows"){
-         let datas = list[i].PathPartenza.split("\\");
-         console.log("datas: ");
-         console.log(datas);
+      currentPath = list[i].PathPartenza;
+      if(pathRegexWindows.test(currentPath)){
+         let datas = list[i].PathPartenza.split('\\');
          initialFolder = datas.join("\\"+" ");
          let values = list[i].PathFinale.split("\\");
          finalFolder = values.join("\\"+" ");
