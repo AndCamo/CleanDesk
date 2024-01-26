@@ -140,9 +140,9 @@ class ReportORG_DAO{
             throw(err)
         });
         return new Promise((resolve,reject) =>{
-            let query = "SELECT * FROM ReportORG WHERE ID = ?";
-            let data = [reportID];
-            connection.run(query, data, (err, row) =>{
+            console.log(reportID);
+            let query = "SELECT * FROM ReportORG WHERE ID = "+ reportID;
+            connection.all(query, (err, row) =>{
                 if(err){
                     reject(err);
                 }
@@ -196,7 +196,7 @@ async function testFunction(){
         console.log(err);
     })*/
 
-    await reportORG_DAO.removeAll().then((obj) =>{
+    /*await reportORG_DAO.removeAll().then((obj) =>{
         console.log(obj);
     })
     .catch((err) =>{
@@ -221,6 +221,14 @@ async function testFunction(){
 
 
     /*await reportORG_DAO.getAll().then((obj) =>{
+        console.log(obj);
+    })
+    .catch((err) =>{
+        console.error(err)
+    })*/
+
+     /*await reportORG_DAO.getReportByID(104)
+     .then((obj) =>{
         console.log(obj);
     })
     .catch((err) =>{
