@@ -18,7 +18,7 @@ function updateBlacklistBox(list) {
    if (list.length == 0) {
       document.getElementById('blacklist').innerHTML = "La Blacklist è vuota!";
    } else {
-      document.getElementById('blacklist').innerHTML = " ";
+      document.getElementById('blacklist').innerHTML = "";
       for (const file of list) {
          let newElement = ('<b>' + file.name + '</b> <u>[' + file.path + ']</u><br>')
          document.getElementById('blacklist').innerHTML += newElement
@@ -67,14 +67,18 @@ function checkFolderPath(path) {
       return false;
    }
 
-   // Check correctness testing category
-   ipcRenderer.invoke('isDirectory', {path : path}).then((isDirectory) => {
-      console.log(isDirectory)
-      if (!isDirectory){
-         alert("🚫 \n Impossibile avviare la classificazione, Il Path riferisce ad un File, fornire una cartella");
+        // Check correctness testing category
+      ipcRenderer.invoke('isDirectory', {path : path})
+      .then((isDirectory) => {
+         console.log(isDirectory)
+         if (!isDirectory){
+            alert("🚫 \n Impossibile avviare la classificazione, Il Path riferisce ad un File, fornire una cartella");
+            return false;
+         }
+      }).catch((error) => {
+         alert("🚫 \n Impossibile avviare la classificazione, il path inserito non esiste!");
          return false;
-      }
-   })
+      });
 
    // Check admissibility testing category
    for (let item of deniedPaths){
@@ -99,9 +103,13 @@ ipcRenderer.on('selected-folder', function (event, path) {
    folderPath = path;
    console.log('Selected folder:', folderPath);
    if (checkFolderPath(path)) {
+      updateFolderPreview();
       document.getElementById("folder-path").value = folderPath;
    } else {
       document.getElementById("folder-path").value = "";
+      let previewBox = document.getElementById("folderPreviewBox");
+      previewBox.innerHTML = "Inserisci una cartella per visualizzare l'anteprima.";
+      document.getElementById("folderPreview").style.height = "max-content";
    }
 });
 
@@ -110,17 +118,49 @@ function updateFolderPath() {
    folderPath = text;
    if (checkFolderPath(folderPath)) {
       document.getElementById("folder-path").value = folderPath;
+      updateFolderPreview();
    } else {
       document.getElementById("folder-path").value = "";
+      let previewBox = document.getElementById("folderPreviewBox");
+      previewBox.innerHTML = "Inserisci una cartella per visualizzare l'anteprima.";
+      document.getElementById("folderPreview").style.height = "max-content";
    }
 }
 
 
+async function updateFolderPreview(){
+   ipcRenderer.invoke("getFolderPreview", { folderPath: folderPath})
+      .then((folderContent) => {
+         let previewBox = document.getElementById("folderPreviewBox");
+         let icon = "";
+         console.log(folderContent);
+         previewBox.innerHTML = "";
+         for (let item of folderContent){
+            if (item.isDir){
+               icon = '<i class="fa-regular fa-folder-open previewIcon"></i>'
+            } else {
+               icon = '<i class="fa-regular fa-file-lines previewIcon"></i>'
+            }
+            let tmpBox = document.getElementById("folderPreview");
+            tmpBox.style.height = "25vh"
+            
+            let newDiv = document.createElement('div');
+            newDiv.classList.add("col-4", "previewItem");
+            let newElement = icon + ('<b>' + item.fileName + '</b>');
+            newDiv.innerHTML += newElement;
+
+            previewBox.appendChild(newDiv);
+         }
+      }).catch((error) => {
+         document.getElementById("folderPreviewBox").innerHTML = "Inserisci una cartella per visualizzare l'anteprima.";
+         document.getElementById("folderPreview").style.height = "max-content";
+      })
+}
 
 
 
 function startOrganization() {
-   path = document.getElementById("folder-path").value;
+   let path = folderPath;
 
    if (checkFolderPath(path)) {
       const tmpBlacklist = []
@@ -136,15 +176,22 @@ function startOrganization() {
          blacklist: tmpBlacklist
       };
       console.log(filters);
-
-      
+      document.getElementById("organizationResult").style.display = "block";
       ipcRenderer.invoke("startOrganization", { folderPath: path, filters, filters })
-         .then((result) => {
-            alert("ORGANIZZAZIONE EFFETTUATA!")
+         .then(async(result) => {
+            // if the ok button is clicked, result will be true (boolean)
+            var result = confirm( "✅ \n Organizzazione effettuata");
+            if ( result ) {
+               window.location.href = 'homepage.html';
+            } else {
+               window.location.href = 'homepage.html';
+            }
+            window.location.href = 'homepage.html';
          }).catch((error) => {
+            document.getElementById("organizationResult").innerHTML = "ERRORE";
+            window.location.href = 'homepage.html';
             alert("ERRORE" + error)
          })
-   
    }
 }
 
@@ -153,3 +200,7 @@ function connectionTest() {
 }
 
 
+// Funzione lambda per aprire la pagina "index.html"
+const openHomePage = () => {
+   window.location.href = 'homepage.html';
+};

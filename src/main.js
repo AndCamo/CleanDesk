@@ -3,7 +3,10 @@ const { testFunction } = require("./StorageLayer/storageTest.js");
 const { OrganizzazioneControl } = require("./ApplicationLayer/OrganizzazioneFile/OrganizzazioneControl.js");
 const { spawn } = require('child_process');
 const {PythonShell} = require('python-shell');
-const { VisualizzaReportControl } = require ("./ApplicationLayer/VisualizzaReport/VisualizzaReportControl.js")
+const { promises: Fs } = require('fs')
+const { VisualizzaReportControl } = require ("./ApplicationLayer/VisualizzaReport/VisualizzaReportControl.js");
+const { Console, error } = require('console');
+const { resolve } = require('path');
 
 require('electron-reload')(__dirname);
 
@@ -101,7 +104,7 @@ ipcMain.handle('startOrganization', async (event, data) => {
 })
 
 
-// Add this part to your code
+// folder chooser
 ipcMain.on('open-folder-dialog', function (event) {
    dialog.showOpenDialog(mainWindow, {
      properties: ['openDirectory'],
@@ -112,6 +115,55 @@ ipcMain.on('open-folder-dialog', function (event) {
    });
  });
 
+ async function isDirectory(path) {  
+   const stats = await Fs.stat(path)
+
+   return stats.isDirectory()
+ }
+
+
+ipcMain.handle('isDirectory', async (event, data) => {
+   console.log(data.path);
+   let flag = await isDirectory(data.path)
+   .catch((error) => {
+      throw error;
+   });
+
+   return flag;
+ });
+
+
+async function getFolderContent(path) {
+   let folderContent = [];
+
+   return await new Promise((resolve, reject) => {
+      Fs.readdir(path, { withFileTypes: true }, (err, files) => {
+         if (err)
+            reject(err);
+         else {
+            files.forEach(file => {
+               let name = file.name
+               if (!name.startsWith(".")) {
+                  let fileInfo = { fileName: name, isDir: file.isDirectory() };
+                  folderContent.push(fileInfo);
+               }
+            })
+            resolve(folderContent);
+         }
+      });
+   });
+}
+
+ ipcMain.handle("getFolderPreview", async (event, data) => {
+   let path = data.folderPath;
+
+   let list = await getFolderContent(path).catch((error) => {
+      throw(error)
+   });
+   
+   return list;
+ })
+
 ipcMain.handle('viewAllReportList', async (event, data) =>{
    let visualizzaControl = new VisualizzaReportControl();
    let list = await visualizzaControl.getAllReports().catch((err) =>{
@@ -119,6 +171,8 @@ ipcMain.handle('viewAllReportList', async (event, data) =>{
    });
    return list;
 })
+
+
 
 ipcMain.handle('viewUntilReportsList', async (event , data) =>{
    let visualizzaControl = new VisualizzaReportControl();
@@ -155,4 +209,5 @@ ipcMain.handle('viewDetailsReport', async(event, data) => {
       });
    return list;
 })
+
 

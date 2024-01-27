@@ -17,6 +17,31 @@
    font-weight: 500;
 }
 
+#folderPreview{
+  border: #FE4600 4px solid;
+  padding: 20px 40px;
+  color: gray;
+  border-radius: 10px;
+  overflow: auto;
+}
+
+.previewIcon{
+  color: #FE4600; 
+  font-size:1.8em; 
+  margin-right: 15px;
+}
+
+.previewItem{
+  color: #171717;
+  padding: 1em 0;
+  word-break: break-all;
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+}
+
+
+
 #blacklist{
   border: #FE4600 4px solid;
   padding: 20px 40px;
