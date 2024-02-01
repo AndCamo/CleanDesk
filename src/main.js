@@ -89,18 +89,12 @@ ipcMain.on('test', (event, data) => {
 })
 
 ipcMain.handle('startOrganization', async (event, data) => {
-  let result;
-  filters = {
-      content : true,
-      mediaSubFolder: true,
-      othersFolder: true,
-      preserveFolder: false,
-      blacklist: [
-         "/Users/andrea/Desktop/Tst/Esercizio_Cart.pdf"
-   ]
- }
-  result = await leggiCartella(data.folderPath, filters)
-  await creaOrganizzazione(result, data.folderPath)
+   let result;
+   let filters = data.filters;
+   result = await leggiCartella(data.folderPath, filters)
+
+   return result;
+  //await creaOrganizzazione(result, data.folderPath)
 })
 
 

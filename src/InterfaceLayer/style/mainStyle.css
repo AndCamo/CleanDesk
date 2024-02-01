@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,700&display=swap');
 
+* {
+   font-family: Montserrat;
+}
 body {
    font-family: Montserrat;
    background-color: whitesmoke;
@@ -65,3 +68,40 @@ body {
    font-size: 3em;
    font-weight: 800;
 }
+
+
+.defaultButton{
+  background-color: white;
+  border: #FE4600 5px solid !important;
+  padding: 0.8em 2em;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 450ms ease-in-out;
+}
+
+.buttonIcon {
+   color: #FE4600;
+   transition: all 400ms ease;
+   margin: 0 5px;
+ }
+ 
+ .buttonText {
+   font-weight: 800;
+   color: #FE4600;
+   font-size: larger;
+ }
+
+.defaultButton:hover {
+   background: linear-gradient(to right top, #fe4600, #fe5300, #fe5f00, #fe6900, #fe7300);
+   transition: all 250ms;
+ }
+ 
+ .defaultButton:hover .buttonText {
+   color: white;
+ }
+ 
+ .defaultButton:hover .buttonIcon {
+   color: white;
+   font-size: 1.2em;
+   transition: all 250ms;
+ } 

@@ -70,8 +70,9 @@ def classifyFiles(folderPath, filters):
 
                 label, probability = classifier.get_prediction(text, nbClassiefier, vectorizer)
                 # Create the label "Others" for files with uncertain classification
+                print(probability)
                 if probability < 0.4:
-                    label = "Others"
+                    label = "OTHERS"
 
                 # If requested, preserve the original folder of the file
                 if filters["preserveFolder"]:

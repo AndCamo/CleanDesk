@@ -17,12 +17,12 @@
    font-weight: 500;
 }
 
-#folderPreview{
+#folderPreviewBox{
   border: #FE4600 4px solid;
   padding: 20px 40px;
   color: gray;
   border-radius: 10px;
-  overflow: auto;
+  overflow: auto !important;
 }
 
 .previewIcon{
@@ -148,6 +148,7 @@
   border-radius: 10px;
   cursor: pointer;
   transition: all 450ms ease-in-out;
+  margin-bottom: 4vh;
 }
 
 .sparkle {

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../script/fileOrganization_Script.js"></script>
+    <script src="../script/mainScript.js"></script>
     <link href="../style/homepageStyle.css" rel="stylesheet">
     <link href="../style/mainStyle.css" rel="stylesheet">
     <link href="../style/nuovaOrganizzazioneStyle.css" rel="stylesheet">
@@ -15,7 +16,7 @@
 </head>
 <body style="background-color: whitesmoke;">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <div class="container-xxl" style="height: 100vh; background-color: whitesmoke; overflow: auto;" id="main-container">
+    <div class="container-xxl" style="height: 100vh; background-color: whitesmoke;" id="main-container">
         <div class="row p-2 m-5 header">
             <div class="col-3 headerButtonContainer" >
                 <div class="row" style="height: 50%;" >
@@ -27,7 +28,7 @@
                     </div>
                 </div>
                 <div class="row" style=" height: 50%;">
-                    <div class="col-3 headerButton" onclick="openLoadingPage()">
+                    <div class="col-3 headerButton" onclick="openPreviewPage()">
                         <img class="headerImage"  src="../assets/settings.png">
                     </div>
                     <div class="col-9 headerButton">
@@ -56,6 +57,7 @@
             </div>
             <div class="row folderSection">
                 <div class="col-12" id="folderPreview">
+                    Anteprima della selezione:
                     <div class="row" id="folderPreviewBox">
                         Inserisci una cartella per visualizzare l'anteprima.
                     </div>
@@ -130,7 +132,7 @@
             <div class="row p-2 titleRow">
                 <div class="col-12">🚀</div>
             </div>
-            <div class="row folderSection">
+            <div class="row folderSection" id="buttonRow">
                 <div class="col-3" style="text-align: center;"></div>
                 <div class="col-6" style="text-align: center;">
                     <button class="startButton" onclick="startOrganization()">
@@ -142,10 +144,7 @@
                 </div>
                 <div class="col-3" style="text-align: center;"></div>
             </div>
-            <div class="row p-2 titleRow">
-                <div class="col-12">RISULTATO</div>
-            </div>
-            <div class="row folderSection" style="display: none;" id="organizationResult">
+            <div class="row folderSection" id="organizationResult">
                 <div class="col-12">
                     <div class="loader">
                         <div class="loaderBar"></div>
@@ -155,10 +154,12 @@
         </div>
     </div>
     <script>
+        document.getElementById("buttonRow").style.display = "flex";
+        document.getElementById("organizationResult").style.display = "none";
 
         // Funzione lambda per aprire la pagina "index.html"
-        const openLoadingPage = () => {
-          window.location.href = 'loadingPage.html';
+        const openPreviewPage = () => {
+          window.location.href = 'previewPage.html';
         };
     </script>
 </body>

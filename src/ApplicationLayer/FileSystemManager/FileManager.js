@@ -20,7 +20,6 @@ class FileManager {
                 // check if directory already exists
                 if (!fs.existsSync(pathString)) {
                     fs.mkdirSync(pathString, { recursive: true });
-                    console.log("Directory is created.");
                 } else {
                     console.log("Directory already exists.");
                 }
@@ -74,12 +73,9 @@ function testFunction() {
         let path2 = "C:\\Users\\genny\\Desktop\\Cartella_Prova1\\Prova2";
         let finalPath = path2 + "\\" + "File1.txt";
         let initialPath = path + "\\" + "File1.txt";
-        console.log(initialPath);
         fs.rename(initialPath, finalPath, function (err) {
             if (err) throw err
-            console.log('Successfully renamed - AKA moved!')
         })
-        console.log("Path cambiato correttamente")
     }
     catch (err) {
         console.log("Errore nella rename");

@@ -1,7 +1,7 @@
 const { ipcRenderer } = require('electron');
 const { link } = require('original-fs');
 
-const pathRegexMac = /^(?:\/(?:[^\/:]+\/)*)?(?:[^\/\s]+)?$/;
+const pathRegexMac = /^(?:\/(?:[^\/:]+\/)*)?(?:[^\/]+)?$/;
 const pathRegexWindows = /^(?:[a-zA-Z\s]:\\|\\\\)(?:[^\\\s:]+\\)(?:[^\/:<>"?|]+)?$/;
 const deniedPaths = ["/Library", "/Applications", "/System", "C:\\Windows", "C:\\Program Files (x86)", "C:\\Program Files", "C:\\ProgramData", "C:\\Recovery"]
 
@@ -11,6 +11,11 @@ let blacklist = [];
 let folderPath = "";
 
 window.onload = function () {
+   folderPath = document.getElementById("folder-path").value;
+   console.log("ON LOAD");
+   console.log(folderPath);
+   if(folderPath != "")
+      updateFolderPreview();
    updateBlacklistBox(blacklist);
 };
 
@@ -70,7 +75,6 @@ function checkFolderPath(path) {
         // Check correctness testing category
       ipcRenderer.invoke('isDirectory', {path : path})
       .then((isDirectory) => {
-         console.log(isDirectory)
          if (!isDirectory){
             alert("🚫 \n Impossibile avviare la classificazione, Il Path riferisce ad un File, fornire una cartella");
             return false;
@@ -99,9 +103,7 @@ function insertFolderPath() {
 
 // Get the folder choosed
 ipcRenderer.on('selected-folder', function (event, path) {
-   console.log(path)
    folderPath = path;
-   console.log('Selected folder:', folderPath);
    if (checkFolderPath(path)) {
       updateFolderPreview();
       document.getElementById("folder-path").value = folderPath;
@@ -133,7 +135,6 @@ async function updateFolderPreview(){
       .then((folderContent) => {
          let previewBox = document.getElementById("folderPreviewBox");
          let icon = "";
-         console.log(folderContent);
          previewBox.innerHTML = "";
          for (let item of folderContent){
             if (item.isDir){
@@ -142,7 +143,7 @@ async function updateFolderPreview(){
                icon = '<i class="fa-regular fa-file-lines previewIcon"></i>'
             }
             let tmpBox = document.getElementById("folderPreview");
-            tmpBox.style.height = "25vh"
+            previewBox.style.height = "25vh"
             
             let newDiv = document.createElement('div');
             newDiv.classList.add("col-4", "previewItem");
@@ -176,17 +177,15 @@ function startOrganization() {
          blacklist: tmpBlacklist
       };
       console.log(filters);
+      document.getElementById("buttonRow").style.display = "none";
       document.getElementById("organizationResult").style.display = "block";
       ipcRenderer.invoke("startOrganization", { folderPath: path, filters, filters })
-         .then(async(result) => {
+         .then(async (organizationLog) => {
             // if the ok button is clicked, result will be true (boolean)
-            var result = confirm( "✅ \n Organizzazione effettuata");
-            if ( result ) {
-               window.location.href = 'homepage.html';
-            } else {
-               window.location.href = 'homepage.html';
-            }
-            window.location.href = 'homepage.html';
+            console.log(organizationLog);
+            sessionStorage.setItem("log", JSON.stringify(organizationLog));
+            alert( "✅ \n Organizzazione effettuata");
+            openPreviewPage();
          }).catch((error) => {
             document.getElementById("organizationResult").innerHTML = "ERRORE";
             window.location.href = 'homepage.html';
@@ -198,9 +197,3 @@ function startOrganization() {
 function connectionTest() {
    ipcRenderer.send("test");
 }
-
-
-// Funzione lambda per aprire la pagina "index.html"
-const openHomePage = () => {
-   window.location.href = 'homepage.html';
-};
