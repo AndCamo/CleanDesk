@@ -17,10 +17,11 @@ async function viewAllReports(){
    let container = document.getElementById('main-container');
    
    for(let i in list){
+      let currentPath = list[i].NomeCartella;
       let finalFolder;
-      if(determinateOS() == "Windows"){
-         let values = list[i].NomeCartella.split(path.win32.sep);
-         finalFolder = values.join(path.win32.sep + " ");
+      if(pathRegexWindows.test(currentPath)){
+         let values = list[i].NomeCartella.split('\\');
+         finalFolder = values.join("\\"+ " ");
       }else{
          let values = list[i].NomeCartella.split("/");
          finalFolder = values.join("/ ");
@@ -33,7 +34,7 @@ async function viewAllReports(){
       
       newDiv.innerHTML = 
       '<div class = "col-2">' + list[i].Nome + '</div>'+
-      '<div class = "col-3">'+ list[i].Descrizione + '</div>'+
+      '<div class="col-3">'+ list[i].Descrizione + '</div>'+
       '<div class = "col-2">'+ list[i].DataReport + '</div>'+
       '<div class = "col-3 descriptionCell" >'+ finalFolder + '</div>'+
       '<div class = "col-1 detailsButton" onclick="openDetails('+idReport+')">'+
@@ -72,42 +73,10 @@ async function getReportByID(IDReport){
    return reportORG;
 }
 
-async function viewDetailsByReportID(){
-   //taking the params from URL
-   let tmp = new URLSearchParams(window.location.search);
-
-   //taking the param "idReport"
-   let IDReport = tmp.get('idReport');
-   console.log(IDReport);
-
-   let reportORG = await getReportByID(IDReport).catch((err) =>{
-      console.log(err);
-   });
-
-   console.log("Report nome: "+reportORG[0].Nome);
-   console.log("Report data: "+reportORG[0].DataReport);
-
-
-
-   //taking the div "headRow"
-   let headRow = document.getElementById('titleRow');
-
-   //creating a new div col
-   let headInfo = document.createElement('div');
-
-   headInfo.innerHTML = 
-   ' <div class="col-12"> Dettagli organizzazione "' + reportORG[0].Nome +
-   '" del giorno: '+ reportORG[0].DataReport + '</div>';
-
-   headRow.appendChild(headInfo);
-   
-   //Taking all re fileReport by ReportID
-   let list = await ipcRenderer.invoke('viewDetailsReport',{reportID : IDReport});
-
+async function printListDetails(list){
    //taking the html element container
    let container = document.getElementById('main-container');
-
-   //creating and adding a new div with fileReport data
+   
    for(let i in list){
       let initialFolder;
       let finalFolder;
@@ -134,10 +103,101 @@ async function viewDetailsByReportID(){
 
       container.appendChild(newDiv);
    }
+
 }
 
+async function viewAllDetails(){
+   //taking the params from URL
+   let tmp = new URLSearchParams(window.location.search);
 
+   //taking the param "idReport"
+   let IDReport = tmp.get('idReport');
 
+   let reportORG = await getReportByID(IDReport).catch((err) =>{
+      console.log(err);
+   });
 
+   //taking the div "headRow"
+   let headRow = document.getElementById('titleRow');
 
+   //creating a new div col
+   let headInfo = document.createElement('div');
+   headInfo.replaceWith(" ");
 
+   headInfo.innerHTML = 
+   ' <div class="col-12"> Dettagli organizzazione "' + reportORG[0].Nome +
+   '" del giorno: '+ reportORG[0].DataReport + '</div>';
+
+   headRow.appendChild(headInfo);
+   
+   //Taking all re fileReport by ReportID
+   let list = await ipcRenderer.invoke('viewDetailsReport',{reportID : IDReport});
+   
+   //creating and adding a new div with fileReport data
+   printListDetails(list);
+   
+}
+
+async function eseguiRicerca(input, list){
+   let resultList = [];
+
+   for(let i in list){
+      let nameFile = String(list[i].Nome).toLowerCase(); 
+      if(nameFile.includes(input)){
+         console.log(nameFile)
+         resultList.push(list[i]);
+      }
+   }
+   return resultList;
+}
+
+async function showFiltered(list, input){
+
+   let resultList = await eseguiRicerca(input, list).catch((err) =>{
+      console.log(err);
+   });
+ 
+   printListDetails(resultList);
+}
+
+async function fillHeadRow(IDReport){
+   let reportORG = await getReportByID(IDReport).catch((err) =>{
+      console.log(err);
+   });
+   
+
+   let headRow = document.getElementById('titleRow');
+
+   //creating a new div col
+   let headInfo = document.createElement('div');
+
+   headInfo.innerHTML = 
+   ' <div class="col-12"> Dettagli organizzazione "' + reportORG[0].Nome +
+   '" del giorno: '+ reportORG[0].DataReport + '</div>';
+
+   headRow.appendChild(headInfo);
+
+}
+
+async function showList(){
+   let tmp = new URLSearchParams(window.location.search);
+
+   //taking id of report
+   let IDReport = tmp.get('idReport');
+
+   //taking filter
+   let filter = tmp.get('filter');
+   await fillHeadRow(IDReport);
+   //fill headRow with name and Date of report
+   
+   let list = await ipcRenderer.invoke('viewDetailsReport',{reportID : IDReport});
+
+   if(filter == 'off'){//show all file report
+      printListDetails(list)
+   }
+   else  { 
+      //show only saerched file
+      let input = tmp.get('query').toLowerCase();
+      showFiltered(list,input)
+   }
+}

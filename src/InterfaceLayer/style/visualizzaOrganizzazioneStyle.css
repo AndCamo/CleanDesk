@@ -43,3 +43,21 @@
 .descriptionCell{
    word-break: break-all;
 }
+
+.resetButton{
+   margin-left: 2vh;
+   background-color: whitesmoke;
+   color: #fe4600;
+   font-weight: bold;
+   border-color: whitesmoke;
+   border-radius: 1em;
+   box-shadow: 5px 5px #bbb;
+}
+
+.resetButton:hover{
+   background-color: #FE4600;
+   color: whitesmoke;
+   border-color: #FE4600;
+   border-style: solid;
+   box-shadow: 0px 0px 5px 5px #bbb;
+}

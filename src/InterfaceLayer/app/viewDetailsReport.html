@@ -13,7 +13,7 @@
         <title>Visualizza Organizzazione</title>
      </head>
 
-<body style="background-color: whitesmoke;" onload="viewDetailsByReportID()">
+<body style="background-color: whitesmoke;" onload="showList()">
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
    <div class="container-xxl" style="height: 100vh; background-color: whitesmoke; overflow: auto;">
       <div class="row p-2 m-5 header">
@@ -43,7 +43,24 @@
          </div>
      </div>
      <div class="main-container m-5" id="main-container">
+        </br>
+        <div class="row folderSection">
+            <div class="col-5 justify-content">
+                <button class="resetButton" onclick="clearFilter()">RESET</button>
+            </div>
+            <div class="col-5">
+            <span style="border: #fe4600;">
+                <input type="text" id="search_bar" placeholder="Search file" style="border: #fe4600 3px solid; border-radius: 1em;">
+                <button onclick="showListFiltered()" style="border:none; background-color: #fe4600; border: #fe4600 3px solid; border-radius: 0.7em;"><i class="fa-solid fa-magnifying-glass" style="color: white"></i></button>
+            </span>
+            </div>
+        </div>
         <div class="row m-5 p-2 headRow" id="titleRow">
+        </div>
+        <div class="row m-5 p-2 titleRow">
+            <div class="col-4">Nome</div>
+            <div class="col-4">Path iniziale</div>
+            <div class="col-4">Path finale</div>
         </div>
     </div>
    </div>
@@ -51,6 +68,18 @@
       const undoPage = () => {
         window.location.href = 'visualizzaOrganizzazione.html';
       };
+      const showListFiltered = () => {
+        let tmp = new URLSearchParams(window.location.search);
+        let id = tmp.get('idReport');
+        let input = document.getElementById("search_bar").value;
+        window.location.href = 'viewDetailsReport.html?idReport='+id+'&filter=on&query='+input;
+      };
+
+      const clearFilter = () => {
+        let tmp = new URLSearchParams(window.location.search);
+        let id = tmp.get('idReport');
+        window.location.href = 'viewDetailsReport.html?idReport='+id+'&filter=off';
+      }
    </script>
 </body>
 </html>
