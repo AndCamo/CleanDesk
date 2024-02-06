@@ -70,6 +70,25 @@ body {
 }
 
 
+.defaultInput{
+   border: #FE4600 4px solid;
+   color: black;
+   padding: 0 15px;
+   border-radius: 10px;
+   box-sizing: border-box;
+   height: 100%;
+   width: 100%;
+  }
+
+.defaultTextarea{
+   border: #FE4600 4px solid;
+   color: black;
+   padding: 15px;
+   border-radius: 10px;
+   box-sizing: border-box;
+   height: 100%;
+   width: 100%;
+}
 .defaultButton{
   background-color: white;
   border: #FE4600 5px solid !important;

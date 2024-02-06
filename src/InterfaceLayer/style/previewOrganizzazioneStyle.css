@@ -7,3 +7,10 @@
 .preview{
    font-size: 1.15em;
 }
+
+.previewPath{
+   word-break: break-all;
+   white-space: nowrap;
+   overflow: hidden !important;
+   text-overflow: ellipsis;
+}

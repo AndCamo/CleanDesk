@@ -1,10 +1,14 @@
+const { ipcRenderer } = require('electron');
+
 let logs = [];
 let categories = ['POLITICS', 'SPORTS', 'BUSINESS', 'PARENTING', 'TECH', 'ARTS & CULTURE', 'SCIENCE & MATHEMATICS', 'STYLE & BEAUTY', 'TRAVEL', 'FOOD & DRINK', 'ENTERTAINMENT', 'HOME & LIVING', 'EDUCATION', 'OTHERS'];
 
 
-// Funzione lambda per aprire la pagina "index.html"
-const cancelOrganization = () => {
+// Funzione per annullare l'organizzazione"
+const cancelPreviewOrganization = () => {
    logs = [];
+   sessionStorage.removeItem("log");
+   
    history.back();
 };
 
@@ -24,12 +28,30 @@ async function getLogByCategory(category){
    }
 
    return logList;
+}
 
+function updateLogCategory(path){
+   let updatedLogs = [];
+   selectElement = document.getElementById(path);
+   newCategory = selectElement.value;
+
+   for (let item of logs){
+      if(item.filePath == path){
+         let tmpCategory = item.category;
+         let tmpFinalPath = item.finalPath;
+         item["category"] = newCategory;
+         item["finalPath"] = tmpFinalPath.replace(tmpCategory, newCategory);
+      }
+      updatedLogs.push(item);
+   }
+   logs = updatedLogs;
+   sessionStorage.removeItem("log")
+   sessionStorage.setItem("log",  JSON.stringify(updatedLogs));
+   location.reload();
 }
 
 async function showPreview(){
    await getLog();
-
 
    previewContainer = document.getElementById("previewContainer");
    if (logs.length === 0){
@@ -55,6 +77,11 @@ async function showPreview(){
 
             categorySelect = document.createElement("select");
             categorySelect.classList.add("categorySelect")
+            categorySelect.setAttribute("id", item.filePath)
+            let onchangeQuery = "updateLogCategory('" + item.filePath + "')";
+
+            categorySelect.setAttribute("onchange", onchangeQuery);
+
             for (let category of categories) {
                let newOption = document.createElement("option");
                newOption.innerHTML = category;
@@ -62,12 +89,12 @@ async function showPreview(){
                if (category == item.category) {
                   newOption.setAttribute("selected", "selected");
                }
-
                categorySelect.appendChild(newOption);
             }
-            newRow.innerHTML = '<div class = "col-6">' + item.fileName + '</div>';
+            newRow.innerHTML += '<div class = "col-4">' + item.fileName + '</div>';
+            newRow.innerHTML += '<div class = "col-4 previewPath" title="' + item.filePath + '">' + item.filePath + '</div>';
             let tmp = document.createElement("div");
-            tmp.classList.add("col-6", "d-flex", "justify-content-end");
+            tmp.classList.add("col-3", "d-flex", "justify-content-end");
             tmp.appendChild(categorySelect);
       
             newRow.appendChild(tmp);
@@ -76,5 +103,16 @@ async function showPreview(){
          previewContainer.appendChild(categoryPreview);
       }
    }
+}
 
+async function organizeFiles(){
+   await getLog();
+   
+   let folderPath = JSON.parse(sessionStorage.getItem("folderPath"));
+   document.getElementById("previewButtonRow").style.display = "none";
+   document.getElementById("previewResult").style.display = "block";
+   
+   let reportOrg = await ipcRenderer.invoke("organizeFile", { folderPath: folderPath, logs: JSON.stringify(logs)});
+   sessionStorage.setItem("reportOrg", reportOrg);
+   window.location.href = 'detailOrgPage.html';
 }

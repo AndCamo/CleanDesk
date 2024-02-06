@@ -181,9 +181,9 @@ function startOrganization() {
       document.getElementById("organizationResult").style.display = "block";
       ipcRenderer.invoke("startOrganization", { folderPath: path, filters, filters })
          .then(async (organizationLog) => {
-            // if the ok button is clicked, result will be true (boolean)
             console.log(organizationLog);
             sessionStorage.setItem("log", JSON.stringify(organizationLog));
+            sessionStorage.setItem("folderPath", JSON.stringify(path));
             alert( "✅ \n Organizzazione effettuata");
             openPreviewPage();
          }).catch((error) => {

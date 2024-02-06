@@ -108,6 +108,27 @@ class ReportORG_DAO{
         });
     }
 
+    async removeByID(reportID){
+        const connection = await getConnection()
+        .catch((error) => {
+            throw (error);
+        });
+
+        return new Promise((resolve, reject) => {
+            let query = "DELETE FROM ReportORG WHERE ID = "+ reportID;
+            console.log(query);
+            
+            connection.run(query, function(err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    console.log(`Rows deleted ${this.changes}`);
+                    resolve();
+                }
+            });
+        });
+    }
+
     async updateLastReport(reportID,nome, descrizione){
         const connection = await getConnection()
         .catch((err) =>{
@@ -154,28 +175,6 @@ class ReportORG_DAO{
     }
 }
 
-/*function compareDate(data){
-    //Casting the string to date
-    let dataIn = new Date(data).getTime(); 
-
-    //Exact date and time
-    let tdsDate = new Date().getTime();
-
-    try{
-        if (dataIn < tdsDate) {
-            console.log("Correct Date");
-            return true;
-        } else {
-            console.log("Not correct Date");
-            return false;
-        }
-    }
-    catch(err){
-        console.log("Not correct Date")
-        throw err;
-    }
-        
-}*/
 module.exports = {ReportORG_DAO}
 
 async function sleep(ms) {

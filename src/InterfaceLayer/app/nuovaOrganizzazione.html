@@ -52,7 +52,7 @@
                     <button id="select-folder-button" onclick="insertFolderPath()">Scegli Cartella</button>
                 </div>
                 <div class="col-9" sl="background-color: red">
-                    <input type="text" id="folder-path" spellcheck="false" placeholder="Inserisci il path della cartella" size="70" onchange="updateFolderPath()">
+                    <input type="text" class="defaultInput" id="folder-path" spellcheck="false" placeholder="Inserisci il path della cartella" size="70" onchange="updateFolderPath()">
                 </div>
             </div>
             <div class="row folderSection">
@@ -157,7 +157,6 @@
         document.getElementById("buttonRow").style.display = "flex";
         document.getElementById("organizationResult").style.display = "none";
 
-        // Funzione lambda per aprire la pagina "index.html"
         const openPreviewPage = () => {
           window.location.href = 'previewPage.html';
         };

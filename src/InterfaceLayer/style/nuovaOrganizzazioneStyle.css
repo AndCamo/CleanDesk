@@ -130,16 +130,6 @@
  button#select-folder-button:active {
   transform: translate(0em, 0.2em);
  }
-
- #folder-path{
-  border: #FE4600 4px solid;
-  color: black;
-  padding: 0 15px;
-  border-radius: 10px;
-  box-sizing: border-box;
-  height: 100%;
- }
-
  
 .startButton {
   background-color: white;

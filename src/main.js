@@ -21,7 +21,7 @@ const createWindow = () => {
       'minHeight': 720,
       'minWidth': 1200,
       autoHideMenuBar: true,
-     webPreferences: {
+      webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
      }
@@ -69,7 +69,9 @@ async function leggiCartella(path, filters){
 
 async function creaOrganizzazione(log, initPath){
    const organizzazioneControl = new OrganizzazioneControl();
-   await organizzazioneControl.creaReportORG(log, initPath);
+   let reportOrg = await organizzazioneControl.creaReportORG(log, initPath);
+   console.log("IN CREA", reportOrg.id);
+   return reportOrg;
 }
 
 ipcMain.on('test', (event, data) => {
@@ -92,11 +94,16 @@ ipcMain.handle('startOrganization', async (event, data) => {
    let result;
    let filters = data.filters;
    result = await leggiCartella(data.folderPath, filters)
-
    return result;
-  //await creaOrganizzazione(result, data.folderPath)
+  
 })
 
+ipcMain.handle('organizeFile', async(event, data) => {
+   let filesLog = JSON.parse(data.logs);
+   let folderPath = data.folderPath;
+   let reportOrg = await creaOrganizzazione(filesLog, folderPath);
+   return reportOrg.id;
+})
 
 // folder chooser
 ipcMain.on('open-folder-dialog', function (event) {
@@ -205,3 +212,12 @@ ipcMain.handle('viewDetailsReport', async(event, data) => {
 })
 
 
+ipcMain.handle('deleteOrganization', async (event, data) => {
+   const organizzazioneControl = new OrganizzazioneControl();
+   await organizzazioneControl.deleteReportORG(data.reportID);
+ });
+
+ ipcMain.handle('saveOrganization', async (event, data) => {
+   const organizzazioneControl = new OrganizzazioneControl();
+   await organizzazioneControl.updateReportInfo(data.reportID, data.name, data.description);
+ });
