@@ -112,13 +112,8 @@ async function showPreview(){
    let folderPath = JSON.parse(sessionStorage.getItem("folderPath"));
    document.getElementById("previewButtonRow").style.display = "none";
    document.getElementById("previewResult").style.display = "block";
-
-
-
    ipcRenderer.on('reportId', (event, arg) => {
-      console.log(arg) // prints "pong" in the DevTools console
       sessionStorage.setItem("reportOrg", arg);
-      openPreviewPage();
    })
    ipcRenderer.send("organizeFile", { folderPath: folderPath, logs: JSON.stringify(logs)}) 
 

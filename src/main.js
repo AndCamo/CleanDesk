@@ -109,6 +109,7 @@ ipcMain.on('organizeFile', async(event, data) => {
    let reportOrg = await creaOrganizzazione(filesLog, folderPath);
    console.log("DOPOOOOOOOO")
    event.reply('reportId', reportOrg.id);
+   mainWindow.loadFile("./src/InterfaceLayer/app/detailOrgPage.html");
 })
 
 // folder chooser
