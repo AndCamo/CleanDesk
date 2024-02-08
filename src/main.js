@@ -72,10 +72,12 @@ async function leggiCartella(path, filters){
 } 
 
 async function creaOrganizzazione(log, initPath){
-   const organizzazioneControl = new OrganizzazioneControl();
-   let reportOrg = await organizzazioneControl.creaReportORG(log, initPath);
-   console.log("IN CREA", reportOrg.id);
-   return reportOrg;
+   return await new Promise(async (resolve, reject) => {
+      const organizzazioneControl = new OrganizzazioneControl();
+      let reportOrg = await organizzazioneControl.creaReportORG(log, initPath);
+      console.log("IN CREA", reportOrg.id);
+      resolve(reportOrg);
+   });
 }
 
 ipcMain.on('test', (event, data) => {
@@ -106,9 +108,15 @@ ipcMain.on('organizeFile', async(event, data) => {
    let filesLog = JSON.parse(data.logs);
    let folderPath = data.folderPath;
    console.log("PRIMAAAAAAA")
-   let reportOrg = await creaOrganizzazione(filesLog, folderPath);
-   console.log(`${__dirname}`)
-   mainWindow.loadURL(`file://${__dirname}/InterfaceLayer/app/detailOrgPage.html?id=${reportOrg.id}`);
+   creaOrganizzazione(filesLog, folderPath)
+   .then((reportOrg) => {
+      console.log("DENTRO IL THEN")
+      mainWindow.loadURL(`file://${__dirname}/InterfaceLayer/app/detailOrgPage.html?id=${reportOrg.id}`);
+   })
+   .catch(() => {
+      mainWindow.loadURL(`file://${__dirname}/InterfaceLayer/app/detailOrgPage.html?id=${reportOrg.id}`);
+   });
+   
 })
 
 // folder chooser
