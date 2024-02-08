@@ -31,6 +31,7 @@ async function getLogByCategory(category){
 }
 
 function updateLogCategory(path){
+   console.log(path);
    let updatedLogs = [];
    selectElement = document.getElementById(path);
    newCategory = selectElement.value;
@@ -78,7 +79,7 @@ async function showPreview(){
             categorySelect = document.createElement("select");
             categorySelect.classList.add("categorySelect")
             categorySelect.setAttribute("id", item.filePath)
-            let onchangeQuery = "updateLogCategory('" + item.filePath + "')";
+            let onchangeQuery = "updateLogCategory(String.raw`" + item.filePath + "`)";
 
             categorySelect.setAttribute("onchange", onchangeQuery);
 
@@ -105,14 +106,28 @@ async function showPreview(){
    }
 }
 
-async function organizeFiles(){
-   await getLog();
+ function organizeFiles(){
+   getLog();
    
    let folderPath = JSON.parse(sessionStorage.getItem("folderPath"));
    document.getElementById("previewButtonRow").style.display = "none";
    document.getElementById("previewResult").style.display = "block";
-   
-   let reportOrg = await ipcRenderer.invoke("organizeFile", { folderPath: folderPath, logs: JSON.stringify(logs)});
-   sessionStorage.setItem("reportOrg", reportOrg);
-   window.location.href = 'detailOrgPage.html';
+   console.log("Cambio pagina");
+   alert("Cambio pagina");
+
+   ipcRenderer.invoke("organizeFile", { folderPath: folderPath, logs: JSON.stringify(logs)})
+   .then(async (reportOrg) => {
+      
+      sessionStorage.setItem("reportOrg", reportOrg);
+      
+      openPreviewPage();
+   }).catch((error) => {
+      console.log(error);
+   }).finally(() => {
+      window.location.href = 'detailOrgPage.html';
+   });
 }
+
+function openPreviewPage(){
+   window.location.href = 'detailOrgPage.html';
+ };

@@ -99,6 +99,7 @@ ipcMain.handle('startOrganization', async (event, data) => {
 })
 
 ipcMain.handle('organizeFile', async(event, data) => {
+   console.log("Sono nel main.js");
    let filesLog = JSON.parse(data.logs);
    let folderPath = data.folderPath;
    let reportOrg = await creaOrganizzazione(filesLog, folderPath);

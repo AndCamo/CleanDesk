@@ -46,17 +46,27 @@
         </br>
         <div class="row folderSection">
             <div class="col-5 justify-content">
-                <button class="resetButton" onclick="clearFilter()">RESET</button>
+                <button class="resetButton" onclick="clearFilter()">Reset</button>
             </div>
-            <div class="col-5">
+            <div class="col-5" style="height: 4vh">
             <span style="border: #fe4600;">
-                <input type="text" id="search_bar" placeholder="Search file" style="border: #fe4600 3px solid; border-radius: 1em;">
+                <input type="text" class="searchInput" id="search_bar" placeholder="Search file">
                 <button onclick="showListFiltered()" style="border:none; background-color: #fe4600; border: #fe4600 3px solid; border-radius: 0.7em;"><i class="fa-solid fa-magnifying-glass" style="color: white"></i></button>
             </span>
             </div>
         </div>
         <div class="row m-5 p-2 headRow" id="titleRow">
+            <div class="col-8 itemt-align-center">Nome dell'Organizzazione</div>
         </div>
+        <div class="row m-5 p-2">
+            <div class="col-6" style="font-weight: bolder; color: #00509D; font-size: 1.3em">DESCRIZIONE</div>
+            <div class="col-5" style="margin-left: 3.8em;">ANNO-MESE-GIORNO</div>
+            <div class="row p-3">
+                <div class="col-6 detailsReport">Descrizione Descrizione Descrizione Descrizione Descrizione Descrizione</div>
+                <div class="col-4 detailsReport">ANNO-MESE-GIORNO</div>
+            </div>
+        </div>
+        
         <div class="row m-5 p-2 titleRow">
             <div class="col-4">Nome</div>
             <div class="col-4">Path iniziale</div>
