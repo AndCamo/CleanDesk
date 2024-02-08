@@ -108,37 +108,6 @@ async function printListDetails(list){
 
 }
 
-async function viewAllDetails(){
-   //taking the params from URL
-   let tmp = new URLSearchParams(window.location.search);
-
-   //taking the param "idReport"
-   let IDReport = tmp.get('idReport');
-
-   let reportORG = await getReportByID(IDReport).catch((err) =>{
-      console.log(err);
-   });
-
-   //taking the div "headRow"
-   let headRow = document.getElementById('titleRow');
-
-   //creating a new div col
-   let headInfo = document.createElement('div');
-   headInfo.replaceWith(" ");
-
-   headInfo.innerHTML = 
-   ' <div class="col-12"> Dettagli organizzazione "' + reportORG[0].Nome +
-   '" del giorno: '+ reportORG[0].DataReport + '</div>';
-
-   headRow.appendChild(headInfo);
-   
-   //Taking all re fileReport by ReportID
-   let list = await ipcRenderer.invoke('viewDetailsReport',{reportID : IDReport});
-   
-   //creating and adding a new div with fileReport data
-   printListDetails(list);
-   
-}
 
 async function eseguiRicerca(input, list){
    let resultList = [];
@@ -174,8 +143,7 @@ async function fillHeadRow(IDReport){
    let headInfo = document.createElement('div');
 
    headInfo.innerHTML = 
-   ' <div class="col-12"> Dettagli organizzazione "' + reportORG[0].Nome +
-   '" del giorno: '+ reportORG[0].DataReport + '</div>';
+   ' <div class="col-12"> Dettagli organizzazione "' + reportORG[0].Nome+'"';
 
    headRow.appendChild(headInfo);
 
