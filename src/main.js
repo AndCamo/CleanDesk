@@ -42,6 +42,10 @@ app.on('window-all-closed', () => {
  })
 
 
+ function sleep(ms) {
+   return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function leggiCartella(path, filters){
   let result;
    const data = {
@@ -95,15 +99,16 @@ ipcMain.handle('startOrganization', async (event, data) => {
    let filters = data.filters;
    result = await leggiCartella(data.folderPath, filters)
    return result;
-  
 })
 
-ipcMain.handle('organizeFile', async(event, data) => {
+ipcMain.on('organizeFile', async(event, data) => {
    console.log("Sono nel main.js");
    let filesLog = JSON.parse(data.logs);
    let folderPath = data.folderPath;
+   console.log("PRIMAAAAAAA")
    let reportOrg = await creaOrganizzazione(filesLog, folderPath);
-   return reportOrg.id;
+   console.log("DOPOOOOOOOO")
+   event.reply('reportId', reportOrg.id);
 })
 
 // folder chooser
@@ -222,3 +227,4 @@ ipcMain.handle('deleteOrganization', async (event, data) => {
    const organizzazioneControl = new OrganizzazioneControl();
    await organizzazioneControl.updateReportInfo(data.reportID, data.name, data.description);
  });
+

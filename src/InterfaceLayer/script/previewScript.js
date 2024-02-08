@@ -106,26 +106,24 @@ async function showPreview(){
    }
 }
 
- function organizeFiles(){
-   getLog();
+ async function organizeFiles(){
+   await getLog();
    
    let folderPath = JSON.parse(sessionStorage.getItem("folderPath"));
    document.getElementById("previewButtonRow").style.display = "none";
    document.getElementById("previewResult").style.display = "block";
-   console.log("Cambio pagina");
-   alert("Cambio pagina");
 
-   ipcRenderer.invoke("organizeFile", { folderPath: folderPath, logs: JSON.stringify(logs)})
-   .then(async (reportOrg) => {
-      
-      sessionStorage.setItem("reportOrg", reportOrg);
-      
+
+
+   ipcRenderer.on('reportId', (event, arg) => {
+      console.log(arg) // prints "pong" in the DevTools console
+      sessionStorage.setItem("reportOrg", arg);
       openPreviewPage();
-   }).catch((error) => {
-      console.log(error);
-   }).finally(() => {
-      window.location.href = 'detailOrgPage.html';
-   });
+   })
+   ipcRenderer.send("organizeFile", { folderPath: folderPath, logs: JSON.stringify(logs)}) 
+
+    
+
 }
 
 function openPreviewPage(){
