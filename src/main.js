@@ -107,9 +107,8 @@ ipcMain.on('organizeFile', async(event, data) => {
    let folderPath = data.folderPath;
    console.log("PRIMAAAAAAA")
    let reportOrg = await creaOrganizzazione(filesLog, folderPath);
-   console.log("DOPOOOOOOOO")
-   event.reply('reportId', reportOrg.id);
-   mainWindow.loadFile("./src/InterfaceLayer/app/detailOrgPage.html");
+   console.log(`${__dirname}`)
+   mainWindow.loadURL(`file://${__dirname}/InterfaceLayer/app/detailOrgPage.html?id=${reportOrg.id}`);
 })
 
 // folder chooser

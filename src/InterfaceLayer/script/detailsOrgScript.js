@@ -33,7 +33,8 @@ async function getReportByID(IDReport){
 }
 
 async function getReportInfo(){
-   let reportOrgID = sessionStorage.getItem("reportOrg");
+   let url = new URLSearchParams(window.location.search);
+   let reportOrgID = url.get("id");
    let tmp = await getReportByID(reportOrgID);
    reportOrg = tmp[0]
    console.log(reportOrg);
