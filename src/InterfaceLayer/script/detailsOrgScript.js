@@ -45,6 +45,7 @@ async function getReportInfo(){
    tmpName = "Nuova Organizzazione (N° " + reportOrg.ID + ")";
    tmpDescription = "Organizzazione del giorno: " + reportOrg.DataReport + ",\nSulla cartella: [" + reportOrg.NomeCartella +"]"
 
+   
    nameInput.value = tmpName;
    descriptionInput.value = tmpDescription;
 }
