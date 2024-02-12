@@ -8,16 +8,12 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 # GLOBAL VARIABLES
 PATH_SEPARATOR = os.sep
-DATASET_PATH = (f"dataset{PATH_SEPARATOR}News_Category_Dataset_v3.json")
-
-dataset = pd.read_json(DATASET_PATH, lines = True)
-
-dataset = dataset.head(100)
-
-dataset.to_csv(f"/Users/andrea/Desktop/newsDataset.csv", encoding='utf-8', index=False)
+DATASET_PATH = (f"dataset{PATH_SEPARATOR}finalDataset_v5.csv")
 
 
+dataset = pd.read_csv("dataset"+PATH_SEPARATOR+"bbc-news.csv")
 
+#print(dataset["Class"].nunique())
 
 #dataset_manager.removeUselessCategory(dataset, ["WELLNESS"])
 
@@ -84,3 +80,12 @@ for text in texts:
 dataframe = pd.DataFrame(predictionsTest, columns=['Class', "Text"])
 dataframe.to_csv(f"./predictionTest.csv", encoding='utf-8', index=False)
 """
+
+
+
+####################################PRINT-FREQUENCY-DIST#########################à
+"""docs = data_prep.setupDocs(dataset)
+data_prep.printFrequencyDist(docs)"""
+
+dataset_manager.featureScaling(dataset)
+print("Terminato")
