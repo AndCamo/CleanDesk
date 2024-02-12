@@ -69,7 +69,7 @@ def countClassValues(dataset):
    # creates the data structure to contain the counter
    tmp_dict = {}
 
-   labels = list(dataset.iloc[:, 0].unique())
+   labels = list(dataset.iloc[:, 2].unique())
 
    # initializes the counters for each label
    for item in labels:
@@ -77,7 +77,7 @@ def countClassValues(dataset):
 
    # counts the label in the dataset and update the dictionary
    for index, row in dataset.iterrows():
-      tmp_dict[row[0]] += 1
+      tmp_dict[row[2]] += 1
 
    return tmp_dict
 

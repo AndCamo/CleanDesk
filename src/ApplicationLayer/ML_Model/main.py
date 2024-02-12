@@ -8,12 +8,16 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 # GLOBAL VARIABLES
 PATH_SEPARATOR = os.sep
-DATASET_PATH = (f"dataset{PATH_SEPARATOR}finalDataset_v5.csv")
+DATASET_PATH = (f"dataset{PATH_SEPARATOR}News_Category_Dataset_v3.json")
+
+dataset = pd.read_json(DATASET_PATH, lines = True)
+
+dataset = dataset.head(100)
+
+dataset.to_csv(f"/Users/andrea/Desktop/newsDataset.csv", encoding='utf-8', index=False)
 
 
-dataset = pd.read_csv("dataset"+PATH_SEPARATOR+"train_dataset.csv")
 
-print(dataset["Class"].nunique())
 
 #dataset_manager.removeUselessCategory(dataset, ["WELLNESS"])
 
