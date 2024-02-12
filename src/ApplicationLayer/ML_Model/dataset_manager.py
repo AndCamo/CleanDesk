@@ -189,6 +189,25 @@ def integrateDataFromText(dataset, folderName, label):
    
    dataset.to_csv(f"dataset{PATH_SEPARATOR}finalDataset.csv", encoding='utf-8', index=False,columns=['Class', 'Text'])
 
+def featureScaling(dataset):
+   newDataset = []
+   for index, row in dataset.iterrows():
+      text = row[1]
+      tmpToken = []
+      counter = 1
+      textTokens = text.split(" ")
+      for word in textTokens:
+         tmpToken.append(word)
+         if counter % 40 == 0:
+            text = " ".join(tmpToken)
+            newRow = [row[0],text]
+            newDataset.append(newRow)
+            tmpToken = []
+         counter += 1
+
+   dataframe = pd.DataFrame(newDataset, columns=['Class', 'Text'])
+   dataframe.to_csv(f"dataset{PATH_SEPARATOR}bbc-NEW.csv", encoding='utf-8', index=False, columns=['Class', 'Text'])
+
 
 def integrateDataFromCSV(datasetToIntegrate, datasetIntegrator, labelToIntegrate, labelIntegrator, number):
    counter = 0

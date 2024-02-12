@@ -11,9 +11,9 @@ PATH_SEPARATOR = os.sep
 DATASET_PATH = (f"dataset{PATH_SEPARATOR}finalDataset_v5.csv")
 
 
-dataset = pd.read_csv("dataset"+PATH_SEPARATOR+"train_dataset.csv")
+dataset = pd.read_csv("dataset"+PATH_SEPARATOR+"bbc-news.csv")
 
-print(dataset["Class"].nunique())
+#print(dataset["Class"].nunique())
 
 #dataset_manager.removeUselessCategory(dataset, ["WELLNESS"])
 
@@ -80,3 +80,12 @@ for text in texts:
 dataframe = pd.DataFrame(predictionsTest, columns=['Class', "Text"])
 dataframe.to_csv(f"./predictionTest.csv", encoding='utf-8', index=False)
 """
+
+
+
+####################################PRINT-FREQUENCY-DIST#########################à
+"""docs = data_prep.setupDocs(dataset)
+data_prep.printFrequencyDist(docs)"""
+
+dataset_manager.featureScaling(dataset)
+print("Terminato")

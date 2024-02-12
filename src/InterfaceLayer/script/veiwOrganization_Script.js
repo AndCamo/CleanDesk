@@ -147,6 +147,14 @@ async function fillHeadRow(IDReport){
 
    headRow.appendChild(headInfo);
 
+   let info = document.getElementById('infoArea');
+
+   info.innerHTML = 
+   '<div class="col-5 detailsReport">'+reportORG[0].Descrizione +'</div>'+
+   '<div class="col-5 detailsReport">'+reportORG[0].DataReport +'</div>';
+
+
+
 }
 
 async function showList(){
