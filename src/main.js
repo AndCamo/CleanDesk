@@ -7,6 +7,7 @@ const { promises: Fs } = require('fs')
 const { VisualizzaReportControl } = require ("./ApplicationLayer/VisualizzaReport/VisualizzaReportControl.js");
 const { Console, error } = require('console');
 const { resolve } = require('path');
+const { ModelAdapter } = require('./ApplicationLayer/OrganizzazioneFile/ModelAdapter/ModelAdapter.js')
 
 require('electron-reload')(__dirname);
 
@@ -42,35 +43,6 @@ app.on('window-all-closed', () => {
  })
 
 
- function sleep(ms) {
-   return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-async function leggiCartella(path, filters){
-  let result;
-   const data = {
-      path: path,
-      filters: filters
-   };
-
-   let requestData = JSON.stringify(data);
-   console.log(requestData);
-   await fetch('http://127.0.0.1:5000/classify', {
-      method: "POST",
-      headers: {
-          'Content-Type':"application/json"
-      },
-      body: requestData
-   })
-   .then(response => response.json())
-   .then((data) => {
-      result = data;
-   })
-   .catch(error => console.log(error))
-   
-   return result;
-} 
-
 async function creaOrganizzazione(log, initPath){
    return await new Promise(async (resolve, reject) => {
       const organizzazioneControl = new OrganizzazioneControl();
@@ -99,7 +71,8 @@ ipcMain.on('test', (event, data) => {
 ipcMain.handle('startOrganization', async (event, data) => {
    let result;
    let filters = data.filters;
-   result = await leggiCartella(data.folderPath, filters)
+   let modelAdapter = new ModelAdapter();
+   result = await modelAdapter.modelStartOrganization(data.folderPath, filters)
    return result;
 })
 

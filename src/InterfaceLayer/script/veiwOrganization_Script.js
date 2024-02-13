@@ -32,11 +32,12 @@ async function viewAllReports(){
       let newDiv = document.createElement('div');
       newDiv.classList.add("row", "m-5","p-3", "reportORGrow", "align-items-center");
       let titolo = list[i].Nome;
+      let descrizione = list[i].Descrizione;
 
 
       newDiv.innerHTML = 
       '<div class = "col-2 shortDots" title="' + titolo + '">' + list[i].Nome + '</div>'+
-      '<div class="col-3">'+ list[i].Descrizione + '</div>'+
+      '<div class="col-3 shortDots" title="' + descrizione + '">' + list[i].Descrizione + '</div>'+
       '<div class = "col-2">'+ list[i].DataReport + '</div>'+
       '<div class = "col-3 descriptionCell" >'+ finalFolder + '</div>'+
       '<div class = "col-1 detailsButton" onclick="openDetails('+idReport+')">'+
