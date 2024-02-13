@@ -10,7 +10,7 @@
 }
 .menuButton{
    height: 15%;
-   background-color: whitesmoke;
+   background-color: #f5f5f5;
    border-radius: 40px;
    margin: 5% 0;
    display: flex;

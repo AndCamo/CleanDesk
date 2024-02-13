@@ -8,10 +8,15 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 # GLOBAL VARIABLES
 PATH_SEPARATOR = os.sep
-DATASET_PATH = (f"dataset{PATH_SEPARATOR}finalDataset_v5.csv")
+DATASET_PATH = (f"dataset{PATH_SEPARATOR}News_Category_Dataset.csv")
 
+dataset = pd.read_csv(DATASET_PATH)
 
-dataset = pd.read_csv("dataset"+PATH_SEPARATOR+"bbc-news.csv")
+count = dataset_manager.countClassValues(dataset)
+print(list(dataset["Class"].unique()))
+for item in count:
+   print(f"{item}\t{count[item]}")
+
 
 #print(dataset["Class"].nunique())
 
@@ -21,11 +26,6 @@ dataset = pd.read_csv("dataset"+PATH_SEPARATOR+"bbc-news.csv")
 """dataset = pd.read_csv(DATASET_PATH)
 dataset_manager.splitDataset(dataset)"""
 
-
-"""count = dataset_manager.countClassValues(dataset)
-print(list(dataset["Class"].unique()))
-for item in count:
-   print(f"{item}\t{count[item]}")"""
 
 #dataset_manager.createShortDataset(50000)
 
@@ -86,6 +86,3 @@ dataframe.to_csv(f"./predictionTest.csv", encoding='utf-8', index=False)
 ####################################PRINT-FREQUENCY-DIST#########################à
 """docs = data_prep.setupDocs(dataset)
 data_prep.printFrequencyDist(docs)"""
-
-dataset_manager.featureScaling(dataset)
-print("Terminato")

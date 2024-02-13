@@ -69,7 +69,7 @@ def countClassValues(dataset):
    # creates the data structure to contain the counter
    tmp_dict = {}
 
-   labels = list(dataset.iloc[:, 2].unique())
+   labels = list(dataset.iloc[:, 0].unique())
 
    # initializes the counters for each label
    for item in labels:
@@ -77,7 +77,7 @@ def countClassValues(dataset):
 
    # counts the label in the dataset and update the dictionary
    for index, row in dataset.iterrows():
-      tmp_dict[row[2]] += 1
+      tmp_dict[row[0]] += 1
 
    return tmp_dict
 
@@ -130,11 +130,11 @@ def convertDataset():
    dataset = pd.read_json(f"dataset{PATH_SEPARATOR}News_Category_Dataset_v3.json", lines = True)
 
    # create the column text
-   dataset["text"] = dataset['headline'].astype(str) + " " + dataset['short_description'].astype(str)
+   dataset["Text"] = dataset['headline'].astype(str) + " " + dataset['short_description'].astype(str)
 
    # drop the older columns
    dataset.drop(columns=["link", "headline", "short_description", "date", "authors"], axis=1, inplace=True)
-
+   dataset.rename(columns={'category': 'Class'}, inplace=True)
    # save the new dataset in csv format
    dataset.to_csv(f"dataset{PATH_SEPARATOR}News_Category_Dataset.csv", index=False)
 
@@ -193,18 +193,17 @@ def featureScaling(dataset):
    newDataset = []
    for index, row in dataset.iterrows():
       text = row[1]
-      tmpToken = []
-      counter = 1
       textTokens = text.split(" ")
-      for word in textTokens:
-         tmpToken.append(word)
-         if counter % 40 == 0:
-            text = " ".join(tmpToken)
-            newRow = [row[0],text]
-            newDataset.append(newRow)
-            tmpToken = []
-         counter += 1
+      # Tokenize the input text
+      tokens = text.split(" ")
 
+      # Group tokens into chunks of 40
+      token_groups = [tokens[i:i+40] for i in range(0, len(tokens), 40)]
+      for group in token_groups:
+         text = " ".join(group)
+         newRow = [row[0],text]
+         newDataset.append(newRow)
+      
    dataframe = pd.DataFrame(newDataset, columns=['Class', 'Text'])
    dataframe.to_csv(f"dataset{PATH_SEPARATOR}bbc-NEW.csv", encoding='utf-8', index=False, columns=['Class', 'Text'])
 
