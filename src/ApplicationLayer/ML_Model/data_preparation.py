@@ -50,7 +50,7 @@ def stemmer(text):
 def setupDocs(dataset):
    docs = [] #(label, text)
    for index, row in dataset.iterrows():
-      text = cleanText(row[1])
+      text = cleanText(str(row[1]))
       label = row[0]
       doc = (label, text.strip())
 

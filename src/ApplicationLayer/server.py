@@ -15,7 +15,5 @@ def getFileClassification():
 def prova():
    return jsonify({"somma": "Ciao"})
 
-
-
 if __name__ == "__main__":
    app.run()

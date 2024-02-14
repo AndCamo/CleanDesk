@@ -17,7 +17,7 @@ PATH_SEPARATOR = os.sep
 LABEL_DICTIONARY = {1 : "Society & Culture", 2 : "Science & Mathematics", 3 : "Health", 4 : "Education & Reference", 5 : "Computers & Internet", 
             6 : "Sports", 7 : "Business & Finance", 8 : "Entertainment & Music", 9 : "Family & Relationships", 10 : "Politics & Government"}
 #LABEL_LIST = list(LABEL_DICTIONARY.values())
-LABEL_LIST = ['HOME & LIVING', 'STYLE & BEAUTY', 'POLITICS', 'FOOD & DRINK', 'PARENTING', 'ARTS & CULTURE', 'SPORTS', 'SCIENCE & MATHEMATICS', 'EDUCATION', 'ENTERTAINMENT', 'TECH', 'BUSINESS', 'TRAVEL']
+LABEL_LIST = ['STYLE & BEAUTY', 'PARENTING', 'HOME & LIVING', 'BUSINESS', 'SCIENCE', 'POLITICS', 'ENTERTAINMENT', 'EDUCATION', 'FOOD & DRINK', 'TECH', 'ARTS & CULTURE', 'TRAVEL', 'SPORTS']
 
 
 def getSplits(docs):
@@ -64,11 +64,14 @@ def evaluateClassifier(title, classifier, vectorizer, x_list, y_list):
 
     print(title)
     print("--------------PRECISION--------------\n")
-    pprint.pprint(precision_dic,indent=2)
+    for item in precision_dic:
+       print(f"- {item}: {precision_dic[item]}")
     print("\n--------------RECALL--------------\n")
-    pprint.pprint(recall_dic,indent=2)
+    for item in recall_dic:
+       print(f"- {item}: {recall_dic[item]}")
     print("\n--------------F1_SCORE--------------\n")
-    pprint.pprint(f1_dic,indent=2)
+    for item in f1_dic:
+       print(f"- {item}: {f1_dic[item]}")
 
 def createDic(lista):
    dictionary = {}

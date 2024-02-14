@@ -8,19 +8,33 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 # GLOBAL VARIABLES
 PATH_SEPARATOR = os.sep
-DATASET_PATH = (f"dataset{PATH_SEPARATOR}News_Category_Dataset.csv")
+DATASET_PATH = (f"dataset{PATH_SEPARATOR}train_dataset.csv")
 
-dataset = pd.read_csv(DATASET_PATH)
+dataset = pd.read_csv("/Users/andrea/Desktop/UNIVERSITÀ/CleanDesk/dataset/train_dataset_balanced.csv")
 
 count = dataset_manager.countClassValues(dataset)
-print(list(dataset["Class"].unique()))
+
 for item in count:
    print(f"{item}\t{count[item]}")
+"""
 
+dataset = dataset_manager.createRandomDataset(dataset, 130000)
+
+dataset.to_csv(f"dataset{PATH_SEPARATOR}train_dataset_balanced.csv", encoding='utf-8', index=False)
+
+dataset = dataset_manager.oversampleData(dataset, ["SPORTS", "TRAVEL", "FOOD & DRINK", "PARENTING", "TECH"], 9000)
+dataset = dataset_manager.oversampleData(dataset, ["EDUCATION", "SCIENCE"], 14000)
+dataset = dataset_manager.oversampleData(dataset, ["HOME & LIVING", "ARTS & CULTURE"], 12000)
+dataset = dataset_manager.oversampleData(dataset, ["STYLE & BEAUTY", "BUSINESS"], 6000)
+
+
+dataset.to_csv(f"dataset{PATH_SEPARATOR}train_dataset_oversampled.csv", encoding='utf-8', index=False)
+
+"""
 
 #print(dataset["Class"].nunique())
 
-#dataset_manager.removeUselessCategory(dataset, ["WELLNESS"])
+
 
 
 """dataset = pd.read_csv(DATASET_PATH)
@@ -49,40 +63,19 @@ print("DOPO: " + str(len(datasetToIntegrate[datasetToIntegrate["Class"] == label
 """
 
 """
- ----TRAIN MODEL----
-train_dataset = pd.read_csv("dataset"+PATH_SEPARATOR+"train_dataset.csv")
-test_dataset = pd.read_csv("dataset"+PATH_SEPARATOR+"test_dataset.csv")
+# ----TRAIN MODEL----
+train_dataset = pd.read_csv("/Users/andrea/Desktop/UNIVERSITÀ/CleanDesk/dataset/train_dataset_balanced.csv")
+train_dataset.dropna(axis=0, how="any", subset=None, inplace=True)
+test_dataset = pd.read_csv("/Users/andrea/Desktop/UNIVERSITÀ/CleanDesk/dataset/test_dataset.csv")
+test_dataset.dropna(axis=0, how="any", subset=None, inplace=True)
 
 print(list(train_dataset["Class"].unique()))
 
 train_docs = data_prep.setupDocs(train_dataset)
 test_docs = data_prep.setupDocs(test_dataset)
 
-classifier.trainClassifier(train_docs, test_docs)"""
+classifier.trainClassifier(train_docs, test_docs)
 
-
-"""
-texts = [] 
-
-
-with open("./ProvaClassification.txt", 'rb') as file:
-            text = file.read().decode(errors='replace')
-            texts = text.split("\n")
-
-texts.append("Vito is a boy, a bit of a jerk, studying economics.")
-nbClassiefier, vectorizer = classifier.get_model()
-predictionsTest = []
-for text in texts:
-    prediction = classifier.get_prediction(text, nbClassiefier, vectorizer)
-    row = (prediction, text)
-    predictionsTest.append(row)
-
-dataframe = pd.DataFrame(predictionsTest, columns=['Class', "Text"])
-dataframe.to_csv(f"./predictionTest.csv", encoding='utf-8', index=False)
-"""
-
-
-
-####################################PRINT-FREQUENCY-DIST#########################à
+"""####################################PRINT-FREQUENCY-DIST#########################à
 """docs = data_prep.setupDocs(dataset)
 data_prep.printFrequencyDist(docs)"""

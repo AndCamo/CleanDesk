@@ -141,7 +141,9 @@ def convertDataset():
 def removeUselessCategory(dataset,array):
    for label in array:
       dataset.drop(dataset[dataset["Class"] == label].index, inplace = True)
-   dataset.to_csv(f"dataset{PATH_SEPARATOR}finalDataset_v5.csv", encoding='utf-8', index=False)
+
+   return dataset
+
 
 def attachClasses(dataset, array, label):
    attachedClass = []
@@ -154,7 +156,8 @@ def attachClasses(dataset, array, label):
          attachedClass.append(tmp_row)
    
    dataframe = pd.DataFrame(attachedClass, columns=['Class', 'Text'])
-   dataframe.to_csv(f"dataset{PATH_SEPARATOR}finalDataset.csv", encoding='utf-8', index=False,columns=['Class', 'Text'])
+   return dataframe
+
 
 def oversampleData(dataset, labels, amount):
    for label in labels:
@@ -165,29 +168,7 @@ def oversampleData(dataset, labels, amount):
          newRow = {"Class": row[0], "Text": row[1]}
          dataset = dataset.append(newRow, ignore_index = True)
    
-   dataset.to_csv(f"dataset{PATH_SEPARATOR}oversapledDataset.csv", encoding='utf-8', index=False,columns=['Class', 'Text'])
-
-def integrateDataFromText(dataset, folderName, label):
-   dir = f"/Users/andrea/Desktop/AndCamo/Coding/Python/TextClassification [TEST]/dataset/big_dataset/{folderName}"
-   for filename in os.listdir(dir):
-      if not filename.startswith("."):
-         full_file_path = '%s/%s' % (dir, filename)  
-         with open(full_file_path, 'rb') as file:
-            text = file.read().decode(errors='replace')
-            textTokens = text.split(" ")
-         counter = 1
-         tmpTokens = []
-         for token in textTokens:
-            tmpTokens.append(token)
-            if counter % 40 == 0:
-               text = " ".join(tmpTokens)
-               newRow = {"Class": label, "Text": text}
-               dataset = dataset.append(newRow, ignore_index = True)
-               tmpTokens = []
-            counter += 1
-               
-   
-   dataset.to_csv(f"dataset{PATH_SEPARATOR}finalDataset.csv", encoding='utf-8', index=False,columns=['Class', 'Text'])
+   return dataset
 
 def featureScaling(dataset):
    newDataset = []
@@ -208,18 +189,20 @@ def featureScaling(dataset):
    dataframe.to_csv(f"dataset{PATH_SEPARATOR}bbc-NEW.csv", encoding='utf-8', index=False, columns=['Class', 'Text'])
 
 
-def integrateDataFromCSV(datasetToIntegrate, datasetIntegrator, labelToIntegrate, labelIntegrator, number):
+def integrateDataFromCSV(datasetToIntegrate, datasetIntegrator, labelToIntegrate, labelIntegrator):
    counter = 0
-   for index, row in datasetIntegrator.iterrows():
-      if row[0] == labelIntegrator:
-         text = row[1]
-         newRow = {"Class": labelToIntegrate, "Text": text}
-         datasetToIntegrate = datasetToIntegrate.append(newRow, ignore_index = True)
-         counter += 1
-      
-      if(counter >= number):
-         break
 
+   itegrateValue = datasetIntegrator.loc[datasetIntegrator['Class'] == labelIntegrator]
+
+
+   for index, row in itegrateValue.iterrows():
+      text = row[1]
+      newRow = {"Class": labelToIntegrate, "Text": text}
+      datasetToIntegrate = datasetToIntegrate.append(newRow, ignore_index = True)
+
+   datasetToIntegrate = datasetToIntegrate.sample(frac=1)
+
+   
    datasetToIntegrate.to_csv(f"dataset{PATH_SEPARATOR}finalDataset.csv", encoding='utf-8', index=False,columns=['Class', 'Text'])
 
 def createRandomDataset(dataset, rowsNumber):
@@ -240,6 +223,6 @@ def createRandomDataset(dataset, rowsNumber):
 
    random.shuffle(newDataset)
    dataframe = pd.DataFrame(newDataset, columns=['Class', 'Text'])
-   dataframe.to_csv(f"dataset{PATH_SEPARATOR}shortRandomDataset.csv", encoding='utf-8', index=False)
+   return dataframe
 
 
