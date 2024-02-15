@@ -11,6 +11,8 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn import metrics
 import pickle
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+import matplotlib.pyplot as plt
 
 PATH_SEPARATOR = os.sep
 
@@ -53,6 +55,8 @@ def evaluateClassifier(title, classifier, vectorizer, x_list, y_list):
     x_test_tfidf = vectorizer.transform(x_list)
     y_pred = classifier.predict(x_test_tfidf)
 
+    plotConfusionMatrix(y_list,y_pred)
+    
     precision = metrics.precision_score(y_list, y_pred,labels=LABEL_LIST, average=None)
     recall = metrics.recall_score(y_list, y_pred,labels=LABEL_LIST,  average=None)
     f1 = metrics.f1_score(y_list, y_pred, labels=LABEL_LIST,  average=None)
@@ -95,6 +99,7 @@ def trainClassifier(train_docs, test_docs):
    # Train the Naive Bayes Classifier
    naiveBayesClassifier = MultinomialNB().fit(dtm, y_train)
 
+
    evaluateClassifierWeighted("Naive Bayes\tTRAIN\t\n", naiveBayesClassifier, vectorizer, x_train, y_train)
    evaluateClassifierWeighted("Naive Bayes\tTEST\t\n", naiveBayesClassifier, vectorizer, x_test, y_test)
 
@@ -108,6 +113,7 @@ def trainClassifier(train_docs, test_docs):
    # also sotre the vectorizer so we can transform new data
    vec_filename = 'count_vectorizer.pkl'
    pickle.dump(vectorizer, open(vec_filename, 'wb'))
+   
 
 
 def get_model():
@@ -129,5 +135,13 @@ def get_prediction(text, classifier, vectorizer):
 
    return prediction[0], sorted_array[0]
 
+
+def plotConfusionMatrix(y_list, pred):
+   confusion_mat = metrics.confusion_matrix(y_list, pred, labels=LABEL_LIST)
+   disp = ConfusionMatrixDisplay(confusion_mat, display_labels=LABEL_LIST)
+
+   # Plot della confusion matrix
+   disp.plot(cmap='Greens', values_format='d', xticks_rotation='vertical')  # Aggiungi xticks_rotation
+   plt.show()
 
    

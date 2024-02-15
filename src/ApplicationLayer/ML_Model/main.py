@@ -8,14 +8,14 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 # GLOBAL VARIABLES
 PATH_SEPARATOR = os.sep
-DATASET_PATH = (f"dataset{PATH_SEPARATOR}train_dataset.csv")
+DATASET_PATH = (f"dataset{PATH_SEPARATOR}train_dataset_balanced.csv")
 
-dataset = pd.read_csv("/Users/andrea/Desktop/UNIVERSITÀ/CleanDesk/dataset/train_dataset_balanced.csv")
+#dataset = pd.read_csv("/Users/andrea/Desktop/UNIVERSITÀ/CleanDesk/dataset/train_dataset_balanced.csv")
 
-count = dataset_manager.countClassValues(dataset)
+#count = dataset_manager.countClassValues(dataset)
 
-for item in count:
-   print(f"{item}\t{count[item]}")
+"""for item in count:
+   print(f"{item}\t{count[item]}")"""
 """
 
 dataset = dataset_manager.createRandomDataset(dataset, 130000)
@@ -79,3 +79,13 @@ classifier.trainClassifier(train_docs, test_docs)
 """####################################PRINT-FREQUENCY-DIST#########################à
 """docs = data_prep.setupDocs(dataset)
 data_prep.printFrequencyDist(docs)"""
+
+
+#---------------------------EVALUATE MODEL------------------------#
+
+train_dataset = pd.read_csv(DATASET_PATH)
+train_docs = data_prep.setupDocs(train_dataset)
+x_test, y_test = classifier.getSplits(train_docs)
+title = "Train"
+classificatore, vectorizer = classifier.get_model();
+classifier.evaluateClassifier(title,classificatore,vectorizer,x_test,y_test)
