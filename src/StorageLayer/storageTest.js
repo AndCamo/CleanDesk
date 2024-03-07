@@ -1,22 +1,24 @@
+const { FileReportDAO } = require("./FileReportDAO.js");
 const { ReportORGBean } = require("./ReportORGBean");
 const { ReportORG_DAO } = require("./ReportORG_DAO");
+const {getConnection} = require("./connectionPool.js");
 
 async function testFunction(){
-   const reportORG_DAO = new ReportORG_DAO();
-
-   dateTo = "2024-01-18";
-   
-   dateFrom = "2024-01-09";
-   
-   reportORG_DAO.getFromDateTo(dateFrom, dateTo)
-   .then((list) => {
-        console.log(list);
-    })
+    const connection = await getConnection()
     .catch((error) => {
-        console.log(error)
+        throw (error);
+    });
+
+    let query = "delete from ReportORG";
+        
+    connection.run(query, function(err) {
+        if (err) {
+            reject(err);
+        } else {
+            console.log(`Rows deleted ${this.changes}`);
+            resolve();
+        }
     });
 }
-
-testFunction()
 
 module.exports = {testFunction}

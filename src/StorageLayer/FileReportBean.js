@@ -2,9 +2,9 @@ const path = require("path");
 
 class FileReportBean {
     #_idReportORG;
-    #_nome;;
+    #_nome;
     #_pathPartenza;
-    #_pathFinale
+    #_pathFinale;
   
       constructor(idReportORG, nome, pathPartenza, pathFinale) { //Metodo costruttore
           this.#_idReportORG = idReportORG;

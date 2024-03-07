@@ -5,11 +5,8 @@ import docx
 
 from PyPDF2 import PdfReader
 PATH_SEPARATOR = os.sep
-"""sys.path.insert(1, 'src'+PATH_SEPARATOR+'ApplicationLayer'+PATH_SEPARATOR+'ML_Model')
-import ML_Model.classifier as classifier"""
-ml_model_path = os.path.abspath(os.path.join(os.getcwd(), 'src', 'ApplicationLayer', 'ML_Model'))
-sys.path.append(ml_model_path)
-import classifier
+sys.path.insert(1, 'src'+PATH_SEPARATOR+'ApplicationLayer'+PATH_SEPARATOR+'ML_Model')
+import ML_Model.classifier as classifier
 
 ACCEPTED_CONTENT_EXTENSION = ["txt","docx","pdf","pages"]
 MEDIA_EXTENSION = {
@@ -71,7 +68,7 @@ def classifyFiles(folderPath, filters):
                 label, probability = classifier.get_prediction(text, nbClassiefier, vectorizer)
                 # Create the label "Others" for files with uncertain classification
                 print(probability)
-                if probability < 0.4:
+                if probability < 0.3 and filters["othersFolder"]:
                     label = "OTHERS"
 
                 # If requested, preserve the original folder of the file

@@ -3,3 +3,7 @@ node_modules/
 dataset/
 count_vectorizer.pkl
 naive_bayes_classiefier.pkl
+release-builds/
+src/ApplicationLayer/server.spec
+src/ApplicationLayer/build
+src/ApplicationLayer/dist

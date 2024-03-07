@@ -16,4 +16,4 @@ def prova():
    return jsonify({"somma": "Ciao"})
 
 if __name__ == "__main__":
-   app.run()
+   app.run(port=5001, host='localhost')

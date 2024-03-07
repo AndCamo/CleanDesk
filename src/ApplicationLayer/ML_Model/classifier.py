@@ -117,6 +117,10 @@ def trainClassifier(train_docs, test_docs):
 
 
 def get_model():
+    abspath = os.path.abspath(__file__)
+    dname = os.path.dirname(abspath)
+    os.chdir(dname)
+    print(f"Mi trovo in {os.getcwd()}")
     # load classifier
     clf_filename = 'naive_bayes_classiefier.pkl'
     classifier = pickle.load(open(clf_filename, 'rb'))

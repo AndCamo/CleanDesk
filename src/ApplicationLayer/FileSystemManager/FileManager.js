@@ -36,7 +36,8 @@ class FileManager {
             //Calling method to take every bean of a Report Organization by ID
             await fileReportDAO.getAllByReportID(reportORG_ID)
                 .then(async (rows) => {
-                    arrayFileReport = rows
+                    arrayFileReport = rows;
+                    console.log(arrayFileReport);
                 })
                 .catch((error) => {
                     console.error(error);
@@ -69,19 +70,15 @@ module.exports = { FileManager }
 
 function testFunction() {
     try {
-        let path = "C:\\Users\\genny\\Desktop\\Cartella_Prova1";
-        let path2 = "C:\\Users\\genny\\Desktop\\Cartella_Prova1\\Prova2";
-        let finalPath = path2 + "\\" + "File1.txt";
-        let initialPath = path + "\\" + "File1.txt";
-        fs.rename(initialPath, finalPath, function (err) {
-            if (err) throw err
-        })
+        let manager = new FileManager();
+        let number;
+        manager.moveFile(number)
     }
     catch (err) {
         console.log("Errore nella rename");
         console.error(err);
     }
 }
-//testFunction();
+testFunction();
 
 

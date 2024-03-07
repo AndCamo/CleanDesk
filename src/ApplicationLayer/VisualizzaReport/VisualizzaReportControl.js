@@ -91,19 +91,3 @@ class VisualizzaReportControl{
 }
 
 module.exports = {VisualizzaReportControl};
-
-async function test() {
-   const viewControl = new VisualizzaReportControl();
-   /*let dateFrom = "2024-01-20";
-   let dateTo = "2024-01-23";
-   let list = await viewControl.getUntilReport(dateTo).catch((err)=>{
-      console.log(err)
-   });
-   console.log(list);*/
-   let list = await viewControl.viewDetailsByReportID("87").catch((err) =>{
-      console.log(err);
-   })
-
-   console.log(list);
-}
-//test()

@@ -54,7 +54,9 @@ class OrganizzazioneControl {
 
 
         const fileManager = new FileManager();
-        await fileManager.moveFile(reportBean.id);
+        await fileManager.moveFile(reportBean.id).catch((err) => {
+            console.error(err);
+        });
 
         //Updating the Report with a name and a Descriprion 
         await reportDAO.updateLastReport(reportBean.id, "Nome di prova", "Descrizione di prova")

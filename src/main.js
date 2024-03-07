@@ -6,15 +6,15 @@ const {PythonShell} = require('python-shell');
 const { promises: Fs } = require('fs')
 const { VisualizzaReportControl } = require ("./ApplicationLayer/VisualizzaReport/VisualizzaReportControl.js");
 const { Console, error } = require('console');
-const { resolve } = require('path');
+const path = require('node:path'); 
 const { ModelAdapter } = require('./ApplicationLayer/OrganizzazioneFile/ModelAdapter/ModelAdapter.js')
-
+const { exec } = require("child_process");
 require('electron-reload')(__dirname);
 
 
 let mainWindow
 let pythonShell
-
+let subpy
 const createWindow = () => {
    mainWindow = new BrowserWindow({
       width: 1200,
@@ -25,6 +25,7 @@ const createWindow = () => {
       webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
+      icon: "icons/icon.icns"
      }
    })
  
@@ -32,8 +33,9 @@ const createWindow = () => {
  }
 
 app.whenReady().then(() => {
-   // Start The Server
-   pythonShell = new PythonShell('./src/ApplicationLayer/server.py');
+   const serverPath = path.join(__dirname, "ApplicationLayer", "server.py");
+   console.log(serverPath);
+   pythonShell = new PythonShell(serverPath);
    createWindow()
 })
 
@@ -77,13 +79,10 @@ ipcMain.handle('startOrganization', async (event, data) => {
 })
 
 ipcMain.on('organizeFile', async(event, data) => {
-   console.log("Sono nel main.js");
    let filesLog = JSON.parse(data.logs);
    let folderPath = data.folderPath;
-   console.log("PRIMAAAAAAA")
    creaOrganizzazione(filesLog, folderPath)
    .then((reportOrg) => {
-      console.log("DENTRO IL THEN")
       mainWindow.loadURL(`file://${__dirname}/InterfaceLayer/app/detailOrgPage.html?id=${reportOrg.id}`);
    })
    .catch(() => {
