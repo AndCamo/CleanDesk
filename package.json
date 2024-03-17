@@ -6,7 +6,12 @@
   "scripts": {
     "start": "electron .",
     "package-mac": "electron-packager . --icon=icons/icon.icns --out=CleanDesk-[MacOS]",
-    "package-win": "electron-packager . --platform=win32  --icon=icons/icon.ico --out=release-win"
+    "package-win": "electron-packager . --platform=win32  --icon=icons/icon.ico --out=release-win",
+    "test-all": "mocha test/*.test.js",
+    "test": "mocha test/pathGlobal.test.js",
+    "test-directory": "mocha test/isDirectory.test.js",
+    "test-db": "mocha test/databaseTest.test.js",
+    "test-search": "mocha test/searchTest.test.js"
   },
   "repository": {
     "type": "git",
@@ -23,11 +28,15 @@
   },
   "homepage": "https://github.com/AndCamo/CleanDesk#readme",
   "devDependencies": {
-    "electron": "^28.1.1"
+    "electron": "^28.1.1",
+    "mocha": "^10.3.0"
   },
   "dependencies": {
+    "assert": "^2.1.0",
     "bootstrap": "^5.3.2",
+    "chai": "^5.1.0",
     "electron-reload": "^2.0.0-alpha.1",
+    "expect": "^29.7.0",
     "python-shell": "^5.0.0",
     "sqlite3": "^5.1.7"
   }
