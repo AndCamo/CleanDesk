@@ -1,8 +1,6 @@
 var assert = require("assert");
 var { expect } = require("expect");
 
-
-
 const pathRegexMac = /^(?:\/(?:[^\/:]+\/)*)?(?:[^\/]+)?$/;
 const pathRegexWindows = /^(?:[a-zA-Z\s]:\\|\\\\)(?:[^\\\s:]+\\)(?:[^\/:<>"?|]+)?$/;
 const deniedPaths = ["/Library", "/Applications", "/System", "C:\\Windows", "C:\\Program Files (x86)", "C:\\Program Files", "C:\\ProgramData", "C:\\Recovery"]

@@ -7,3 +7,5 @@ release-builds/
 src/ApplicationLayer/server.spec
 src/ApplicationLayer/build
 src/ApplicationLayer/dist
+src/StorageLayer/resource/testDB.db
+Presentazione_CleanDesk_IS.pdf
